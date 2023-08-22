@@ -28,7 +28,7 @@ const LoginPage = () => {
             setEmailError("Email address is required");
         }
         if (!emailPattern.test(email)) {
-            setEmailError("Invalid email format"); 
+            setEmailError("Invalid email format."); 
             return false;
         }
 
@@ -37,8 +37,8 @@ const LoginPage = () => {
     }
 
     const validatePassword = (password) => {
-        if(!password.trim()){
-            setPasswordError("Password is required");
+        if(!email.trim()){
+            setEmailError("Email address is required");
         }
         if (password.length < 6) {
             setPasswordError("Password must be at least 6 characters long"); 
@@ -74,7 +74,7 @@ const LoginPage = () => {
 
     return (
         <div className="flex justify-center items-center w-screen h-screen bg-gray-200">
-            <div className='w-3/5 h-4/5 rounded-3xl bg-white border-gray-300 flex shadow-xl p-4'>
+            <div className='w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl p-4'>
                 <div className="hidden xl:block bg-oceanBlue h-full w-3/5 rounded-tl-3xl rounded-bl-3xl">
                 </div>
 
@@ -90,7 +90,7 @@ const LoginPage = () => {
                             </label>
                             <input
                                 className={`text-xl rounded-md p-4 bg-gray-100 w-full focus:border focus:border-mistyBlue focus:outline-none} 
-                                    ${emailError ? "border border-red-400" : ""}`}
+                                    ${emailError ? "border border-red-700" : ""}`}
                                 id="email"
                                 value={email}
                                 onChange={handleEmailChange}
@@ -107,8 +107,7 @@ const LoginPage = () => {
                             </label>
                             <div className="relative w-full">
                                 <input
-                                    className={`text-xl rounded-md p-4 bg-gray-100 w-full focus:border focus:border-mistyBlue focus:outline-none} 
-                                    ${emailError ? "border border-red-400" : ""}`}
+                                    className={`text-xl rounded-md p-4 bg-gray-100 w-full focus:border-mistyBlue focus:border-1 focus:outline-none}`}
                                     id="password"
                                     value={password}
                                     onChange={handlePasswordChange}
