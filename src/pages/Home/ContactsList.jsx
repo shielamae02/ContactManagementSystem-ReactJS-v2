@@ -1,9 +1,36 @@
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { GetContacts } from '../../api/contactService';
 
-const ContactsListDesktop = ({ 
-}) => {
-    
+const ContactsListDesktop = ({ searchQuery }) => {
+    const token = sessionStorage.getItem("token");
+    const [ contacts, setContacts ] = useState([]);
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                if (token) {
+                    const response = await GetContacts(token);
+                    setContacts(response);
+                }
+            } catch (error) {
+                console.error("Error fetching contact details: ", error);
+            }
+        }
+        fetchContacts();
+    }, [token]);
+
+    const query =  searchQuery ? searchQuery.toLowerCase() : "";  
+    const filteredContacts = contacts.filter((contact) => {
+        const firstName = contact.firstName || "";
+        const lastName = contact.lastName;
+
+        return (
+            firstName.toLowerCase().includes(query) ||
+            lastName.toLowerCase().includes(query)
+        );
+    })
+
     return (
         <div className="flex-grow h-full flex flex-col px-6 py-4"> 
             <div className="flex items-center justify-between py-2">
@@ -19,7 +46,7 @@ const ContactsListDesktop = ({
                 <div className="relative overflow-y-hidden flex">
                     <div className="h-[520px] overflow-y-auto w-full max-h-[520px]">
                     <table className="w-full text-lg text-left text-gray-700 dark:text-gray-400 relative">
-                            <thead className="text-xs text-gray-900 uppercase dark:text-gray-400 self-center sticky top-0 w-full bg-white ">
+                            <thead className="text-xs text-gray-900 uppercase dark:text-gray-500 self-center sticky top-0 w-full bg-white ">
                                 <tr className="text-sm text-mistyBlue">
                                     <th scope="col" className="px-6 py-3 w-2/5"> 
                                         Name
@@ -32,8 +59,36 @@ const ContactsListDesktop = ({
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            
+                            <tbody className='text-gray-500'>
+                            {filteredContacts.map((contact) => (
+                                <tr key={contact.id}>
+                                    <td className="px-6 py-2 h-full  flex items-center">
+                                        <div className="flex items-center justify-center text font-medium h-12 w-12 bg-beige text-brown mr-6 rounded-xl ">
+                                                    {contact.firstName[0]}{contact.lastName[0]}
+                                                </div>
+                                        {`${contact.firstName} ${contact.lastName}`}
+                                    </td>
+                                    <td className="px-6 py-2" style={{ width: '25%' }}>
+                                        {contact.emailAddress}
+                                    </td>
+                                    <td className="px-6 py-2">
+                                            <div className='flex items-center'>
+                                                <div className='w-4/5'>
+                                                    {contact.contactNumbers[0].number}
+                                                </div>
+                                                    <div className='bg-mistyBlue mx-4 w-8 h-8 flex items-center justify-center rounded-full'>
+                                                        <p className=" text-sm text-white rounded-full ">
+                                                            {contact.contactNumbers.length}
+                                                        </p> 
+                                                   </div>
+                                                <button> 
+                                                    <FaHeart  className='text-red-400'/>
+                                                </button>
+                                            </div>
+                                        
+                                        </td>
+                                </tr>
+                            ))}
                             </tbody>
                         </table>
                     </div>
