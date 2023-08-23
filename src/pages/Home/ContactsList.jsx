@@ -1,17 +1,17 @@
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import { GetContacts } from '../../api/contactService';
+import { GetContacts, GetContactById } from '../../api/contactService';
 
 const ContactsListDesktop = ( props ) => {
     const token = sessionStorage.getItem("token");
-    const [ contacts, setContacts ] = useState([]);
+    const [contacts, setContacts] = useState([]);
 
     useEffect(() => {
         const fetchContacts = async () => {
             try {
                 if (token) {
-                    const response = await GetContacts(token);
-                    setContacts(response);
+                    const contactsResponse = await GetContacts(token);
+                    setContacts(contactsResponse);
                 }
             } catch (error) {
                 console.error("Error fetching contact details: ", error);
@@ -21,7 +21,6 @@ const ContactsListDesktop = ( props ) => {
     }, [token]);
 
     const query =  props.searchQuery ? props.searchQuery.toLowerCase() : "";  
-    console.log(query);
     const filteredContacts = contacts.filter((contact) => {
         const firstName = contact.firstName || "";
         const lastName = contact.lastName;
@@ -62,7 +61,13 @@ const ContactsListDesktop = ( props ) => {
                             </thead>
                             <tbody className='text-gray-500'>
                             {filteredContacts.map((contact) => (
-                                <tr key={contact.id}>
+                                <tr 
+                                    key={contact.id}
+                                    className={`hover:bg-paleBlue cursor-pointer h-full ${contact.id === props.selectedContact?.id 
+                                        ? 'bg-paleBlue' 
+                                        : ''}`}
+                                    onClick={() => props.onContactClick(contact)}
+                                >
                                     <td className="px-6 py-2 h-full  flex items-center">
                                         <div className="flex items-center justify-center text font-medium h-12 w-12 bg-beige text-brown mr-6 rounded-xl ">
                                                     {contact.firstName[0]}{contact.lastName[0]}

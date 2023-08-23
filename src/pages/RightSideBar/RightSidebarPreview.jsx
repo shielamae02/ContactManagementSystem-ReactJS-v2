@@ -1,12 +1,18 @@
 import ContactDataView from "./ContactDataView";
 import UserDataView from "./UserDataView";
 
-const RightSidebarPreview = () => {
+const RightSidebarPreview = (props) => {
+    console.log("Selected Contact:", props.selectedContact);
+
     return (
         <div className="h-full w-full">
-            <ContactDataView />
+            {props.selectedContact ? (
+                <ContactDataView selectedContact={props.selectedContact} />
+            ) : (
+                <UserDataView />
+            )}
         </div>
-    )
+    );
 }
 
 export default RightSidebarPreview;

@@ -13,22 +13,28 @@ const DashboardPage = () => {
     const token = sessionStorage.getItem("token");
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(token === null){
-            navigate("/login");
-        } 
-    }, [token]);
-
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedContact, setSelectedContact] = useState(null);
 
+    console.log(selectedContact);
 
     const componentMapping = {
         0 : <HomeView 
                 searchQuery = {searchQuery}
+                selectedContact = {selectedContact}
+                onContactClick = {(contact) => {
+                    setSelectedContact(contact);
+                }}
             />,
         1 : <FavoritesPage />
     }
+
+    useEffect(() => {
+        if(token === null){
+            navigate("/login");
+        } 
+    }, [token, selectedContact]);
 
     return (
         <div className="flex w-screen h-screen bg-gray-50 relative">
@@ -55,7 +61,9 @@ const DashboardPage = () => {
                         {componentMapping[activeItemIndex]}
                     </div>
                     <div className="hidden xl:block w-[32rem]">
-                        <RightSidebarPreview />
+                        <RightSidebarPreview 
+                            selectedContact={selectedContact}
+                        />
                     </div>
                 </div>
             </main>

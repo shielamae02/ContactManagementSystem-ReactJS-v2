@@ -2,23 +2,22 @@ import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { MdEmail } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
+import DuckProfile from '../../assets/images/DuckProfile.png';
 
 
 const UserDataView = () => {
     return (
         <div className="h-full w-full flex flex-col items-center px-12 pt-12 pb-7 ">
-            <div className="h-44 w-44 bg-peach rounded-full">
-                
-            </div>
+            <img src={DuckProfile} alt="My Image" className='h-56' />
             <div>
-                <h1 className="font-semibold text-2xl p-6">Jeremy Jules</h1>
+                <h1 className="font-semibold text-2xl pt-6 ">Jeremy Jules</h1>
             </div>
 
-            <div className="border-b my-8 border-1.5 border-gray-400 w-full" />
+            <div className="border-b my-8 border-1.5 border-gray-300 w-full" />
 
             <div className='flex flex-col w-full flex-grow'>
                 <h1 className="font-semibold text-xl text-gray-700 py-2">User Information</h1>
-                <div className='py-2 '>
+                <div className='py-1'>
                     <div className='flex items-center py-2.5'> 
                         <div className='bg-paleBlue p-2 rounded-lg shadow-lg border border-iceBlue'>
                             <FaUser size={20}  className='text-blue'/>

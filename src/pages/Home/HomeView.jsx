@@ -9,7 +9,9 @@ const HomeView = (props) => {
             </div>
             <div className='h-3/4 rounded-lg'>
                 <ContactsListDesktop 
-                    searchQuery = { props.searchQuery}
+                    searchQuery = {props.searchQuery}
+                    selectedContact = {props.selectedContact}
+                    onContactClick = {props.onContactClick}
                 />
             </div>
         </div>

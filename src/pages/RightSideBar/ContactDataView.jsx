@@ -4,10 +4,10 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { MdEmail } from 'react-icons/md';
 import { AddressItem } from '../../components/addressItem';
 import { ContactNumberItem } from '../../components/contactNumberItem';
+import { GetContactById } from '../../api/contactService';
 
 
-const ContactDataView = ({ }) => {
-
+const ContactDataView = ( {selectedContact} ) => {
     return (
         <div className="h-full w-full flex flex-col items-center px-10 pb-4 relative">
             <div className="flex w-full justify-end gap-2 pb-2">
@@ -36,14 +36,14 @@ const ContactDataView = ({ }) => {
             </div>
             
             <div className='flex items-center w-full p-4 rounded-2xl bg-paleBlue'>
-                <div className="h-20 w-20 bg-peach rounded-full mr-6"></div>
+                <div className="h-20 w-20 bg-beige rounded-full mr-6 flex items-center justify-center text-3xl font-bold text-brown">{selectedContact.firstName[0]}{selectedContact.lastName[0]}</div>
                     <div flex flex-col>
                         <h1 className="font-semibold text-xl 2xl:text-2xl">
-                            Charis Arlie
+                            {selectedContact.firstName} {selectedContact.lastName}
                         </h1>
                         <div className='flex items-center'> 
                                 <MdEmail size={20} className='text-blue mr-1.5'/>
-                            <p className='text-gray-600 italic'>cbaclayon@fullscale.io</p>
+                            <p className='text-gray-600 italic'>{selectedContact.emailAddress} </p>
                         </div>
                     </div>
                 </div>
