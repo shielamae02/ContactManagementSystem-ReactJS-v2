@@ -11,10 +11,10 @@ export const authInstance = (token) => {
     })
 }
 
-export const GetContactNumberById = async(token, contactId, contactNumber) => {
+export const GetContactNumberById = async(token, contactId, contactNumberId) => {
     const instance = authInstance(token);
     try {
-        const response = await instance.get(`${contactId}/contactNumbers/${contactNumber}`);
+        const response = await instance.get(`${contactId}/contactNumbers/${contactNumberId}`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -22,10 +22,10 @@ export const GetContactNumberById = async(token, contactId, contactNumber) => {
     }
 }
 
-export const DeleteContactNumberById = async(token, contactId, contactNumber) => {
+export const DeleteContactNumberById = async(token, contactId, contactNumberId) => {
     const instance = authInstance(token);
     try {
-        const response = await instance.delete(`${contactId}/contactNumbers/${contactNumber}`);
+        const response = await instance.delete(`${contactId}/contactNumbers/${contactNumberId}`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -33,10 +33,10 @@ export const DeleteContactNumberById = async(token, contactId, contactNumber) =>
     }
 }
 
-export const UpdateContactNumberById = async(token, contactId, contactNumber, updateContactData) => {
+export const UpdateContactNumberById = async(token, contactId, contactNumberId, updateContactData) => {
     const instance = authInstance(token);
     try {
-        const response = await instance.put(`${contactId}/contactNumbers/${contactNumber}`, updateContactData);
+        const response = await instance.put(`${contactId}/contactNumbers/${contactNumberId}`, updateContactData);
         return response.data;
     } catch (error) {
         console.log(error);

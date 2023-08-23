@@ -22,7 +22,7 @@ const LoginPage = () => {
     
         if (validateForm()) {
             const response = await LoginService(formData);
-          
+            console.log(response);
             if(response.status === 200){
               sessionStorage.setItem("token", response.data.token);
               navigate("/", {replace: true});
@@ -42,11 +42,14 @@ const LoginPage = () => {
     };
 
     const [showPassword, setShowPassword] = useState(false);
-    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+    const togglePasswordVisibility = (e) => {
+      e.preventDefault();
+      setShowPassword(!showPassword);
+    };
 
     useEffect(() => {
-        const token = sessionStorage.getItem("key");
-        if (token) {
+        const token = sessionStorage.getItem("token");
+        if (token !== null) {
             navigate("/", { replace: true });
         }
     }, [navigate]);

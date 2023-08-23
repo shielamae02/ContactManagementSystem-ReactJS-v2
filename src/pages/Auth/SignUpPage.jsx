@@ -57,8 +57,8 @@ const SignupPage = () => {
   const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
 
   useEffect(() => {
-    const token = sessionStorage.getItem('key');
-    if (token) {
+    const token = sessionStorage.getItem('token');
+    if (token !== null) {
       navigate('/', { replace: true });
     }
   }, [navigate]);
