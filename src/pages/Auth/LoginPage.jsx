@@ -67,7 +67,7 @@ const LoginPage = () => {
             return  `${fieldName} is required`;
         }
         if (field === 'emailAddress' && !emailAddressPattern.test(value)) {
-          return `Invalid ${field} format`;
+          return `Invalid email address format`;
         }
         if (field === 'password' && value.length < 6) {
           return `Password must be at least 6 characters long`;
@@ -130,7 +130,7 @@ const LoginPage = () => {
                             />
                         </div>
 
-                        <div className="w-full relative flex flex-col">
+                        <div className="w-full flex flex-col">
                             <div className="relative w-full">
                                 <InputField
                                     id="password"
@@ -143,7 +143,7 @@ const LoginPage = () => {
                                 />
                                 <button
                                     onClick={togglePasswordVisibility}
-                                    className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer"
+                                    className="absolute top-2/3 right-4 -translate-y-1/2 cursor-pointer"
                                 >
                                     {showPassword ? <FiEyeOff size={22} /> : <FiEye size={22} />}
                                 </button>

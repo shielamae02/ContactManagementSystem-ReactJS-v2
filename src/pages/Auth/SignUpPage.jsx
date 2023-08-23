@@ -27,10 +27,17 @@ const SignupPage = () => {
   
 
   const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  }
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const toggleConfirmPasswordVisibility = (e) => {
+    e.preventDefault();
+    setShowConfirmPassword(!showConfirmPassword);
+  }
+  
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,7 +81,7 @@ const SignupPage = () => {
         else if (field === "userName")
           fieldName = "Username";
         else if (field === "emailAddress")
-          fieldName = "emailAddress";
+          fieldName = "Email Address";
         else if (field === "password")
           fieldName = "Password";
         else if (field === "confirmPassword")
