@@ -1,7 +1,7 @@
 import { LuSearch } from 'react-icons/lu';
 
 
-const Header = () => {
+const Header = (props) => {
     return (
         <header className= "py-4 w-full flex items-center justify-end gap-4">
             <div className="items-center relative "> 
@@ -10,8 +10,8 @@ const Header = () => {
                 </span>
                 <input 
                     placeholder="Search"
-                    // value={searchQuery}
-                    // onChange={(e) => setSearchQuery(e.target.value)}
+                    value={props.searchQuery}
+                    onChange={(e) => props.setSearchQuery(e.target.value)}
                     className='text-lg rounded-xl p-2 pl-12 bg-white shadow-md w-full border-collapse focus:border-mistyBlue focus:border focus:outline-none'
                 />
             </div>

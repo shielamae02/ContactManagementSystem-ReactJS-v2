@@ -2,7 +2,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { GetContacts } from '../../api/contactService';
 
-const ContactsListDesktop = ({ searchQuery }) => {
+const ContactsListDesktop = ( props ) => {
     const token = sessionStorage.getItem("token");
     const [ contacts, setContacts ] = useState([]);
 
@@ -20,7 +20,8 @@ const ContactsListDesktop = ({ searchQuery }) => {
         fetchContacts();
     }, [token]);
 
-    const query =  searchQuery ? searchQuery.toLowerCase() : "";  
+    const query =  props.searchQuery ? props.searchQuery.toLowerCase() : "";  
+    console.log(query);
     const filteredContacts = contacts.filter((contact) => {
         const firstName = contact.firstName || "";
         const lastName = contact.lastName;

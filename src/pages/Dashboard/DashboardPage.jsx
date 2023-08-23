@@ -20,10 +20,13 @@ const DashboardPage = () => {
     }, [token]);
 
     const [activeItemIndex, setActiveItemIndex] = useState(0);
+    const [searchQuery, setSearchQuery] = useState("");
 
 
     const componentMapping = {
-        0 : <HomeView />,
+        0 : <HomeView 
+                searchQuery = {searchQuery}
+            />,
         1 : <FavoritesPage />
     }
 
@@ -39,7 +42,10 @@ const DashboardPage = () => {
 
             <main className="w-full h-full flex flex-col">
                 <div className=' flex w-full items-center gap-4 px-6'>
-                    <Header />
+                    <Header 
+                        searchQuery={searchQuery} 
+                        setSearchQuery={setSearchQuery} 
+                    />
                 </div>
                 <div className='flex h-full'>
                     <div className='bg-gray-400 flex-grow block md:hidden'>
