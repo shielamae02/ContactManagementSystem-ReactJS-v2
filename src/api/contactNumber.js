@@ -1,0 +1,46 @@
+import axios from 'axios';
+import { CONTACT_URL } from './api_constants';
+
+export const authInstance = (token) => {
+    return axios.create({
+        baseURL: CONTACT_URL,
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type" : "application/json"
+        }
+    })
+}
+
+export const GetContactNumberById = async(token, contactId, contactNumber) => {
+    const instance = authInstance(token);
+    try {
+        const response = await instance.get(`${contactId}/contactNumbers/${contactNumber}`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return respnnse.error;
+    }
+}
+
+export const DeleteContactNumberById = async(token, contactId, contactNumber) => {
+    const instance = authInstance(token);
+    try {
+        const response = await instance.delete(`${contactId}/contactNumbers/${contactNumber}`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return respnnse.error;
+    }
+}
+
+export const UpdateContactNumberById = async(token, contactId, contactNumber, updateContactData) => {
+    const instance = authInstance(token);
+    try {
+        const response = await instance.put(`${contactId}/contactNumbers/${contactNumber}`, updateContactData);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return respnnse.error;
+    }
+}
+
