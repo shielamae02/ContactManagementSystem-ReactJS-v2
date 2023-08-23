@@ -1,55 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
-
-// Custom input component with validation
-const InputField = ({ id, name, label, type, value, error, onChange }) => (
-  <div className="w-full">
-    <label className="block text-gray-500 text-[13px] mb-1" htmlFor={id}>
-      {label}
-    </label>
-    <input
-      className={`text-xl rounded-md p-4 bg-gray-100 w-full focus:border focus:border-mistyBlue focus:outline-none ${
-        error ? 'border border-red-700' : ''
-      }`}
-      id={id}
-      name={name}
-      value={value}
-      onChange={onChange}
-      type={type}
-      placeholder={label}
-      required
-    />
-    {error && <p className="text-red-500 text-[13px]">{error}</p>}
-  </div>
-);
+import { InputField } from './components/inputField';
+import { SignUpService } from '../../api/authService';
 
 const SignupPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    userName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    userName: "",
+    emailAddress: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({
-    firstName: '',
-    lastName: '',
-    userName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    userName: "",
+    emailAddress: "",
+    password: "",
+    confirmPassword: "",
   });
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
-  const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+  if (validateForm()) {
+        const response = await SignUpService(formData);
+        console.log(response);
+        if(response.status === 201){
+          sessionStorage.setItem("token", response.data.token);
+          navigate("/", {replace: true});
+        } else if (response.status === 401) {
+          errors.password = "Wrong password.";
+        } else if (response.status === 409) {
+          errors.emailAddress = "User already exists.";
+        } 
+        else {
+          console.log("Internal server error.");
+        }
+        setErrors(errors);
+    } else {
+      setErrors(errors);
+    }
+  };
+  const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
 
   useEffect(() => {
     const token = sessionStorage.getItem('key');
@@ -68,29 +73,58 @@ const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfir
           fieldName = "Last name";
         else if (field === "userName")
           fieldName = "Username";
-        else if (field === "email")
-          fieldName = "Email";
+        else if (field === "emailAddress")
+          fieldName = "emailAddress";
         else if (field === "password")
           fieldName = "Password";
         else if (field === "confirmPassword")
           fieldName = "Confirm Password";
       
-        return fieldName ? `${fieldName} is required` : "Field is required";
+        return  `${fieldName} is required`;
       }
-    if (field === 'firstName' && value.length < 2) {
-      return `${field} must be at least 2 characters long`;
+    if (value.length < 2) {
+      let fieldName = "";
+        if (field === "firstName")
+          fieldName = "First name";
+        else if (field === "lastName")
+          fieldName = "Last name";
+        else if (field === "userName")
+          fieldName = "Username";
+      return `${fieldName} must be at least 2 characters long`;
     }
-    if (field === 'email' && !emailPattern.test(value)) {
+
+    if (field === 'firstName' && !namePattern.test(value)) {
+      return `First name should not contain special characters`;
+    }
+    if (field === 'lastName' && !namePattern.test(value)) {
+      return `Last name should not contain special characters`;
+    }
+
+    if (field === 'emailAddress' && !emailAddressPattern.test(value)) {
       return `Invalid ${field} format`;
     }
     if (field === 'password' && value.length < 6) {
-      return `${field} must be at least 6 characters long`;
+      return `Password must be at least 6 characters long`;
     }
     if (field === 'confirmPassword' && value !== formData.password) {
       return 'Passwords do not match';
     }
-    return '';
+    return "";
   };
+
+ 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    const errorMessage = validateField(name, value);
+    setErrors({
+      ...errors,
+      [name]: errorMessage,
+    });
+  }; 
 
   const validateForm = () => {
     let hasErrors = false;
@@ -108,28 +142,6 @@ const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfir
     return !hasErrors;
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    const errorMessage = validateField(name, value);
-    setErrors({
-      ...errors,
-      [name]: errorMessage,
-    });
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      console.log(formData);
-    } else {
-      console.log('Form contains errors.');
-    }
-  };
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-gray-200">
@@ -170,12 +182,12 @@ const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfir
               onChange={handleInputChange}
             />
             <InputField
-              id="email"
-              name="email"
-              label="Email"
-              type="email"
-              value={formData.email}
-              error={errors.email}
+              id="emailAddress"
+              name="emailAddress"
+              label="Email Address"
+              type="emailAddress"
+              value={formData.emailAddress}
+              error={errors.emailAddress}
               onChange={handleInputChange}
             />
             <div className='relative'>
@@ -198,8 +210,8 @@ const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfir
                 name="confirmPassword"
                 label="Confirm Password"
                 type={showConfirmPassword ? 'text' : 'password'}
-                value={formData.confirmPasswordpassword}
-                error={errors.confirmPasswordpassword}
+                value={formData.confirmPassword}
+                error={errors.confirmPassword}
                 onChange={handleInputChange}
                 />
                 <button onClick={toggleConfirmPasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
