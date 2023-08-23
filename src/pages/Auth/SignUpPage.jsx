@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
-import { InputField } from './components/inputField';
+import { InputField } from '../../components/inputField';
 import { SignUpService } from '../../api/authService';
 
 const SignupPage = () => {
