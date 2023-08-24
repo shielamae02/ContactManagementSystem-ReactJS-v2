@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaCheck } from "react-icons/fa";
-import { ContactInputForm } from "../../components/contactInputForm";
+import { InputField } from "../../components/InputField"; 
 import { AddContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 
@@ -9,86 +9,227 @@ const AddNewContactView = () => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [emailAddress, setEmail] = useState("");
-  const [contactNumbers, setContactNumbers] = useState([
-    {
-      number: "",
-      label: "",
-    },
-  ]);
-
-  const [addresses, setAddresses] = useState([
-    {
-      details: "",
-      label: "",
-    },
-  ]);
-
-  const addContactNumber = () => {
-    setContactNumbers([
-      ...contactNumbers,
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    contactNumbers: [
       {
         number: "",
         label: "",
       },
-    ]);
-  };
-
-  const addAddress = () => {
-    setAddresses([
-      ...addresses,
+    ],
+    addresses: [
       {
         details: "",
         label: "",
       },
-    ]);
+    ],
+  });
+
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    contactNumbers: [],
+    addresses: [],
+  });
+
+  const handleInputChange = (e, field, index) => {
+    const { name, value } = e.target;
+    const updatedData = { ...formData };
+    
+    if (field === "contactNumbers" || field === "addresses") {
+      updatedData[field][index][name] = value;
+    } else {
+      updatedData[name] = value;
+    }
+
+    setFormData(updatedData);
+    validateField(name, value, field, index);
   };
 
-  const updateContactNumber = (index, field, value) => {
-    const updatedContactNumbers = [...contactNumbers];
-    updatedContactNumbers[index][field] = value;
-    setContactNumbers(updatedContactNumbers);
+  const validateField = (name, value, field, index) => {
+    const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
+    const numberPattern = /^\d+$/;
+    const addressPattern = /^.{2,50}$/;
+    const updatedErrors = { ...errors };
+  
+    if (!value.trim()) {
+      let fieldName = "";
+      if (name === "firstName") fieldName = "First name";
+      else if (name === "lastName") fieldName = "Last name";
+      else if (name === "emailAddress") fieldName = "Email Address";
+      updatedErrors[name] = `${fieldName} is required`;
+    } else if (name === "firstName" && value.length < 2) {
+      updatedErrors[name] = "First name must be at least 2 characters long";
+    } else if (name === "lastName" && value.length < 2) {
+      updatedErrors[name] = "Last name must be at least 2 characters long";
+    } else if ((name === "firstName" || name === "lastName") && !namePattern.test(value)) {
+      let fieldName = "";
+      if (name === "firstName") fieldName = "First name";
+      else if (name === "lastName") fieldName = "Last name";
+      updatedErrors[name] = `${fieldName} should not contain special characters`;
+    } else if (name === "emailAddress" && !emailAddressPattern.test(value)) {
+      updatedErrors[name] = "Invalid email address format";
+    } else if (name === "number" && (value.length < 3 || value.length > 11 || !numberPattern.test(value))) {
+      updatedErrors.contactNumbers = updatedErrors.contactNumbers || [];
+      updatedErrors.contactNumbers[index] = {
+        ...updatedErrors.contactNumbers[index],
+        number: "Contact number should have a minimum of 3 digits, maximum of 11 digits, and no letters allowed",
+      };
+    } else if (name === "label" && value.length < 2) {
+      updatedErrors.contactNumbers = updatedErrors.contactNumbers || [];
+      updatedErrors.contactNumbers[index] = {
+        ...updatedErrors.contactNumbers[index],
+        label: "Contact number label should have a minimum of 2 characters",
+      };
+    } else if ((name === "details" || name === "label") && !addressPattern.test(value)) {
+      updatedErrors.addresses = updatedErrors.addresses || [];
+      updatedErrors.addresses[index] = {
+        ...updatedErrors.addresses[index],
+        details: "Address details and label should be between 2 and 50 characters",
+      };
+    } else {
+      updatedErrors[name] = "";
+      if (field === "contactNumbers") {
+        updatedErrors.contactNumbers = updatedErrors.contactNumbers || [];
+        updatedErrors.contactNumbers[index] = {
+          ...updatedErrors.contactNumbers[index],
+          number: "",
+          label: "",
+        };
+      } else if (field === "addresses") {
+        updatedErrors.addresses = updatedErrors.addresses || [];
+        updatedErrors.addresses[index] = {
+          ...updatedErrors.addresses[index],
+          details: "",
+          label: "",
+        };
+      }
+    }
+  
+    setErrors(updatedErrors);
+  };
+  
+  
+  
+  
+
+  const addContactNumber = () => {
+    setFormData({
+      ...formData,
+      contactNumbers: [
+        ...formData.contactNumbers,
+        {
+          number: "",
+          label: "",
+        },
+      ],
+    });
   };
 
-  const updateAddress = (index, field, value) => {
-    const updatedAddresses = [...addresses];
-    updatedAddresses[index][field] = value;
-    setAddresses(updatedAddresses);
+  const addAddress = () => {
+    setFormData({
+      ...formData,
+      addresses: [
+        ...formData.addresses,
+        {
+          details: "",
+          label: "",
+        },
+      ],
+    });
   };
 
   const deleteContactNumber = (index) => {
-    const updatedContactNumbers = [...contactNumbers];
+    const updatedContactNumbers = [...formData.contactNumbers];
     updatedContactNumbers.splice(index, 1);
-    setContactNumbers(updatedContactNumbers);
+
+    setFormData({
+      ...formData,
+      contactNumbers: updatedContactNumbers,
+    });
   };
 
   const deleteAddress = (index) => {
-    const updatedAddresses = [...addresses];
+    const updatedAddresses = [...formData.addresses];
     updatedAddresses.splice(index, 1);
-    setAddresses(updatedAddresses);
-  };
 
-  const formData = {
-    firstName,
-    lastName,
-    emailAddress,
-    contactNumbers,
-    addresses,
+    setFormData({
+      ...formData,
+      addresses: updatedAddresses,
+    });
   };
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (token) {
-        console.log(formData);
-        const response = await AddContact(token, formData);
-        console.log(response);
+    if (validateForm()) {
+      try {
+        if (token) {
+          const response = await AddContact(token, formData);
+          setShowPrompt(true);
+          console.log(response);
+        }
+      } catch (error) {
+        console.error("Error fetching contact details: ", error);
       }
-    } catch (error) {
-      console.error("Error fetching contact details: ", error);
     }
+  };
+
+  const validateForm = () => {
+    let hasErrors = false;
+    const newErrors = {};
+
+    // Validate First Name and Last Name
+    for (const field of ["firstName", "lastName"]) {
+      const errorMessage = errors[field];
+      if (errorMessage) {
+        hasErrors = true;
+      }
+      newErrors[field] = errorMessage;
+    }
+
+    // Validate Email Address
+    const emailErrorMessage = errors.emailAddress;
+    if (emailErrorMessage) {
+      hasErrors = true;
+    }
+    newErrors.emailAddress = emailErrorMessage;
+
+    // Validate Contact Numbers
+    formData.contactNumbers.forEach((contact, index) => {
+      const numberErrorMessage = errors.contactNumbers[index]?.number;
+      const labelErrorMessage = errors.contactNumbers[index]?.label;
+
+      if (numberErrorMessage || labelErrorMessage) {
+        hasErrors = true;
+      }
+      newErrors.contactNumbers = newErrors.contactNumbers || [];
+      newErrors.contactNumbers[index] = {
+        number: numberErrorMessage,
+        label: labelErrorMessage,
+      };
+    });
+
+    // Validate Addresses
+    formData.addresses.forEach((address, index) => {
+      const detailsErrorMessage = errors.addresses[index]?.details;
+      const labelErrorMessage = errors.addresses[index]?.label;
+
+      if (detailsErrorMessage || labelErrorMessage) {
+        hasErrors = true;
+      }
+      newErrors.addresses = newErrors.addresses || [];
+      newErrors.addresses[index] = {
+        details: detailsErrorMessage,
+        label: labelErrorMessage,
+      };
+    });
+
+    setErrors(newErrors);
+    return !hasErrors;
   };
 
   return (
@@ -100,90 +241,97 @@ const AddNewContactView = () => {
         <form className="flex-grow flex flex-col">
           <div className="flex flex-col">
             <div className="flex w-full gap-3">
-              <ContactInputForm
+              <InputField
                 label="First Name"
                 id="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                name="firstName"
+                value={formData.firstName}
+                onChange={(e) => handleInputChange(e, "firstName")}
+                error={errors.firstName}
+                type="text"
               />
-              <ContactInputForm
+              <InputField
                 label="Last Name"
                 id="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                name="lastName"
+                value={formData.lastName}
+                onChange={(e) => handleInputChange(e, "lastName")}
+                error={errors.lastName}
+                type="text"
               />
             </div>
-            <ContactInputForm
+            <InputField
               label="Email address"
-              id="Email address"
-              value={emailAddress}
-              onChange={(e) => setEmail(e.target.value)}
+              id="emailAddress"
+              name="emailAddress"
+              value={formData.emailAddress}
+              onChange={(e) => handleInputChange(e, "emailAddress")}
+              error={errors.emailAddress}
+              type="email"
             />
           </div>
           <div>
-            <div className="text-xl font-semibold pt-6 pb-2">
-              Contact Numbers
-            </div>
-            {contactNumbers.map((contact, index) => (
-              <div className="flex items-end gap-3" key={index}>
-                <div className="flex w-full gap-3">
-                  <ContactInputForm
-                    label="Contact Number"
-                    id={`contactNumber_${index}`}
-                    value={contact.number}
-                    onChange={(e) =>
-                      updateContactNumber(index, "number", e.target.value)
-                    }
-                  />
-                  <ContactInputForm
-                    label="Label"
-                    id={`label_${index}`}
-                    value={contact.label}
-                    onChange={(e) =>
-                      updateContactNumber(index, "label", e.target.value)
-                    }
-                  />
-                </div>
-                {index === contactNumbers.length - 1 ? (
-                  <button
-                    onClick={addContactNumber}
-                    className="bg-blue p-4 rounded-lg"
-                  >
-                    <FaPlus size={18} className="text-white" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => deleteContactNumber(index)}
-                    className="p-3"
-                  >
-                    <IoClose size={22} className="text-red-400" />
-                  </button>
-                )}
-              </div>
-            ))}
+            <div className="text-xl font-semibold pt-6 pb-2">Contact Numbers</div>
           </div>
+          {formData.contactNumbers.map((contact, index) => (
+            <div className="flex items-end gap-3" key={index}>
+              <div className="flex w-full gap-3">
+                <InputField
+                  label="Contact Number"
+                  id={`contactNumber_${index}`}
+                  name="number"
+                  value={contact.number}
+                  onChange={(e) => handleInputChange(e, "contactNumbers", index)}
+                  error={errors.contactNumbers[index]?.number}
+                  type="text"
+                />
+                <InputField
+                  label="Label"
+                  id={`label_${index}`}
+                  name="label"
+                  value={contact.label}
+                  onChange={(e) => handleInputChange(e, "contactNumbers", index)}
+                  error={errors.contactNumbers[index]?.label}
+                  type="text"
+                />
+              </div>
+              {index === formData.contactNumbers.length - 1 ? (
+                <button onClick={addContactNumber} className="bg-blue p-4 rounded-lg">
+                  <FaPlus size={18} className="text-white" />
+                </button>
+              ) : (
+                <button onClick={() => deleteContactNumber(index)} className="p-3">
+                  <IoClose size={22} className="text-red-400" />
+                </button>
+              )}
+            </div>
+          ))}
           <div>
             <div className="text-xl font-semibold pt-6 pb-2">Addresses</div>
           </div>
-          {addresses.map((address, index) => (
+          {formData.addresses.map((address, index) => (
             <div className="flex items-end gap-3" key={index}>
               <div className="flex w-full gap-3">
-                <ContactInputForm
+                <InputField
                   label="Address Details"
                   id={`address_${index}`}
+                  name="details"
                   value={address.details}
-                  onChange={(e) =>
-                    updateAddress(index, "details", e.target.value)
-                  }
+                  onChange={(e) => handleInputChange(e, "addresses", index)}
+                  error={errors.addresses[index]?.details}
+                  type="text"
                 />
-                <ContactInputForm
+                <InputField
                   label="Label"
                   id={`label_${index}`}
+                  name="label"
                   value={address.label}
-                  onChange={(e) => updateAddress(index, "label", e.target.value)}
+                  onChange={(e) => handleInputChange(e, "addresses", index)}
+                  error={errors.addresses[index]?.label}
+                  type="text"
                 />
               </div>
-              {index === addresses.length - 1 ? (
+              {index === formData.addresses.length - 1 ? (
                 <button onClick={addAddress} className="bg-blue p-4 rounded-lg">
                   <FaPlus size={18} className="text-white" />
                 </button>
@@ -204,6 +352,17 @@ const AddNewContactView = () => {
               Submit
             </button>
           </div>
+          {showPrompt && (
+            <PromptComponent
+              promptTitle="Success!!"
+              promptMessage="Contact successfully created! "
+              actionItem=""
+              closePrompt={() => {
+                setShowPrompt(false);
+                window.location.reload();
+              }}
+            />
+          )}
         </form>
       </div>
     </div>
