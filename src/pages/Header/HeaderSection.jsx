@@ -1,20 +1,62 @@
 import { LuSearch } from 'react-icons/lu';
+import DuckProfile from "../../assets/images/DuckProfile.png"
+import { useState } from 'react';
+import { ModalComponent } from '../../components/modalComponent';
 
 
 const Header = (props) => {
+
+    const [isOpen, setIsOpen] = useState(false);    
+    const [showModal, setShowModal] = useState(false);
+
+    const toggleDropDown = () =>{
+        setIsOpen(!isOpen);
+    }
+
+    const handleLogOutClick = (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem("token");
+        window.location.reload();
+    }
+
     return (
         <header className= "py-4 w-full flex items-center justify-end gap-4">
-            <div className="items-center relative "> 
-                <span className='absolute pl-3 inset-y-0 flex items-center'>
-                    <LuSearch size={24} className='text-blue'/>
-                </span>
-                <input 
-                    placeholder="Search"
-                    value={props.searchQuery}
-                    onChange={(e) => props.setSearchQuery(e.target.value)}
-                    className='text-lg rounded-xl p-2 pl-12 bg-white shadow-md w-full border-collapse focus:border-mistyBlue focus:border focus:outline-none'
-                />
+            <div className='w-1/5 flex'>
+                <div className="items-center relative w-full "> 
+                    <span className='absolute pl-3 inset-y-0 flex items-center'>
+                        <LuSearch size={24} className='text-blue'/>
+                    </span>
+                    <input 
+                        placeholder="Search"
+                        value={props.searchQuery}
+                        onChange={(e) => props.setSearchQuery(e.target.value)}
+                        className='text-lg rounded-xl p-2 pl-12 bg-white shadow-md w-full border-collapse focus:border-mistyBlue focus:border focus:outline-none'
+                    />
+                </div>
             </div>
+            <div>
+                <img src={DuckProfile} className='h-14 cursor-pointer' onClick={toggleDropDown} />
+                {isOpen && (
+                <div className="origin-top-right absolute right-6 mt-2 w-52 z-50 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div className="py-1 hover:bg-gray-100" onClick={() => setShowModal(true)}>
+                        <p className="block px-4 py-2 text-md text-gray-800 font-medium">
+                            Logout
+                        </p>
+                    </div>
+                </div>
+            )}
+            </div>
+            { showModal && (
+                <ModalComponent 
+                    modalTitle="Log Out"
+                    modalMessage= "Are you sure you want to log out of your account?"
+                    modalNoMessage="No, go back"
+                    modalYesMessage="Yes, log out"
+                    handleModalClick={handleLogOutClick}
+                    closeModal={() => setShowModal(false)}
+                />
+            )}
+           
         </header>
 
     );
