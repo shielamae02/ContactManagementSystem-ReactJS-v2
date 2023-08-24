@@ -22,7 +22,7 @@ const DashboardPage = () => {
     const [selectedContact, setSelectedContact] = useState(null);
     const [userData, setUserData] = useState({});  
 
-    console.log(userData);
+    ;
 
     const componentMapping = {
         0 : <HomeView 

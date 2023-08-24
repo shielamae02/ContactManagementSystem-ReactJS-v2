@@ -237,7 +237,7 @@ const AddNewContactView = () => {
       <div>
         <h1 className="text-[27px] font-semibold pb-4">New Contact</h1>
       </div>
-      <div className="px-10 py-6 bg-white h-[760px] overflow-y-auto rounded-2xl relative">
+      <div className="px-10 py-6 bg-white h-[750px] max-h-[750px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col">
           <div className="flex flex-col">
             <div className="flex w-full gap-3">

@@ -12,6 +12,7 @@ const HomeView = (props) => {
                     searchQuery = {props.searchQuery}
                     selectedContact = {props.selectedContact}
                     onContactClick = {props.onContactClick}
+                    onAddContactClick = {props.onAddContactClick}
                 />
             </div>
         </div>

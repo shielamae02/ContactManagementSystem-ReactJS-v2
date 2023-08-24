@@ -1,10 +1,11 @@
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import { GetContacts, GetContactById } from '../../api/contactService';
+import { GetContacts } from '../../api/contactService';
 
 const ContactsListDesktop = ( props ) => {
     const token = sessionStorage.getItem("token");
     const [contacts, setContacts] = useState([]);
+
 
     useEffect(() => {
         const fetchContacts = async () => {
@@ -18,7 +19,7 @@ const ContactsListDesktop = ( props ) => {
             }
         }
         fetchContacts();
-    }, [token]);
+    }, [token, contacts]);
 
     const query =  props.searchQuery ? props.searchQuery.toLowerCase() : "";  
     const filteredContacts = contacts.filter((contact) => {
@@ -37,7 +38,7 @@ const ContactsListDesktop = ( props ) => {
                 <h1 className="text-2xl font-bold text-blue mb-1">
                     Contacts List
                 </h1>
-                <button className="px-6 py-2 bg-blue rounded-lg text-white font-semibold">
+                <button onClick={props.onAddContactClick} className="px-6 py-2 bg-blue rounded-lg text-white font-semibold">
                     Add Contact
                 </button>
             </div>
@@ -80,7 +81,7 @@ const ContactsListDesktop = ( props ) => {
                                     <td className="px-6 py-2">
                                             <div className='flex items-center'>
                                                 <div className='w-4/5'>
-                                                    {contact.contactNumbers[0].number}
+                                                    {contact.contactNumbers[0]?.number}
                                                 </div>
                                                     <div className='bg-mistyBlue mx-4 w-8 h-8 flex items-center justify-center rounded-full'>
                                                         <p className=" text-sm text-white rounded-full ">

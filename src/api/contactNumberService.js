@@ -11,6 +11,17 @@ export const authInstance = (token) => {
     })
 }
 
+export const AddContactNumber = async (token, contactId, contactNumberData) => {
+    const instance = authInstance(token);
+    try {
+        const response = await instance.post(`${contactId}/contactNumbers`, contactId, contactNumberData);
+        return response.data;
+    } catch(error){
+        console.log(error);
+        return error.response;
+    }
+}
+
 export const GetContactNumberById = async(token, contactId, contactNumberId) => {
     const instance = authInstance(token);
     try {

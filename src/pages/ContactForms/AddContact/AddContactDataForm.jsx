@@ -1,7 +1,6 @@
 import { AddContact } from "../../../api/contactService";
 import { useState, useEffect } from "react";
 import DummyInputForm from "../dummyInput";
-import { InputField } from "../../../components/inputField";
 
 const AddContactDataForm = () => {
     const token = sessionStorage.getItem("token");
@@ -17,40 +16,40 @@ const AddContactDataForm = () => {
         emailAddress: ""
     });
 
-    const validateField = (field, value) => {
-        const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-        const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
+    const validateField = (name, value, field, index) => {
+      const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
+      const updatedErrors = { ...errors };
     
-        if (!value.trim()) {
-            let fieldName = "";
-            if (field === "firstName")
-              fieldName = "First name";
-            else if (field === "lastName")
-              fieldName = "Last name";
-            else if (field === "emailAddress")
-              fieldName = "Email Address";
-            return  `${fieldName} is required`;
-          }
-        if (value.length < 2) {
-          let fieldName = "";
-            if (field === "firstName")
-              fieldName = "First name";
-            else if (field === "lastName")
-              fieldName = "Last name";
-          return `${fieldName} must be at least 2 characters long`;
-        }
+      if (!value.trim()) {
+        let fieldName = "";
+        if (name === "firstName") fieldName = "First name";
+        else if (name === "lastName") fieldName = "Last name";
+        else if (name === "emailAddress") fieldName = "Email Address";
+        updatedErrors[name] = `${fieldName} is required`;
+      } else if (name === "firstName" && value.length < 2) {
+        updatedErrors[name] = "First name must be at least 2 characters long";
+      } else if (name === "lastName" && value.length < 2) {
+        updatedErrors[name] = "Last name must be at least 2 characters long";
+      } else if ((name === "firstName" || name === "lastName") && !namePattern.test(value)) {
+        let fieldName = "";
+        if (name === "firstName") fieldName = "First name";
+        else if (name === "lastName") fieldName = "Last name";
+        updatedErrors[name] = `${fieldName} should not contain special characters`;
+      } else if (name === "emailAddress" && !emailAddressPattern.test(value)) {
+        updatedErrors[name] = "Invalid email address format";
+      } else {
+        updatedErrors[name] = "";
+      }
     
-        if (field === 'firstName' && !namePattern.test(value)) {
-          return `First name should not contain special characters`;
-        }
-        if (field === 'lastName' && !namePattern.test(value)) {
-          return `Last name should not contain special characters`;
-        }
-        if (field === 'emailAddress' && !emailAddressPattern.test(value)) {
-          return `Invalid ${field} format`;
-        }
-        return "";
-      };
+      if (field === "contactNumbers" || field === "addresses") {
+        updatedErrors[field] = updatedErrors[field] || [];
+        updatedErrors[field][index] = updatedErrors[name];
+      }
+    
+      setErrors(updatedErrors);
+    };
+    
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

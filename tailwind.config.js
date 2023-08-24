@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         dustyBlack : "#222831",
-        peach : "#FFC6AC",
+        beige : "#F1DEC9",
+        brown : "#8D7B68",
         oceanBlue : "#112D4E",
         blue : "#034D8D",
         mistyBlue : '#3F72AF',

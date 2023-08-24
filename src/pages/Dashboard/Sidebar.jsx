@@ -2,7 +2,7 @@ import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import React, { useContext, createContext, useState } from "react"
 const SidebarContext = createContext()
 
-export default function Sidebar({ children, item, setItemIndex, firstName, lastName, email}) {
+export default function Sidebar({ children, item, setItemIndex, userData}) {
 
   const [expanded, setExpanded] = useState(false)
   
@@ -39,7 +39,7 @@ export default function Sidebar({ children, item, setItemIndex, firstName, lastN
 
         <div className="border-t border-gray-200 flex items-center p-4">
         <div className='bg-oceanBlue w-10 h-10 rounded-md text-white text-lg font-medium items flex items-center justify-center'>
-          {firstName && lastName ? `${firstName[0]}${lastName[0]}` : ""}
+              {userData.firstName[0]} {userLastName[0]}
             </div>
           <div
             className={`
@@ -48,8 +48,8 @@ export default function Sidebar({ children, item, setItemIndex, firstName, lastN
           `}
           >
             <div className={`leading-4 flex flex-col h-full justify-center`}>
-              <span className="text-lg font-semibold truncate">{firstName} {lastName}</span>
-              <span className="text-sm text-gray-600 truncate">{email}</span>
+              <span className="text-lg font-semibold truncate">{userData.firstName} {userData.lastName}</span>
+              <span className="text-sm text-gray-600 truncate">{userData.emailAddress}</span>
             </div>
            
           </div>

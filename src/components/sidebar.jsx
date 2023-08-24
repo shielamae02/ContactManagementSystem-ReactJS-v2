@@ -1,11 +1,29 @@
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
-import React, { useContext, createContext, useState } from "react"
+import React, { useContext, createContext, useState, useEffect } from "react"
+import { GetUserDetails } from '../api/userService';
 
 const SidebarContext = createContext()
 
-export default function Sidebar({ children, item, setItemIndex }) {
+export default function Sidebar({ children, item, setItemIndex}) {
+  const token = sessionStorage.getItem("token");
+  const [userData, setUserData] = useState({});
+  const [expanded, setExpanded] = useState(false);
 
-  const [expanded, setExpanded] = useState(false)
+
+    useEffect(() => {
+      const fetchUserData = async () => {
+          try {
+              if (token) {
+                  const response = await GetUserDetails(token);
+                  setUserData(response);
+              }
+          } catch (error) {
+              console.error("Error fetching contact details: ", error);
+          }
+      }
+      fetchUserData();
+  }, [token, userData]);
+   
   
   return (
     <div className={`h-screen w-1/28 sticky top-0 z-10 `}>
@@ -40,7 +58,8 @@ export default function Sidebar({ children, item, setItemIndex }) {
 
         <div className="border-t border-gray-200 flex items-center p-4">
         <div className='bg-oceanBlue w-10 h-10 rounded-md text-white text-lg font-medium items flex items-center justify-center'>
-              JF
+        {userData.firstName ? userData.firstName[0] : ''}{userData.lastName ? userData.lastName[0] : ''}
+              
             </div>
           <div
             className={`
@@ -49,8 +68,8 @@ export default function Sidebar({ children, item, setItemIndex }) {
           `}
           >
             <div className={`leading-4 flex flex-col h-full justify-center`}>
-              <span className="text-lg font-semibold truncate">Jeremy Flores</span>
-              <span className="text-sm text-gray-600 truncate">jflores@fullscale.io</span>
+              <span className="text-lg font-semibold truncate">{userData.firstName} {userData.lastName} </span>
+              <span className="text-sm text-gray-600 truncate">{userData.emailAddress}</span>
             </div>
            
           </div>
