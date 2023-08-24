@@ -10,13 +10,11 @@ import { DeleteContact } from '../../api/contactService';
 
 
 
-const ContactDataView = ( {selectedContact} ) => {
+const ContactDataView = ( {selectedContact } ) => {
     const token = sessionStorage.getItem("token");
-    const [showModal, setShowModal ] = useState(false);
-    const [showPrompt, setShowPrompt ] = useState(false);
-    const [contact, setContact] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [showPrompt, setShowPrompt] = useState(false);
     const [contactToDelete, setContactToDelete] = useState(null);
-
 
     useEffect(() => {
         console.log('Fetching data...');
@@ -32,7 +30,6 @@ const ContactDataView = ( {selectedContact} ) => {
                 if(response === "Successfully deleted contact."){
                     setShowPrompt(true);
                 }
-                !selectedContact;
             }
         } catch (error){
             console.error(error.response);

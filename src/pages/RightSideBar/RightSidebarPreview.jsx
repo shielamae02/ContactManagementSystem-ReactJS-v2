@@ -10,7 +10,10 @@ const RightSidebarPreview = (props) => {
                     selectedContact={props.selectedContact} 
                 />
             ) : (
-                <UserDataView />
+                <UserDataView 
+                    onEditClick={props.onEditClick}
+                    userData={props.userData}
+                />
             )}
         </div>
     );
