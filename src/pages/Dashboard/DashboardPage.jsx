@@ -1,12 +1,16 @@
 import Sidebar, { SidebarItem } from "../../components/sidebar";
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { BiSolidDashboard } from 'react-icons/bi';
+import { FaHeart } from 'react-icons/fa';
 import Header from "../Header/HeaderSection";
 import HomeView from '../Home/HomeView';
 import RightSidebarPreview from "../RightSideBar/RightSidebarPreview";
 import FavoritesPage from "../Favorites/FavoritesPage";
-import { BiSolidDashboard } from 'react-icons/bi';
-import { FaHeart } from 'react-icons/fa';
+import AddContactView from "../ContactForms/AddContactView";
+import UpdateUserDataView from "../ContactForms/UpdateUserDataView";
+import { GetUserDetails } from "../../api/userService";
+
 
 const DashboardPage = () => {
 
@@ -16,8 +20,9 @@ const DashboardPage = () => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedContact, setSelectedContact] = useState(null);
+    const [userData, setUserData] = useState({});  
 
-    console.log(selectedContact);
+    console.log(userData);
 
     const componentMapping = {
         0 : <HomeView 
@@ -26,15 +31,30 @@ const DashboardPage = () => {
                 onContactClick = {(contact) => {
                     setSelectedContact(contact);
                 }}
+                onAddContactClick={() => setActiveItemIndex(2)}
             />,
-        1 : <FavoritesPage />
+        1 : <FavoritesPage />,
+        2 : <AddContactView />,
+        3 : <UpdateUserDataView/>
+    }
+
+    const fetchUserData = async () => {
+        try {
+            if (token) {
+                const response = await GetUserDetails(token);
+                setUserData(response);
+            }
+        } catch (error) {
+            console.error("Error fetching contact details: ", error);
+        }
     }
 
     useEffect(() => {
         if(token === null){
             navigate("/login");
         } 
-    }, [token, selectedContact]);
+        fetchUserData();
+    }, [token, selectedContact, userData]);
 
     return (
         <div className="flex w-screen h-screen bg-gray-50 relative">
@@ -63,6 +83,8 @@ const DashboardPage = () => {
                     <div className="hidden xl:block w-[32rem]">
                         <RightSidebarPreview 
                             selectedContact={selectedContact}
+                            onEditClick={() => setActiveItemIndex(3)}
+                            userData={userData}
                         />
                     </div>
                 </div>
