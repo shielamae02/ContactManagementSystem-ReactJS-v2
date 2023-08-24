@@ -28,7 +28,7 @@ const UserDataView = ( props ) => {
         fetchUserData();
     }, [token, userData]);
 
-    const deleteAccount = async (e) => {
+    const handleDeleteAccountClick = async (e) => {
         e.preventDefault();
         try {
             if(token){
@@ -75,7 +75,7 @@ const UserDataView = ( props ) => {
                 </div>
             </div>
             <div className="w-full  gap-4 flex text-sm">
-                <button  className="flex w-1/2 ml:w-full text-base bg-white items-center border border-blue text-blue font-semibold py-4 px-3 justify-center rounded-xl p-4">
+                <button  className="flex w-1/2 ml:w-full text-base bg-white items-center border border-blue text-blue font-semibold py-4 px-3 justify-center rounded-xl p-4" onClick={props.onEditClick}>
                     <span className='mr-2'>
                         <BiEditAlt size={20}/>
                     </span>
