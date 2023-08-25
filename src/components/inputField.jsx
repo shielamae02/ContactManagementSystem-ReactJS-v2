@@ -5,7 +5,7 @@ export const InputField = ({ id, name, label, type, value, error, onChange }) =>
       {label}
     </label>
     <input
-      className={`text-xl rounded-md p-4 bg-gray-100 w-full focus:border focus:border-mistyBlue focus:outline-none font-light ${
+      className={`text-xl rounded-md p-4 bg-gray-100 w-full focus:border focus:border-mistyBlue focus:outline-none font-normal ${
         error ? 'border border-red-700' : ""
       }`}
       id={id}
@@ -14,7 +14,6 @@ export const InputField = ({ id, name, label, type, value, error, onChange }) =>
       onChange={onChange}
       type={type}
       placeholder={label}
-      required
     />
     {error && <p className="text-red-500 text-[13px]">{error}</p>}
   </div>

@@ -10,15 +10,18 @@ import { DeleteContact } from '../../api/contactService';
 
 
 
-const ContactDataView = ( {selectedContact } ) => {
+const ContactDataView = ( {selectedContact, handleEditContactClick} ) => {
     const token = sessionStorage.getItem("token");
     const [showModal, setShowModal] = useState(false);
     const [showPrompt, setShowPrompt] = useState(false);
     const [contactToDelete, setContactToDelete] = useState(null);
 
+
     useEffect(() => {
-        console.log('Fetching data...');
-      }, [token, showPrompt, selectedContact]);
+        
+      }, [showPrompt, selectedContact]);
+
+
 
     const handleDeleteClick = async (e) => {
         e.preventDefault();
@@ -38,8 +41,8 @@ const ContactDataView = ( {selectedContact } ) => {
 
 
     return (
-        <div className="h-full w-full flex flex-col items-center px-10 pb-4 relative">
-            <div className="flex w-full justify-end gap-2 pb-2">
+        <div className="h-full w-full flex flex-col items-center px-8 py-6 relative ">
+            <div className="flex w-full justify-end gap-2 pb-3">
             <div className='relative group'>
                 <div className={`
                     absolute -top-8 left-1/2 transform -translate-x-1/2 bg-paleBlue rounded-md px-2 py-1
@@ -48,7 +51,7 @@ const ContactDataView = ( {selectedContact } ) => {
                     Edit
                 </div>
                     <div className='bg-oceanBlue p-2 rounded-full shadow-md cursor-pointer group'>
-                        <BiEditAlt size={20} className='text-white' />
+                        <BiEditAlt size={26} className='text-white'onClick={handleEditContactClick} />
                     </div>
                 </div>
                 <div className='relative group' onClick={() => setShowModal(true)}>
@@ -59,42 +62,65 @@ const ContactDataView = ( {selectedContact } ) => {
                         Delete
                     </div>
                     <div className='bg-red-400 p-2 rounded-full shadow-md cursor-pointer group'>
-                        <RiDeleteBin5Fill size={20} className='text-white' />
+                        <RiDeleteBin5Fill size={26} className='text-white' />
                     </div>
                     </div>
             </div>
-            
-            <div className='flex items-center w-full p-4 rounded-2xl bg-paleBlue'>
+             
+            <div className='flex items-center w-full p-4 rounded-2xl bg-paleBlue border border-iceBlue'>
                 <div className="h-20 w-20 bg-beige rounded-full mr-6 flex items-center justify-center text-3xl font-bold text-brown">{selectedContact.firstName[0]}{selectedContact.lastName[0]}</div>
                     <div flex flex-col>
                         <h1 className="font-semibold text-xl 2xl:text-2xl flex truncate overflow-hidden">
                             {selectedContact.firstName} {selectedContact.lastName} 
                         </h1>
                         <div className='flex items-center'> 
-                                <MdEmail size={20} className='text-blue mr-1.5'/>
-                            <p className='text-gray-600 italic text-base'>{selectedContact.emailAddress} </p>
+                                <MdEmail size={22  } className='text-blue mr-1.5'/>
+                            <p className='text-gray-600 italic text-base break-normal'>{selectedContact.emailAddress} </p>
                         </div>
                     </div>
                 </div>
 
-            <div className="border-b mt-4 mb-6 border-gray-300 w-full" />
-
+            <div className="border-b my-6 border-gray-300 w-full" />
             <div className='flex flex-col w-full flex-grow h-[500px] overflow-y-auto'>
-                <h1 className="font-semibold text-xl text-gray-700 bg-pearlWhite sticky top-0 pb-2">Contact Information</h1>
-                <div>
-                <div>
-                            { selectedContact.contactNumbers.map((contactNumber, index) => (
-                                <ContactNumberItem key={index} contactNumber={contactNumber}/>
-                            ))}
-                        </div>
-                        <div className="border-b my-2 border-gray-300 w-full" />
-                        <div>
-                            { selectedContact.addresses.map((address, index) => (
-                                <AddressItem key={index} address={address} />
-                            ))}
-                        </div>
-                </div>
-            </div>
+    <h1 className="font-semibold text-[22px] text-gray-700 bg-pearlWhite sticky top-0 py-1 ">Contact Information</h1>
+    <div>
+        {selectedContact.contactNumber1 !== null && (
+            <ContactNumberItem
+                contactNumber={selectedContact.contactNumber1}
+                label={selectedContact.numberLabel1}
+            />
+        )}
+        {selectedContact.contactNumber2!== null && (
+            <ContactNumberItem
+                contactNumber={selectedContact.contactNumber2}
+                label={selectedContact.numberLabel2}
+            />
+        )}
+        {selectedContact.contactNumber3 !== null && (
+            <ContactNumberItem
+                contactNumber={selectedContact.contactNumber3}
+                label={selectedContact.numberLabel3}
+            />
+        )}
+    </div>
+    <div className="border-b my-2 border-gray-300 w-full" />
+    <div>
+        {/* Check if addressDetails1 is not null, then render the AddressItem */}
+        {selectedContact.addressDetails1 && (
+            <AddressItem
+                details={selectedContact.addressDetails1}
+                label={selectedContact.addressLabel1}
+            />
+        )}
+        {selectedContact.addressDetails2  && (
+            <AddressItem
+                details={selectedContact.addressDetails2}
+                label={selectedContact.addressLabel2}
+            />
+        )}
+    </div>
+</div>
+
             { showModal && (
                 <ModalComponent 
                     modalTitle="Delete Contact"

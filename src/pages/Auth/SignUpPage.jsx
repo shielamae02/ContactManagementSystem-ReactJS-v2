@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
-import { InputField } from '../../components/inputField';
+import { InputField } from '../../components/InputField';
 import { SignUpService } from '../../api/authService';
 
 const SignupPage = () => {
@@ -40,26 +40,38 @@ const SignupPage = () => {
   
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-  if (validateForm()) {
-        const response = await SignUpService(formData);
-        console.log(response);
-        if(response.status === 201){
-          sessionStorage.setItem("token", response.data.token);
-          navigate("/", {replace: true});
-        } else if (response.status === 401) {
-          errors.password = "Wrong password.";
-        } else if (response.status === 409) {
-          errors.emailAddress = "User already exists.";
-        } 
-        else {
-          console.log("Internal server error.");
-        }
-        setErrors(errors);
-    } else {
-      setErrors(errors);
+  
+    const newErrors = {};
+  
+    // Validate all fields and update errors
+    for (const field in formData) {
+      const errorMessage = validateField(field, formData[field]);
+      newErrors[field] = errorMessage;
     }
+  
+    // Check if there are any errors
+    const hasErrors = Object.values(newErrors).some((error) => error);
+  
+    if (!hasErrors) {
+      const response = await SignUpService(formData);
+      console.log(response);
+      if (response.status === 201) {
+        sessionStorage.setItem("token", response.data.token);
+        navigate("/", { replace: true });
+      } else if (response.status === 401) {
+        newErrors.password = "Wrong password.";
+      } else if (response.status === 409) {
+        newErrors.emailAddress = "User already exists.";
+      } else {
+        console.log("Internal server error.");
+      }
+    }
+  
+    // Set the new errors
+    setErrors(newErrors);
   };
+  
+  
   const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
 

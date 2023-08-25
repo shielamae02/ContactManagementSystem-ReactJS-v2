@@ -1,31 +1,30 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { FaPlus, FaCheck, FaHeart } from "react-icons/fa";
+import { FaPlus, FaCheck } from "react-icons/fa";
 import { InputField } from "../../components/InputField"; 
-import { AddContact } from "../../api/contactService";
+import { UpdateContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
 
-const AddNewContactView = () => {
+const UpdateContactView = ({ selectedContact }) => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
-
-
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    contactNumber1: "",
-    numberLabel1: "",
-    contactNumber2: "",
-    numberLabel2: "",
-    contactNumber3: "",
-    numberLabel3: "",
-    addressDetails1: "",
-    addressLabel1: "",
-    addressDetails2: "",
-    addressLabel2: ""
+    firstName: selectedContact.firstName,
+    lastName: selectedContact.lastName,
+    emailAddress: selectedContact.emailAddress,
+    contactNumber1: selectedContact.contactNumber1,
+    contactNumber2: selectedContact.contactNumber2,
+    contactNumber3: selectedContact.contactNumber3,
+    numberLabel1: selectedContact.numberLabel1,
+    numberLabel2: selectedContact.numberLabel2,
+    numberLabel3: selectedContact.numberLabel3,
+    addressDetails1: selectedContact.addressDetails1,
+    addressDetails2: selectedContact.addressDetails2,
+    addressLabel1: selectedContact.addressLabel1,
+    addressLabel2: selectedContact.addressLabel2
+
   });
 
   const [errors, setErrors] = useState({
@@ -68,13 +67,14 @@ const AddNewContactView = () => {
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
-          const response = await AddContact(token, formDataWithNull);
+          console.log(formDataWithNull);
+          const response = await UpdateContact(token, selectedContact.id, formDataWithNull);
           setFormData(response);
           setShowPrompt(true);
           console.log(response);
         }
       } catch (error) {
-        console.error("Error adding a new contact: ", error);
+        console.error("Error updating contact: ", error);
       }
     }
   
@@ -86,8 +86,7 @@ const AddNewContactView = () => {
   const validateField = (field, value) => {
     const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
-    const numberPattern = /^[0-9]+$/;on
-
+    const numberPattern = /^[0-9]+$/;
 
     if (value == null) {
       return ""; // No need to validate, return an empty string
@@ -211,8 +210,8 @@ const AddNewContactView = () => {
 
   return (
     <div className="flex flex-col w-full h-full p-6">
-      <div className="justify-between flex items-center">
-        <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
+      <div>
+        <h1 className="text-[27px] font-semibold pb-4">Update Contact</h1>
       </div>
       <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col">
@@ -251,15 +250,6 @@ const AddNewContactView = () => {
             <div className="text-xl font-semibold pt-8 pb-2">Contact Numbers</div>
             <div className="flex w-full gap-3">
               <InputField
-                label="Label"
-                id="numberLabel1"
-                name="numberLabel1"
-                value={formData.numberLabel1}
-                onChange={(e) => handleInputChange(e, "numberlabel1")}
-                error={errors.numberLabel1}
-                type="text"
-              />
-              <InputField
                 label="Contact Number"
                 id="contactNumber1"
                 name="contactNumber1"
@@ -268,17 +258,17 @@ const AddNewContactView = () => {
                 error={errors.contactNumber1}
                 type="text"
               />
-            </div>
-          <div className="flex w-full gap-3">
               <InputField
                 label="Label"
-                id="numberLabel2"
-                name="numberLabel2"
-                value={formData.numberLabel2}
-                onChange={(e) => handleInputChange(e, "numberLabel2")}
-                error={errors.numberLabel2}
+                id="numberLabel1"
+                name="numberLabel1"
+                value={formData.numberLabel1}
+                onChange={(e) => handleInputChange(e, "numberlabel1")}
+                error={errors.numberLabel1}
                 type="text"
               />
+            </div>
+          <div className="flex w-full gap-3">
               <InputField
                 label="Contact Number"
                 id="contactNumber2"
@@ -288,17 +278,17 @@ const AddNewContactView = () => {
                 error={errors.contactNumber2}
                 type="text"
               />
-            </div>
-          <div className="flex w-full gap-3">
               <InputField
                 label="Label"
-                id="numberLabel3"
-                name="numberLabel13"
-                value={formData.numberLabel3}
-                onChange={(e) => handleInputChange(e, "numberLabel3")}
-                error={errors.numberLabel3}
+                id="numberLabel2"
+                name="numberLabel2"
+                value={formData.numberLabel2}
+                onChange={(e) => handleInputChange(e, "numberLabel2")}
+                error={errors.numberLabel2}
                 type="text"
               />
+            </div>
+          <div className="flex w-full gap-3">
               <InputField
                 label="Contact Number"
                 id="contactNumber3"
@@ -306,6 +296,15 @@ const AddNewContactView = () => {
                 value={formData.contactNumber3}
                onChange={(e) => handleInputChange(e, "contactNumber3")}
                 error={errors.contactNumber3}
+                type="text"
+              />
+              <InputField
+                label="Label"
+                id="numberLabel3"
+                name="numberLabel13"
+                value={formData.numberLabel3}
+                onChange={(e) => handleInputChange(e, "numberLabel3")}
+                error={errors.numberLabel3}
                 type="text"
               />
             </div>
@@ -370,7 +369,7 @@ const AddNewContactView = () => {
         {showPrompt && (
           <PromptComponent
             promptTitle="Success!!"
-            promptMessage="Successfully created contact!"
+            promptMessage="Successfully updated contact!"
             actionItem=""
             closePrompt={() => {
               setShowPrompt(false);
@@ -383,4 +382,4 @@ const AddNewContactView = () => {
   );
 };
 
-export default AddNewContactView;
+export default UpdateContactView;

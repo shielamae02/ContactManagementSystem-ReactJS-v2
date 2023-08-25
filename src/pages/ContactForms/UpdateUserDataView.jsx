@@ -10,34 +10,47 @@ const UpdateUserDataView = ({ userData }) => {
     const [formData, setFormData] = useState({
         firstName: userData.firstName,
         lastName: userData.lastName,
-        userName : userData.userName,
-        emailAddress: userData.emailAddress
+        userName : userData.userName
     });
     
     const [errors, setErrors] = useState({
       firstName: "",
       lastName: "",
-      userName: "",
-      emailAddress: ""
+      userName: ""
     });
 
     const handleUpdateUserDataClick = async (e) => {
-        e.preventDefault();
-
+      e.preventDefault();
+    
+      const newErrors = {};
+    
+      // Validate all fields and update errors
+      for (const field in formData) {
+        const errorMessage = validateField(field, formData[field]);
+        newErrors[field] = errorMessage;
+      }
+    
+      // Check if there are any errors
+      const hasErrors = Object.values(newErrors).some((error) => error);
+    
+      if (!hasErrors) {
         console.log(formData);
         try {
-            if (validateForm() && token){
-                const response = await UpdateUserDetails(token, formData);
-                setShowPrompt(true);
-                console.log(response);
-            }
-        } catch(error){
-            console.error("Error updating user details: ", error);
+          if (token) {
+            const response = await UpdateUserDetails(token, formData);
+            setShowPrompt(true);
+            console.log(response);
+          }
+        } catch (error) {
+          console.error("Error updating user details: ", error);
         }
-    }; 
-
+      }
+    
+      // Set the new errors
+      setErrors(newErrors);
+    };
+    
     const validateField = (field, value) => {
-        const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
 
         if (!value.trim()) {
@@ -47,9 +60,7 @@ const UpdateUserDataView = ({ userData }) => {
             else if (field === "lastName")
               fieldName = "Last name";
             else if (field === "userName")
-              fieldName = "Username";
-            else if (field === "emailAddress")
-              fieldName = "Email Address";
+              fieldName = "Username"
             return  `${fieldName} is required`;
           }
         if (value.length < 2) {
@@ -68,10 +79,6 @@ const UpdateUserDataView = ({ userData }) => {
         }
         if (field === 'lastName' && !namePattern.test(value)) {
           return `Last name should not contain special characters`;
-        }
-    
-        if (field === 'emailAddress' && !emailAddressPattern.test(value)) {
-          return `Invalid ${field} format`;
         }
         return "";
       };
@@ -142,15 +149,6 @@ const UpdateUserDataView = ({ userData }) => {
                         error={errors.userName}
                         onChange={handleInputChange}
                     />
-                    <InputField
-                        id="emailAddress"
-                        name="emailAddress"
-                        label="Email Address"
-                        type="emailAddress"
-                        value={formData.emailAddress}
-                        error={errors.emailAddress}
-                        onChange={handleInputChange}
-                    />
                 </div>
                 <div className="pt-6  flex justify-end">
                     <button onClick={handleUpdateUserDataClick} className="flex gap-3 font-medium items-center self-end px-7 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
@@ -161,7 +159,7 @@ const UpdateUserDataView = ({ userData }) => {
                 {showPrompt && (
                   <PromptComponent
                     promptTitle="Success!!"
-                    promptMessage="Contact successfully created! "
+                    promptMessage="User profile successfully updated! "
                     actionItem=""
                     closePrompt={() => {
                       setShowPrompt(false);

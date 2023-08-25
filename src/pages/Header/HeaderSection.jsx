@@ -35,7 +35,7 @@ const Header = (props) => {
                 </div>
             </div>
             <div>
-                {/* <img src={DuckProfile} className='h-14 cursor-pointer' onClick={toggleDropDown} /> */}
+                <img src={DuckProfile} className='h-14 cursor-pointer' onClick={toggleDropDown} />
                 {isOpen && (
                 <div className="origin-top-right absolute right-6 mt-2 w-52 z-50 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div className="py-1 hover:bg-gray-100" onClick={() => setShowModal(true)}>
@@ -49,7 +49,7 @@ const Header = (props) => {
             { showModal && (
                 <ModalComponent 
                     modalTitle="Log Out"
-                    modalMessage= "Are you sure you want to log out of your account?"
+                    modalMessage= "Are you sure you want to log out of your account"
                     modalNoMessage="No, go back"
                     modalYesMessage="Yes, log out"
                     handleModalClick={handleLogOutClick}

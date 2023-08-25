@@ -19,7 +19,7 @@ export default {
         pearlWhite : '#F9F7F7',
         purpleWhite : '#EEF2F5',
         blueGray : '#a0aec0',
-
+        coral : '#FEFCF3',
         gray : {
           900: '#202225',
           800: '#2f3136'

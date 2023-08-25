@@ -50,6 +50,7 @@ export const AddContact = async (token, contactData) => {
 export const UpdateContact = async (token, contactId, updateContactData) => {
     const instance = authInstance(token);
     try{
+        console.log(updateContactData);
         const response = await instance.put(`${contactId}`, updateContactData);
         return response.data;
     } catch(error) {

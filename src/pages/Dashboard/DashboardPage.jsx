@@ -7,9 +7,13 @@ import Header from "../Header/HeaderSection";
 import HomeView from '../Home/HomeView';
 import RightSidebarPreview from "../RightSideBar/RightSidebarPreview";
 import FavoritesPage from "../Favorites/FavoritesPage";
-import AddContactView from "../ContactForms/AddContactView";
 import UpdateUserDataView from "../ContactForms/UpdateUserDataView";
 import { GetUserDetails } from "../../api/userService";
+import AddNewContactView from "../ContactForms/AddContactView";
+import { FaUser } from "react-icons/fa";
+import UserProfileView from "../Home/UserProfileView";
+import UpdateContactView from "../ContactForms/UpdateContactView";
+import { GetContacts } from "../../api/contactService";
 
 
 const DashboardPage = () => {
@@ -22,7 +26,6 @@ const DashboardPage = () => {
     const [selectedContact, setSelectedContact] = useState(null);
     const [userData, setUserData] = useState({});  
 
-    ;
 
     const componentMapping = {
         0 : <HomeView 
@@ -31,11 +34,13 @@ const DashboardPage = () => {
                 onContactClick = {(contact) => {
                     setSelectedContact(contact);
                 }}
-                onAddContactClick={() => setActiveItemIndex(2)}
+                onAddContactClick={() => setActiveItemIndex(3)}
             />,
         1 : <FavoritesPage />,
-        2 : <AddContactView />,
-        3 : <UpdateUserDataView/>
+        2 : <UserProfileView userData={userData}/>,
+        3 : <AddNewContactView />,
+        4 : <UpdateContactView selectedContact={selectedContact}/>,
+        5 : <UpdateUserDataView userData={userData}/>
     }
 
     const fetchUserData = async () => {
@@ -49,12 +54,14 @@ const DashboardPage = () => {
         }
     }
 
+
     useEffect(() => {
         if(token === null){
             navigate("/login");
         } 
         fetchUserData();
     }, [token, selectedContact, userData]);
+
 
     return (
         <div className="flex w-screen h-screen bg-gray-50 relative">
@@ -64,6 +71,7 @@ const DashboardPage = () => {
                 >
                     <SidebarItem icon={<BiSolidDashboard size={22}/>} title="Dashboard"/>
                     <SidebarItem icon={<FaHeart size={22}/>} title="Favorites"/>
+                    <SidebarItem icon={<FaUser size={22}/>}  title="Profile"/>
                 </Sidebar>
 
             <main className="w-full h-full flex flex-col">
@@ -83,8 +91,9 @@ const DashboardPage = () => {
                     <div className="hidden xl:block w-[32rem]">
                         <RightSidebarPreview 
                             selectedContact={selectedContact}
-                            onEditClick={() => setActiveItemIndex(3)}
+                            onEditClick={() => setActiveItemIndex(5)}
                             userData={userData}
+                            handleEditContactClick={() => setActiveItemIndex(4)}
                         />
                     </div>
                 </div>

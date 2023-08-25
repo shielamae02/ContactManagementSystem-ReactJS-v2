@@ -8,6 +8,7 @@ const RightSidebarPreview = (props) => {
             {props.selectedContact ? (
                 <ContactDataView 
                     selectedContact={props.selectedContact} 
+                    handleEditContactClick={props.handleEditContactClick}
                 />
             ) : (
                 <UserDataView 

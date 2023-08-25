@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
-import { InputField } from '../../components/inputField';
+import { InputField } from '../../components/InputField';
 import { LoginService } from '../../api/authService';
 
 const LoginPage = () => {
@@ -18,28 +18,40 @@ const LoginPage = () => {
 
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault();
-    
-        if (validateForm()) {
-            const response = await LoginService(formData);
-            console.log(response);
-            if(response.status === 200){
-              sessionStorage.setItem("token", response.data.token);
-              navigate("/", {replace: true});
-            } else if (response.status === 401) {
-              errors.password = "Wrong password.";
-            } else if (response.status === 404) {
-              errors.emailAddress = "User does not exist.";
-              errors.password = "";
-            } 
-            else {
-              console.log("Internal server error.");
-            }
-            setErrors(errors);
-        } else {
-          setErrors(errors);
-        }
-    };
+      e.preventDefault();
+  
+      const newErrors = {};
+      
+      // Validate all fields and update errors
+      for (const field in formData) {
+        const errorMessage = validateField(field, formData[field]);
+        newErrors[field] = errorMessage;
+      }
+  
+      // Check if there are any errors
+      const hasErrors = Object.values(newErrors).some((error) => error);
+  
+      if (!hasErrors) {
+          const response = await LoginService(formData);
+          console.log(response);
+          if(response.status === 200){
+            sessionStorage.setItem("token", response.data.token);
+            navigate("/", {replace: true});
+          } else if (response.status === 401) {
+            newErrors.password = "Wrong password.";
+          } else if (response.status === 404) {
+            newErrors.emailAddress = "User does not exist.";
+            newErrors.password = "";
+          } 
+          else {
+            console.log("Internal server error.");
+          }
+      }
+  
+      // Set the new errors
+      setErrors(newErrors);
+  };
+  
 
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = (e) => {
@@ -65,12 +77,6 @@ const LoginPage = () => {
             else if (field === "password")
               fieldName = "Password";
             return  `${fieldName} is required`;
-        }
-        if (field === 'emailAddress' && !emailAddressPattern.test(value)) {
-          return `Invalid email address format`;
-        }
-        if (field === 'password' && value.length < 6) {
-          return `Password must be at least 6 characters long`;
         }
         return "";
     };
