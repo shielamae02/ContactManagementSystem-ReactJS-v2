@@ -6,7 +6,7 @@ export const InputDropdown = ({ formData, setFormData, handleInputChange, name, 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(initialValue ?? "Home");
     const [showCustomModal, setShowCustomModal] = useState(false);
-    const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState("" ?? "Home");
 
 
     const toggleDropdown = () => {

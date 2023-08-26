@@ -36,8 +36,10 @@ const DashboardPage = () => {
                 }}
                 onAddContactClick={() => setActiveItemIndex(3)}
                 onSeeAllClick = {() => setActiveItemIndex(1)}
+                onFavoriteCardClick ={(contact) => setSelectedContact(contact)}
             />,
         1 : <FavoritesPage 
+                searchQuery={searchQuery}
                 onFavoriteCardClick={(contact) => setSelectedContact(contact)}/>,
         2 : <UserProfileView userData={userData} onEditClick={() => setActiveItemIndex(5)}/>,
         3 : <AddNewContactView />,

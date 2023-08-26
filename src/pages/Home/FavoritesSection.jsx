@@ -1,9 +1,8 @@
 import { FavoritesCard } from "../../components/favoritesCard";
 import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
-import { FaHeart } from 'react-icons/fa';
 
-const FavoritesSection = ({ onSeeAllClick }) => {
+const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
   const token = sessionStorage.getItem("token");
   const [contacts, setContacts] = useState([]);
 
@@ -36,12 +35,14 @@ const FavoritesSection = ({ onSeeAllClick }) => {
         {
           contacts
             .filter(contact => contact.favorite)
+            .splice(0,3)
             .map((contact) => (
               <FavoritesCard
                 key={contact.id}
-                firstName={contact.firstName}
+                firstName={contact.firstName} 
                 lastName={contact.lastName}
                 emailAddress={contact.emailAddress}
+                onFavoriteCardClick={() => onFavoriteCardClick(contact)}
               />
             ))
         }

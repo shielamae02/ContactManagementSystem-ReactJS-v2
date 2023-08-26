@@ -13,6 +13,7 @@ const HomeView = (props) => {
             <div className='flex h-[15%] mb-8'>
                 <FavoritesSection 
                     onSeeAllClick = {props.onSeeAllClick}
+                    onFavoriteCardClick={props.onFavoriteCardClick}
                 />
             </div>
             <div className='h-[82%] rounded-lg'>
