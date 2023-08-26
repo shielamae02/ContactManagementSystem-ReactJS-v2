@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaCheck, FaHeart } from "react-icons/fa";
-import { InputField } from "../../components/InputField"; 
+import { InputField } from "../../components/InputField";
 import { AddContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
@@ -11,6 +11,7 @@ const AddNewContactView = () => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
+
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -27,6 +28,7 @@ const AddNewContactView = () => {
     addressDetails2: "",
     addressLabel2: ""
   });
+
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
@@ -45,16 +47,13 @@ const AddNewContactView = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
+    // Replace empty string values with null in the formData object
     const formDataWithNull = Object.entries(formData).reduce((acc, [key, value]) => {
       // Check if value is a string before calling trim
       acc[key] = typeof value === "string" ? (value.trim() === "" ? null : value) : value;
       return acc;
     }, {});
-
-    // Include the custom input value in the formData
-    formDataWithNull.addressLabel1 = formData.addressLabel1; // Update this line with the correct field name
-    formDataWithNull.addressLabel2 = formData.addressLabel2; // Update this line with the correct field name
 
     const newErrors = {};
 
@@ -84,19 +83,18 @@ const AddNewContactView = () => {
     setErrors(newErrors);
   };
 
-  
-  
+
   const validateField = (field, value) => {
     const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
-    const numberPattern = /^[0-9]+$/;
+    const numberPattern = /^[0-9]+$/; 
 
 
     if (value == null) {
       return ""; // No need to validate, return an empty string
     }
-  
-  
+
+
     if (typeof value === 'string' && !value.trim()) {
       let fieldName = "";
       // Determine the field name for a more descriptive error message
@@ -119,16 +117,16 @@ const AddNewContactView = () => {
         default:
           break;
       }
-  
+
       // Check if the field is one of the required fields
       if (field === "firstName" || field === "lastName" || field === "emailAddress" || field === "addressDetails1" ||
-          field === "numberLabel1" || field === "contactNumber1" || field === "addressLabel1") {
+        field === "numberLabel1" || field === "contactNumber1" || field === "addressLabel1") {
         return `${fieldName} is required`;
       }
-  
+
       return ""; // Optional fields won't trigger an error for empty values
     }
-  
+
     if (field === "firstName" && !namePattern.test(value)) {
       return `First name should not contain special characters or numbers`;
     }
@@ -141,7 +139,7 @@ const AddNewContactView = () => {
     if (value.length < 3) {
       if (field === "contactNumber1") return "Contact number must be at least 3 digits long";
     }
-  
+
     if (value.length < 2) {
       let fieldName = "";
       // Determine the field name for a more descriptive error message
@@ -166,19 +164,19 @@ const AddNewContactView = () => {
       }
       return `${fieldName} must be at least 2 characters long`;
     }
-  
+
     if (value.length > 11) {
       if (field === "contactNumber1") return "Contact number must not exceed 11 digits";
     }
-  
+
     if (field === "emailAddress" && !emailAddressPattern.test(value)) {
       return `Invalid ${field} format`;
     }
-  
+
     return "";
   };
-  
-  
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -191,7 +189,7 @@ const AddNewContactView = () => {
       ...errors,
       [name]: errorMessage,
     });
-  }; 
+  };
 
   const validateForm = () => {
     let hasErrors = false;
@@ -217,7 +215,7 @@ const AddNewContactView = () => {
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-10 py-6 bg-white h-[800px] max-h-[800px] overflow-y-auto rounded-2xl relative">
+      <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col">
           <div className="flex flex-col gap-3">
             <div className="flex w-full gap-3">
@@ -272,7 +270,7 @@ const AddNewContactView = () => {
                 type="text"
               />
             </div>
-          <div className="flex w-full gap-3">
+            <div className="flex w-full gap-3">
               <InputField
                 label="Label"
                 id="numberLabel2"
@@ -287,12 +285,12 @@ const AddNewContactView = () => {
                 id="contactNumber2"
                 name="contactNumber2"
                 value={formData.contactNumber2}
-               onChange={(e) => handleInputChange(e, "contactNumber2")}
+                onChange={(e) => handleInputChange(e, "contactNumber2")}
                 error={errors.contactNumber2}
                 type="text"
               />
             </div>
-          <div className="flex w-full gap-3">
+            <div className="flex w-full gap-3">
               <InputField
                 label="Label"
                 id="numberLabel3"
@@ -307,13 +305,14 @@ const AddNewContactView = () => {
                 id="contactNumber3"
                 name="contactNumber3"
                 value={formData.contactNumber3}
-               onChange={(e) => handleInputChange(e, "contactNumber3")}
+                onChange={(e) => handleInputChange(e, "contactNumber3")}
                 error={errors.contactNumber3}
                 type="text"
               />
             </div>
+
           </div>
-          
+
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Addresses</div>
             <div className="flex gap-4">
@@ -322,46 +321,46 @@ const AddNewContactView = () => {
                   formData={formData.addressLabel1}
                   setFormData={setFormData}
                   name="addressLabel1"
+                  initialValue="Home"
                 />
                 <TextAreaInputField
                   label="Address"
                   id="addressDetails1"
                   name="addressDetails1"
                   value={formData.addressDetails1}
-                onChange={(e) => handleInputChange(e, "addressDetails1")}
+                  onChange={(e) => handleInputChange(e, "addressDetails1")}
                   error={errors.addressDetails1}
                   type="text"
                 />
               </div>
               <div className="flex flex-col w-full gap-3">
                 <InputDropdown
-                  formData={formData.addressLabel2}
+                  formData={formData.addressLabel1}
                   setFormData={setFormData}
                   name="addressLabel2"
+                  initialValue="Home"
                 />
-             
-                  
-                  <TextAreaInputField
-                    label="Address"
-                    id="addressDetails2"
-                    name="addressDetails2"
-                    value={formData.addressDetails2}
-                    onChange={(e) => handleInputChange(e, "addressDetails2")}
-                    error={errors.addressDetails2}
-                    type="text"
-                  />
-                </div>
+                <TextAreaInputField
+                  label="Address"
+                  id="addressDetails2"
+                  name="addressDetails2"
+                  value={formData.addressDetails2}
+                  onChange={(e) => handleInputChange(e, "addressDetails2")}
+                  error={errors.addressDetails2}
+                  type="text"
+                />
+              </div>
             </div>
-            
+
           </div>
           <div className="pt-6  flex justify-end">
-                <button onClick={handleFormSubmit}
-                type="submit"
-                  className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
-                    <FaCheck className=""/>
-                    Submit
-                </button>                    
-            </div>  
+            <button onClick={handleFormSubmit}
+              type="submit"
+              className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
+              <FaCheck className="" />
+              Submit
+            </button>
+          </div>
         </form>
         {showPrompt && (
           <PromptComponent
@@ -371,7 +370,7 @@ const AddNewContactView = () => {
             closePrompt={() => {
               setShowPrompt(false);
               window.location.reload();
-            }}  
+            }}
           />
         )}
       </div>
