@@ -5,12 +5,12 @@ import { InputField } from "../../components/InputField";
 import { AddContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
+import { InputDropdown } from "../../components/inputDropdown";
 
 const AddNewContactView = () => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
-
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -27,7 +27,6 @@ const AddNewContactView = () => {
     addressDetails2: "",
     addressLabel2: ""
   });
-
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
@@ -46,25 +45,28 @@ const AddNewContactView = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
-    // Replace empty string values with null in the formData object
+    
     const formDataWithNull = Object.entries(formData).reduce((acc, [key, value]) => {
       // Check if value is a string before calling trim
       acc[key] = typeof value === "string" ? (value.trim() === "" ? null : value) : value;
       return acc;
     }, {});
-  
+
+    // Include the custom input value in the formData
+    formDataWithNull.addressLabel1 = formData.addressLabel1; // Update this line with the correct field name
+    formDataWithNull.addressLabel2 = formData.addressLabel2; // Update this line with the correct field name
+
     const newErrors = {};
-  
+
     // Validate all fields and update errors
     for (const field in formDataWithNull) {
       const errorMessage = validateField(field, formDataWithNull[field]);
       newErrors[field] = errorMessage;
     }
-  
+
     // Check if there are any errors
     const hasErrors = Object.values(newErrors).some((error) => error);
-  
+
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
@@ -77,10 +79,11 @@ const AddNewContactView = () => {
         console.error("Error adding a new contact: ", error);
       }
     }
-  
+
     // Set the new errors
     setErrors(newErrors);
   };
+
   
   
   const validateField = (field, value) => {
@@ -214,7 +217,7 @@ const AddNewContactView = () => {
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
+      <div className="px-10 py-6 bg-white h-[800px] max-h-[800px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col">
           <div className="flex flex-col gap-3">
             <div className="flex w-full gap-3">
@@ -309,21 +312,16 @@ const AddNewContactView = () => {
                 type="text"
               />
             </div>
-            
           </div>
           
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Addresses</div>
             <div className="flex gap-4">
               <div className="flex flex-col w-full gap-3">
-                <InputField
-                  label="Label"
-                  id="addressLabel1"
+                <InputDropdown
+                  formData={formData.addressLabel1}
+                  setFormData={setFormData}
                   name="addressLabel1"
-                  value={formData.addressLabel1}
-                  onChange={(e) => handleInputChange(e, "addressLabel1")}
-                  error={errors.addressLabel1}
-                  type="text"
                 />
                 <TextAreaInputField
                   label="Address"
@@ -336,15 +334,13 @@ const AddNewContactView = () => {
                 />
               </div>
               <div className="flex flex-col w-full gap-3">
-                  <InputField
-                    label="Label"
-                    id="addressLabel2"
-                    name="addressLabel2"
-                    value={formData.addressLabel2}
-                    onChange={(e) => handleInputChange(e, "addressLabel2")}
-                    error={errors.addressLabel2}
-                    type="text"
-                  />
+                <InputDropdown
+                  formData={formData.addressLabel2}
+                  setFormData={setFormData}
+                  name="addressLabel2"
+                />
+             
+                  
                   <TextAreaInputField
                     label="Address"
                     id="addressDetails2"
