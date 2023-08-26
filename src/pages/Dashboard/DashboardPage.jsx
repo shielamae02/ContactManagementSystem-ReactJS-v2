@@ -37,7 +37,7 @@ const DashboardPage = () => {
                 onAddContactClick={() => setActiveItemIndex(3)}
             />,
         1 : <FavoritesPage />,
-        2 : <UserProfileView userData={userData}/>,
+        2 : <UserProfileView userData={userData} onEditClick={() => setActiveItemIndex(5)}/>,
         3 : <AddNewContactView />,
         4 : <UpdateContactView selectedContact={selectedContact}/>,
         5 : <UpdateUserDataView userData={userData}/>

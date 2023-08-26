@@ -1,6 +1,7 @@
 import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
+import { FavoritesPageCard } from "../../components/favoritesPageCard";
 
 const FavoritesPage = ( props ) => {
     const token = sessionStorage.getItem("token");
@@ -37,7 +38,18 @@ const FavoritesPage = ( props ) => {
              <div>
                 <h1 className="text-[27px] font-semibold pb-4">Favorite Contacts</h1>
             </div>
-            <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
+            <div className="grid grid-cols-2 2xl:grid-cols-3 gap-4">
+                {filteredContacts.map((contact) => (
+                    <>
+                        { contact.favorite && (
+                            <FavoritesPageCard firstName={contact.firstName} lastName={contact.lastName} emailAddress={contact.emailAddress}/>
+                        )}
+                    </>
+                ))}
+
+            </div>
+           
+            {/* <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
             <div className="relative overflow-y-hidden flex">
                     <div className="h-[520px] overflow-y-auto w-full max-h-[520px]">
                     <table className="w-full text-lg text-left text-gray-700 dark:text-gray-400 relative">
@@ -96,7 +108,7 @@ const FavoritesPage = ( props ) => {
                     </div>
     
                 </div>
-            </div>
+            </div> */}
 
         </div>
     )

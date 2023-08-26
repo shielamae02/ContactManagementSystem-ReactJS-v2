@@ -31,11 +31,10 @@ const FavoritesSection = ({ onSeeAllClick}) => {
           onClick={onSeeAllClick}
           className="text-mistyBlue cursor-pointer hover:underline">see all</h3>
       </div>
-      <div className="flex flex-grow gap-4">
+      <div className="grid grid-cols-3 gap-4">
         {
           contacts
-            .filter(contact => contact.favorite) // Filter only favorites
-            .slice(0, 3) // Take the first three favorites
+            .filter(contact => contact.favorite)
             .map((contact) => (
               <FavoritesCard
                 key={contact.id}
