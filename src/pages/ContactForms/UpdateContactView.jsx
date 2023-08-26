@@ -5,6 +5,7 @@ import { InputField } from "../../components/InputField";
 import { UpdateContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
+import { InputDropdown } from "../../components/inputDropdown";
 
 const UpdateContactView = ({ selectedContact }) => {
   const token = sessionStorage.getItem("token");
@@ -315,14 +316,11 @@ const UpdateContactView = ({ selectedContact }) => {
             <div className="text-xl font-semibold pt-8 pb-2">Addresses</div>
             <div className="flex gap-4">
               <div className="flex flex-col w-full gap-3">
-                <InputField
-                  label="Label"
-                  id="addressLabel1"
+                <InputDropdown
+                  formData={formData.addressLabel1}
+                  setFormData={setFormData}
                   name="addressLabel1"
-                  value={formData.addressLabel1}
-                  onChange={(e) => handleInputChange(e, "addressLabel1")}
-                  error={errors.addressLabel1}
-                  type="text"
+                  initialValue={selectedContact.addressLabel1}
                 />
                 <TextAreaInputField
                   label="Address"
@@ -335,15 +333,12 @@ const UpdateContactView = ({ selectedContact }) => {
                 />
               </div>
               <div className="flex flex-col w-full gap-3">
-                  <InputField
-                    label="Label"
-                    id="addressLabel2"
-                    name="addressLabel2"
-                    value={formData.addressLabel2}
-                    onChange={(e) => handleInputChange(e, "addressLabel2")}
-                    error={errors.addressLabel2}
-                    type="text"
-                  />
+                <InputDropdown
+                  formData={formData.addressLabel1}
+                  setFormData={setFormData}
+                  name="addressLabel2"
+                  initialValue={selectedContact.addressLabel2}
+                />
                   <TextAreaInputField
                     label="Address"
                     id="addressDetails2"

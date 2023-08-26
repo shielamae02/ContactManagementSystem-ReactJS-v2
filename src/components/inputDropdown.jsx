@@ -1,10 +1,10 @@
 import { FaChevronDown } from 'react-icons/fa';
 import { useState } from 'react'
 
-export const InputDropdown = ({ formData, setFormData, handleInputChange, name }) => {
+export const InputDropdown = ({ formData, setFormData, handleInputChange, name, initialValue }) => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("Home");
+    const [selectedOption, setSelectedOption] = useState(initialValue ?? "Home");
     const [showCustomModal, setShowCustomModal] = useState(false);
     const [inputValue, setInputValue] = useState("");
 
@@ -102,7 +102,7 @@ export const CustomModal = ({ handleModalClick, inputValue, setInputValue }) => 
     }
     return (
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focu5s:outline-none">
-            <div className=' bg-gray-900 p-6 rounded-md w-[calc(40%)]'>
+            <div className=' bg-gray-900 p-4 rounded-md w-[calc(40%)] 2xl:w-[calc(20%)]'>
                 <h1 className='text-xl text-white font-semibold'>Custom label name</h1>
                 <input
                     className=' text-white w-full outline-none bg-transparent border-b-2 py-4'
