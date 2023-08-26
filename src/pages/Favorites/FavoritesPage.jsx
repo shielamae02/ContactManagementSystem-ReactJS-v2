@@ -1,6 +1,6 @@
 import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
-import { FavoritesPageCard } from "../../components/favoritesPageCard";
+import  Favorites from "../../assets/svg/Favorites.svg";
 
 const FavoritesPage = ( props ) => {
     const token = sessionStorage.getItem("token");
@@ -37,6 +37,17 @@ const FavoritesPage = ( props ) => {
              <div>
                 <h1 className="text-[27px] font-semibold pb-4">Favorite Contacts</h1>
             </div>
+            {
+                contacts.filter(contact => contact.favorite).length === 0 && (
+                    <>
+                        <div className="flex flex-col items-center mt-20 justify-center font-semibold text-xl ">
+                            <img src={Favorites} alt="No Contacts" className='h-96'/>
+                            Your favorites go here!
+                        </div>
+                    </>
+                )
+              
+            }
             <div className="grid grid-cols-2 2xl:grid-cols-3 gap-4">
                 {filteredContacts.map((contact) => (
                     <>

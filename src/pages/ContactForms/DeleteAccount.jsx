@@ -11,25 +11,24 @@ const DeleteAccount = ({ userData }) => {
     const token = sessionStorage.getItem("token");
     const [showModal, setShowModal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
-    const [password, setPassword] = useState("");
+    const [confirmationData, setConfirmationData] = useState("");
 
     const handleDeleteAction = async (e) => {
         setShowModal(false);
         setShowPasswordModal(true);
     }
 
-
+    const dbUserDetails = userData.emailAddress + '/' + userData.userName;
 
     const handleConfirmDeleteAccount = async (e) => {
         e.preventDefault();
-        console.log(userData.password)
         try{
-            if (userData.password === password){
-                console.log(useData.password);
-                console.log("Same password!");
+            if (dbUserDetails === confirmationData){
+                console.log("Same!");
                 if (token) {
-                    // const response = await DeleteUserAccount(token);
-                    // console.log("Successfully deleted account: ", response);
+                    const response = await DeleteUserAccount(token);
+                    console.log("Successfully deleted account: ", response);
+                    sessionStorage.removeItem("token");
                 }
             }
         } catch(error){
@@ -62,8 +61,8 @@ const DeleteAccount = ({ userData }) => {
             )}
             {showPasswordModal && (
                 <ConfirmWithPasswordModal
-                    password={password}
-                    setPassword={setPassword}
+                    confirmationData={confirmationData}
+                    setConfirmationData={setConfirmationData}
                     handleConfirmDeleteAccount={handleConfirmDeleteAccount}
                 />
             )}
@@ -73,7 +72,7 @@ const DeleteAccount = ({ userData }) => {
 
 export default DeleteAccount;
 
-export const ConfirmWithPasswordModal = ({ password, setPassword, handleConfirmDeleteAccount }) => {
+export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData, handleConfirmDeleteAccount }) => {
     return (
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" >
             <div className={`relative w-[calc(30%)] my-6 mx-auto`}>
@@ -86,13 +85,16 @@ export const ConfirmWithPasswordModal = ({ password, setPassword, handleConfirmD
                     </div>
                     <div className="relative px-4 py-3 flex-auto">
                         <p className="text-center mb-1">
-                            To confirm deletion, please enter your password.
+                            To confirm, please enter email and username. 
+                        </p>
+                        <p className="text-center text-sm italic">
+                            (ex. email@example.com/username)
                         </p>
                         <input
-                            name="password" 
-                            value= {password}
-                            onChange = {(e) => setPassword(e.target.value)}
-                            type="password"
+                            name="confirmationData" 
+                            value={confirmationData}
+                            onChange={(e) => setConfirmationData(e.target.value)}
+                            type="text"
                             placeholder="Password"
                             className="text-base rounded-lg p-4 m-2 bg-red-100 w-full focus:outline-none focus:border-red-300 border-2 border-red-200"
                         />

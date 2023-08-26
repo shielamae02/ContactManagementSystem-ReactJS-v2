@@ -215,7 +215,7 @@ const AddNewContactView = () => {
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
+      <div className="px-10 py-6 bg-white h-[820px] max-h-[820px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col">
           <div className="flex flex-col gap-3">
             <div className="flex w-full gap-3">

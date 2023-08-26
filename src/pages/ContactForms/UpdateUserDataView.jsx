@@ -168,6 +168,7 @@ const UpdateUserDataView = ({ userData }) => {
           </form>
         </div>
       </div>  
+      <DeleteAccount userData={userData}/>
     </div>
   )
 }
