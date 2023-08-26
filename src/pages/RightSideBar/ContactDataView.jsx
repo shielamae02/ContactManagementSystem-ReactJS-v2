@@ -82,7 +82,7 @@ const ContactDataView = ( {selectedContact, handleEditContactClick} ) => {
 
             <div className="border-b my-6 border-gray-300 w-full" />
             <div className='flex flex-col w-full flex-grow h-[500px] overflow-y-auto'>
-    <h1 className="font-semibold text-[22px] text-gray-700 bg-pearlWhite sticky top-0 py-1 ">Contact Information</h1>
+    <h1 className="font-semibold text-[22px] text-gray-700 sticky top-0 py-1 ">Contact Information</h1>
     <div>
         {selectedContact.contactNumber1 !== null && (
             <ContactNumberItem

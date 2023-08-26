@@ -12,7 +12,7 @@ const ContactsListDesktop = (props) => {
     const handleSetIsFavorite = async (contact) => {
         contact.favorite = !contact.favorite;
         const response = await UpdateContact(token, contact.id, contact);
-        setShowSnackbar(true);
+        setShowSnackbar(contact.id);
         setIsFavorite(!isFavorite);
 
         setTimeout(() => {
@@ -45,6 +45,13 @@ const ContactsListDesktop = (props) => {
             lastName.toLowerCase().includes(query)
         );
     })
+
+    function getRandomColor() {
+        const taupeShades = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+        const randomIndex = Math.floor(Math.random() * taupeShades.length);
+        return `taupe-${taupeShades[randomIndex]}`;
+    }
+
 
     return (
         <div className="flex-grow h-full flex flex-col px-6 py-4">
@@ -84,8 +91,10 @@ const ContactsListDesktop = (props) => {
                                         onClick={() => props.onContactClick(contact)}
                                     >
                                         <td className="px-6 py-2 h-full  flex items-center">
-                                            <div className="flex items-center justify-center text font-medium h-12 w-12 bg-beige text-brown mr-6 rounded-xl ">
+                                            <div className="flex items-center justify-center text font-medium h-12 w-12 bg-beige text-brown mr-6 rounded-xl">
+                                                <div className="h-full w-full flex items-center justify-center">
                                                 {contact.firstName[0]}{contact.lastName[0]}
+                                                </div>
                                             </div>
                                             {`${contact.firstName} ${contact.lastName}`}
                                         </td>
@@ -99,7 +108,7 @@ const ContactsListDesktop = (props) => {
                                                 </div>
                                                 <button onClick={() => handleSetIsFavorite(contact)}>
                                                     {
-                                                        contact.favorite ? <FaHeart size={21} className='text-red-400' /> : <FaRegHeart size={21} />
+                                                        contact.favorite ? <FaHeart size={24} className='text-red-400' /> : <FaRegHeart size={24} />
                                                     }
                                                 </button>
                                                 {showSnackbar && (

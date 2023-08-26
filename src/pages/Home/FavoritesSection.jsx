@@ -3,7 +3,7 @@ import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
 
-const FavoritesSection = ({ onSeeAllClick}) => {
+const FavoritesSection = ({ onSeeAllClick }) => {
   const token = sessionStorage.getItem("token");
   const [contacts, setContacts] = useState([]);
 
@@ -29,7 +29,8 @@ const FavoritesSection = ({ onSeeAllClick}) => {
         </h1>
         <h3
           onClick={onSeeAllClick}
-          className="text-mistyBlue cursor-pointer hover:underline">see all</h3>
+          className="text-mistyBlue cursor-pointer hover:underline font-medium">see all
+          </h3>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {

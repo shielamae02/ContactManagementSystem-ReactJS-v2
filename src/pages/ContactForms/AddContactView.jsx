@@ -86,7 +86,7 @@ const AddNewContactView = () => {
   const validateField = (field, value) => {
     const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
-    const numberPattern = /^[0-9]+$/;on
+    const numberPattern = /^[0-9]+$/;
 
 
     if (value == null) {
