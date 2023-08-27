@@ -7,10 +7,11 @@ import { ContactNumberItem } from '../../components/contactNumberItem';
 import { ModalComponent } from '../../components/modalComponent';
 import { PromptComponent } from '../../components/promptComponent';
 import { DeleteContact } from '../../api/contactService';
+import { GrClose } from 'react-icons/gr';
 
 
 
-const ContactDataView = ({ selectedContact, handleEditContactClick }) => {
+const ContactDataView = ({ selectedContact, handleEditContactClick, handleCloseContactView }) => {
     const token = sessionStorage.getItem("token");
     const [showModal, setShowModal] = useState(false);
     const [showPrompt, setShowPrompt] = useState(false);
@@ -42,27 +43,40 @@ const ContactDataView = ({ selectedContact, handleEditContactClick }) => {
 
     return (
         <div className="h-full w-full flex flex-col items-center px-8 py-6 relative ">
-            <div className="flex w-full justify-end gap-2 pb-3">
-                <div className='relative group'>
+            <div className="flex w-full gap-2 pb-3">
+                <div className='relative group block md:hidden' onClick={handleCloseContactView}>
                     <div className={`
+                        absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-50 rounded-md px-2 py-1
+                        text-gray-400 text-sm font-semibold invisible opacity-0 transition-all group-hover:visible group-hover:opacity-100
+                    `}>
+                        Close
+                    </div>
+                    <div className='bg-gray-300 p-2 rounded-full shadow-md cursor-pointer group'>
+                        <GrClose size={22} className='text-white' />
+                    </div>
+                </div>
+                <div className='flex w-full justify-end gap-2 pb-3'>
+                    <div className='relative group'>
+                        <div className={`
                     absolute -top-8 left-1/2 transform -translate-x-1/2 bg-paleBlue rounded-md px-2 py-1
                     text-blue text-sm font-semibold invisible opacity-0 transition-all group-hover:visible group-hover:opacity-100
                 `}>
-                        Edit
+                            Edit
+                        </div>
+                        <div className='bg-oceanBlue p-2 rounded-full shadow-md cursor-pointer group'>
+                            <BiEditAlt size={26} className='text-white' onClick={handleEditContactClick} />
+                        </div>
                     </div>
-                    <div className='bg-oceanBlue p-2 rounded-full shadow-md cursor-pointer group'>
-                        <BiEditAlt size={26} className='text-white' onClick={handleEditContactClick} />
-                    </div>
-                </div>
-                <div className='relative group' onClick={() => setShowModal(true)}>
-                    <div className={`
+                    <div className='relative group' onClick={() => setShowModal(true)}>
+                        <div className={`
                         absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-50 rounded-md px-2 py-1
                         text-red-400 text-sm font-semibold invisible opacity-0 transition-all group-hover:visible group-hover:opacity-100
                     `}>
-                        Delete
-                    </div>
-                    <div className='bg-red-400 p-2 rounded-full shadow-md cursor-pointer group'>
-                        <RiDeleteBin5Fill size={26} className='text-white' />
+                            Delete
+                        </div>
+                        <div className='bg-red-400 p-2 rounded-full shadow-md cursor-pointer group'>
+                            <RiDeleteBin5Fill size={26} className='text-white' />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,7 +140,7 @@ const ContactDataView = ({ selectedContact, handleEditContactClick }) => {
                     modalMessage="Are you sure you want to delete"
                     actionItem={`${selectedContact.firstName} ${selectedContact.lastName}?`}
                     modalNoMessage="No, go back."
-                    modalYesMessage="Yes, delete this."
+                    modalYesMessage="Yes, delete this contact."
                     handleModalClick={handleDeleteClick}
                     closeModal={() => setShowModal(false)}
                 />

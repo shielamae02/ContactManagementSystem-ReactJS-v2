@@ -14,7 +14,7 @@ export const ModalComponent= ({  modalTitle,
         <div
           className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         >
-          <div className={`relative w-[calc(25%)] my-6 mx-auto`}>
+          <div className={`relative xl:w-[calc(25%)] my-6 mx-auto`}>
             {/*content*/}
             <div className="border-0 rounded-xl shadow-lg relative flex flex-col w-full bg-white p-2 outline-none focus:outline-none">
               {/*header*/}

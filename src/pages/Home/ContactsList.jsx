@@ -60,7 +60,7 @@ const ContactsListDesktop = (props) => {
     }, {});
 
     return (
-        <div className="flex-grow h-full flex flex-col  2xl:px-6 py-4">
+        <div className="flex-grow h-full flex flex-col px-3  2xl:px-6 py-4">
             <div className="flex items-center justify-between py-2">
                 <h1 className=" text-xl 2xl:text-2xl font-bold text-blue mb-1">
                     Contacts List
@@ -80,9 +80,9 @@ const ContactsListDesktop = (props) => {
                             isLoaded && contacts.length === 0
                                 ? 
                                 <>
-                                    <div className="flex flex-col justify-center items-center h-full">
+                                    <div className="flex flex-col justify-center items-center h-full p-12">
                                         <img src={EmptyContacts} alt="No Contacts" className='h-64'/>
-                                        <p className='font-medium'>No contacts found. Add one to get started!</p>
+                                        <p className='font-medium text-center'>No contacts found. Add one to get started!</p>
                                     </div>
                                 </>
                                 

@@ -211,14 +211,14 @@ const AddNewContactView = () => {
 
 
   return (
-    <div className="flex flex-col w-full h-full p-6">
+    <div className="flex flex-col w-full h-full px-1 2xl:p-6">
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-10 py-6 bg-white h-[820px] max-h-[820px] overflow-y-auto rounded-2xl relative">
+      <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col">
           <div className="flex flex-col gap-3">
-            <div className="flex w-full gap-3">
+            <div className="flex flex-col md:flex-row w-full gap-3">
               <InputField
                 label="First Name"
                 id="firstName"
@@ -250,73 +250,85 @@ const AddNewContactView = () => {
           </div>
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Contact Numbers</div>
-            <div className="flex w-full gap-3">
-              <InputField
-                label="Label"
-                id="numberLabel1"
-                name="numberLabel1"
-                value={formData.numberLabel1}
-                onChange={(e) => handleInputChange(e, "numberlabel1")}
-                error={errors.numberLabel1}
-                type="text"
-              />
-              <InputField
-                label="Contact Number"
-                id="contactNumber1"
-                name="contactNumber1"
-                value={formData.contactNumber1}
-                onChange={(e) => handleInputChange(e, "contactNumber1")}
-                error={errors.contactNumber1}
-                type="text"
-              />
+            <div className="flex gap-2 flex-col md:flex-row">
+              <div className="w-full md:w-1/3 mb-3 md:mb-0">
+                <InputField
+                  label="Label"
+                  id="numberLabel1"
+                  name="numberLabel1"
+                  value={formData.numberLabel1}
+                  onChange={(e) => handleInputChange(e, "numberlabel1")}
+                  error={errors.numberLabel1}
+                  type="text"
+                />
+              </div>
+              <div className="w-full md:w-2/3">
+                <InputField
+                  label="Contact Number"
+                  id="contactNumber1"
+                  name="contactNumber1"
+                  value={formData.contactNumber1}
+                  onChange={(e) => handleInputChange(e, "contactNumber1")}
+                  error={errors.contactNumber1}
+                  type="text"
+                />
+              </div>
             </div>
-            <div className="flex w-full gap-3">
-              <InputField
-                label="Label"
-                id="numberLabel2"
-                name="numberLabel2"
-                value={formData.numberLabel2}
-                onChange={(e) => handleInputChange(e, "numberLabel2")}
-                error={errors.numberLabel2}
-                type="text"
-              />
-              <InputField
-                label="Contact Number"
-                id="contactNumber2"
-                name="contactNumber2"
-                value={formData.contactNumber2}
-                onChange={(e) => handleInputChange(e, "contactNumber2")}
-                error={errors.contactNumber2}
-                type="text"
-              />
+            <div className="flex gap-2 flex-col md:flex-row">
+              <div className="w-full md:w-1/3 mb-3 md:mb-0">
+                <InputField
+                  label="Label"
+                  id="numberLabel2"
+                  name="numberLabel2"
+                  value={formData.numberLabel2}
+                  onChange={(e) => handleInputChange(e, "numberLabel2")}
+                  error={errors.numberLabel2}
+                  type="text"
+                />
+              </div>
+              <div className="w-full md:w-2/3">
+                <InputField
+                  label="Contact Number"
+                  id="contactNumber2"
+                  name="contactNumber2"
+                  value={formData.contactNumber2}
+                  onChange={(e) => handleInputChange(e, "contactNumber2")}
+                  error={errors.contactNumber2}
+                  type="text"
+                />
+              </div>
             </div>
-            <div className="flex w-full gap-3">
-              <InputField
-                label="Label"
-                id="numberLabel3"
-                name="numberLabel13"
-                value={formData.numberLabel3}
-                onChange={(e) => handleInputChange(e, "numberLabel3")}
-                error={errors.numberLabel3}
-                type="text"
-              />
-              <InputField
-                label="Contact Number"
-                id="contactNumber3"
-                name="contactNumber3"
-                value={formData.contactNumber3}
-                onChange={(e) => handleInputChange(e, "contactNumber3")}
-                error={errors.contactNumber3}
-                type="text"
-              />
+            <div className="flex gap-2 flex-col md:flex-row">
+              <div className="w-full md:w-1/3 mb-3 md:mb-0">
+                <InputField
+                  label="Label"
+                  id="numberLabel3"
+                  name="numberLabel13"
+                  value={formData.numberLabel3}
+                  onChange={(e) => handleInputChange(e, "numberLabel3")}
+                  error={errors.numberLabel3}
+                  type="text"
+                />
+              </div>
+              <div className="w-full md:w-2/3">
+                <InputField
+                  label="Contact Number"
+                  id="contactNumber3"
+                  name="contactNumber3"
+                  value={formData.contactNumber3}
+                  onChange={(e) => handleInputChange(e, "contactNumber3")}
+                  error={errors.contactNumber3}
+                  type="text"
+                />
+              </div>
             </div>
 
           </div>
 
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Addresses</div>
-            <div className="flex gap-4">
-              <div className="flex flex-col w-full gap-3">
+            <div className="flex gap-4 flex-col md:flex-row">
+              <div className="flex flex-col w-full md:flex-1 gap-3">
                 <InputDropdown
                   formData={formData.addressLabel1}
                   setFormData={setFormData}
@@ -333,9 +345,9 @@ const AddNewContactView = () => {
                   type="text"
                 />
               </div>
-              <div className="flex flex-col w-full gap-3">
+              <div className="flex flex-col w-full md:flex-1 gap-3 md:mt-0">
                 <InputDropdown
-                  formData={formData.addressLabel1}
+                  formData={formData.addressLabel2}
                   setFormData={setFormData}
                   name="addressLabel2"
                   initialValue="Home"

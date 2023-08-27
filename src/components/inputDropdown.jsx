@@ -102,7 +102,7 @@ export const CustomModal = ({ handleModalClick, inputValue, setInputValue }) => 
     }
     return (
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focu5s:outline-none">
-            <div className=' bg-gray-900 p-4 rounded-md w-[calc(40%)] 2xl:w-[calc(20%)]'>
+            <div className=' bg-gray-900 p-4 rounded-md w-[calc(60%)] 2xl:w-[calc(20%)]'>
                 <h1 className='text-xl text-white font-semibold'>Custom label name</h1>
                 <input
                     className=' text-white w-full outline-none bg-transparent border-b-2 py-4'

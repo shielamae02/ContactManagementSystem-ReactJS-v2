@@ -14,6 +14,7 @@ const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
         if (token) {
           const contactsResponse = await GetContacts(token);
           setContacts(contactsResponse);
+          setIsLoaded(true);
         }
       } catch (error) {
         console.error("Error fetching contact details: ", error);

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { FaCheck } from "react-icons/fa";
 import { TiWarning } from "react-icons/ti";
 import { DeleteUserAccount } from "../../api/userService";
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 
 const DeleteAccount = ({ userData }) => {
@@ -19,16 +20,17 @@ const DeleteAccount = ({ userData }) => {
     }
 
     const dbUserDetails = userData.emailAddress + '/' + userData.userName;
-
+    
     const handleConfirmDeleteAccount = async (e) => {
         e.preventDefault();
         try{
             if (dbUserDetails === confirmationData){
                 console.log("Same!");
                 if (token) {
+                    sessionStorage.removeItem("token");
+                     window.location.reload();
                     const response = await DeleteUserAccount(token);
                     console.log("Successfully deleted account: ", response);
-                    sessionStorage.removeItem("token");
                 }
             }
         } catch(error){
@@ -42,13 +44,14 @@ const DeleteAccount = ({ userData }) => {
                 Danger Zone
                 <TiWarning className="text-color-500 ml-2" size={30} />
             </h1>
-            <div className="px-10 py-6 bg-white shadow-lg border-4 border-red-500 rounded-2xl flex justify-between items-center font-medium">
-                <h1 className="text-gray-800">
+            <div className="py-6 px-4 xl:px-10 bg-white shadow-lg border-4 border-red-500 rounded-2xl flex justify-between items-center font-medium">
+                <h1 className="text-gray-800 text-sm 2xl:text-base">
                     Delete this account.
                 </h1>
                 <div
                     onClick={() => setShowModal(true)}
-                    className="bg-red-500 text-white font-semibold px-6 py-2 rounded-lg">
+                    className="flex gap-3 font-medium items-center self-end px-7 py-3 rounded-lg text-white bg-red-400 cursor-pointer shadow-xl">
+                    <RiDeleteBin5Fill size={26} />
                     Delete account
                 </div>
             </div>
@@ -64,18 +67,20 @@ const DeleteAccount = ({ userData }) => {
                     confirmationData={confirmationData}
                     setConfirmationData={setConfirmationData}
                     handleConfirmDeleteAccount={handleConfirmDeleteAccount}
+                    setShowPasswordModal={setShowPasswordModal}
                 />
             )}
         </div>
+    
     )
 }
 
 export default DeleteAccount;
 
-export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData, handleConfirmDeleteAccount }) => {
+export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData, handleConfirmDeleteAccount, setShowPasswordModal }) => {
     return (
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" >
-            <div className={`relative w-[calc(30%)] my-6 mx-auto`}>
+            <div className={`relative xl:w-[calc(30%)] my-6 mx-auto`}>
                 <div className="border-4 border-red-500 rounded-xl shadow-lg relative flex flex-col w-full bg-red-50 p-4 outline-none focus:outline-none">
                     <div className="flex flex-col items-center justify-end px-5 pt-9 gap-7">
                         <TiWarning size={55} className="text-red-500" />
@@ -119,7 +124,7 @@ export const DeleteModal = (props) => {
             <div
                 className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             >
-                <div className={`relative w-[calc(50%)]  2xl:w-[calc(30%)] my-6 mx-auto`}>
+                <div className={`relative w-[calc(80%)]  2xl:w-[calc(30%)] my-6 mx-auto`}>
                     {/*content*/}
                     <div className="rounded-xl shadow-lg relative flex flex-col w-full border-4 border-red-500 bg-white p-2 outline-none focus:outline-none">
                         {/*header*/}

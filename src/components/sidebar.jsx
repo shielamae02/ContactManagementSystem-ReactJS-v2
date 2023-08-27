@@ -26,7 +26,7 @@ export default function Sidebar({ children, item, setItemIndex}) {
    
   
   return (
-    <div className={`h-screen w-1/28 sticky top-0 z-10 `}>
+    <div className={`h-screen 2xl:w-1/28 sticky top-0 z-50`}>
       <nav className="h-full flex flex-col bg-white border-gray-200">
         <div className="p-4 flex justify-between items-center">
           <h1 className={`overflow-hidden transition-all font-bold text-2xl ${

@@ -1,31 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-::-webkit-scrollbar {
-    width: 0;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  
-body {
-    font-family : 'Montserrat', sans-serif;
-    overflow-x: hidden;
-}
 
-table tbody tr:nth-child(n+1){
-    border-bottom: 1px solid #e3e1e1;
-}
-
-@media (min-width: 1350px) {
-  .show-at-1350 {
-    display: block;
+  ::-webkit-scrollbar {
+      width: 0;
+    }
+    
+  body {
+      font-family : 'Montserrat', sans-serif;
+      overflow-x: hidden;
   }
-}
 
+  table tbody tr:nth-child(n+1){
+      border-bottom: 1px solid #e3e1e1;
+  }
+
+  @media (min-width: 1350px) {
+    .show-at-1350 {
+      display: block;
+    }
+  }
+
+
+.hello-content {
+  width: 200px;
+  /* Set a width for the content to move it off-screen */
+}

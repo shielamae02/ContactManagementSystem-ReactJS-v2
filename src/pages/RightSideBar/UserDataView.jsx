@@ -11,8 +11,6 @@ import { ModalComponent } from '../../components/modalComponent';
 const UserDataView = ( props ) => {
     const token = sessionStorage.getItem("token");
     const [userData, setUserData] = useState({});  
-    const [showModal, setShowModal] = useState(false);
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -26,24 +24,15 @@ const UserDataView = ( props ) => {
             }
         }
         fetchUserData();
-    }, [token, userData]);
-
-    const handleDeleteAccountClick = async (e) => {
-        e.preventDefault();
-        try {
-            if(token){
-                const response = await DeleteUserAccount(token);
-                console.log(response);
-            }
-        } catch (error){
-            console.error(error.response);
-        }
-    }
- 
+    }, [userData]);
 
     return (
         <div className="h-full w-full flex flex-col items-center px-12 pt-12 pb-7 ">
             {/* <img src={DuckProfile} alt="My Image" className='h-56' /> */}
+            <div className='h-48 w-48 bg-beige text-5xl font-medium text-brown rounded-full flex items-center justify-center'>
+                {props.userData.firstName && props.userData.firstName[0]}
+                {props.userData.lastName && props.userData.lastName[0]}
+            </div>
             <div>
                 <h1 className="font-semibold text-2xl pt-6 ">{props.userData.firstName} {props.userData.lastName}</h1>
             </div>
@@ -74,30 +63,6 @@ const UserDataView = ( props ) => {
                    
                 </div>
             </div>
-            <div className="w-full  gap-4 flex text-sm">
-                <button  className="flex w-1/2 ml:w-full text-base bg-white items-center border border-blue text-blue font-semibold py-4 px-3 justify-center rounded-xl p-4" onClick={props.onEditClick}>
-                    <span className='mr-2'>
-                        <BiEditAlt size={20}/>
-                    </span>
-                    Edit Profile
-                </button>
-                <button className="flex flex-grow text-white items-center text-base font-semibold border borde-red-400 bg-red-400 py-4 px-3 justify-center rounded-xl" onClick={() => setShowModal(true)}>
-                <span className='mr-2'>
-                        <RiDeleteBin5Fill size={20}/>
-                    </span>
-                    Delete Account
-                </button>
-            </div>
-            { showModal && (
-                <ModalComponent 
-                    modalTitle="Delete Account"
-                    modalMessage= "Are you sure you want to delete your account? This action cannot be undone."
-                    modalNoMessage="No, go back."
-                    modalYesMessage="Yes, delete my account"
-                    handleModalClick={handleDeleteAccountClick}
-                    closeModal={() => setShowModal(false)}
-                />
-            )}
         </div>
     );
 }

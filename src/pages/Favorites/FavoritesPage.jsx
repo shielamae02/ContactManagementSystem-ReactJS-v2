@@ -2,6 +2,7 @@ import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
 import  Favorites from "../../assets/svg/Favorites.svg";
 import {FavoritesPageCard} from "../../components/favoritesPageCard";
+import ContactDataView from "../RightSideBar/ContactDataView";
 
 const FavoritesPage = ( props ) => {
     const token = sessionStorage.getItem("token");
@@ -36,7 +37,7 @@ const FavoritesPage = ( props ) => {
 
 
     return (
-        <div className="flex flex-col w-full h-full p-6">
+        <div className="flex flex-col w-full h-full p-3 xl:p-6">
              <div>
                 <h1 className="text-[27px] font-semibold pb-4">Favorite Contacts</h1>
             </div>
@@ -51,11 +52,12 @@ const FavoritesPage = ( props ) => {
                 )
               
             }
-            <div className="grid grid-cols-2 2xl:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 2xl:grid-cols-3 gap-2 xl:gap-4">
                 {filteredContacts.map((contact) => (
                     <>
                         { contact.favorite && (
                             <FavoritesPageCard 
+                                key={contact.id}
                                 firstName={contact.firstName} 
                                 lastName={contact.lastName} 
                                 emailAddress={contact.emailAddress}
