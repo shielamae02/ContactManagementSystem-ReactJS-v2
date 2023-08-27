@@ -1,10 +1,12 @@
 import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
 import  Favorites from "../../assets/svg/Favorites.svg";
+import {FavoritesPageCard} from "../../components/favoritesPageCard";
 
 const FavoritesPage = ( props ) => {
     const token = sessionStorage.getItem("token");
     const [contacts, setContacts] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         const fetchContacts = async () => {
@@ -12,6 +14,7 @@ const FavoritesPage = ( props ) => {
                 if (token) {
                     const contactsResponse = await GetContacts(token);
                     setContacts(contactsResponse);
+                    setIsLoaded(true);
                 }
             } catch (error) {
                 console.error("Error fetching contact details: ", error);
@@ -38,7 +41,7 @@ const FavoritesPage = ( props ) => {
                 <h1 className="text-[27px] font-semibold pb-4">Favorite Contacts</h1>
             </div>
             {
-                contacts.filter(contact => contact.favorite).length === 0 && (
+                isLoaded && contacts.filter(contact => contact.favorite).length === 0 && (
                     <>
                         <div className="flex flex-col items-center mt-20 justify-center font-semibold text-xl ">
                             <img src={Favorites} alt="No Contacts" className='h-96'/>

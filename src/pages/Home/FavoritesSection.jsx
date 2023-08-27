@@ -6,6 +6,7 @@ import Heart from '../../assets/images/Heart.png';
 const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
   const token = sessionStorage.getItem("token");
   const [contacts, setContacts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -30,7 +31,7 @@ const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
             Favorites
           </h1>
           {
-            contacts.filter(contact => contact.favorite).length !== 0 && (
+            isLoaded && contacts.filter(contact => contact.favorite).length !== 0 && (
               <h3
                 onClick={onSeeAllClick}
                 className="text-mistyBlue cursor-pointer hover:underline font-medium">see all
@@ -39,7 +40,7 @@ const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
           }
         </div>
         {
-          contacts.filter(contact => contact.favorite).length === 0 && (
+          isLoaded && contacts.filter(contact => contact.favorite).length === 0 && (
             <div className="flex flex-col items-center"> 
               <img src={Heart} alt="No Contacts" className='h-[50px]' />
               <h1 className="font-medium mt-2 text-lg">
