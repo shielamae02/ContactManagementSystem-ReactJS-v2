@@ -153,7 +153,7 @@ const ContactDataView = ({ selectedContact, setSelectedContact, handleEditContac
             {showPrompt && (
                 <PromptComponent
                     promptTitle="Success!!"
-                    promptMessage="You have successfully deleted "
+                    promptMessage="You have successfully deleted"
                     actionItem={`${contactToDelete.firstName} ${contactToDelete.lastName}`}
                     closePrompt={() => {
                         setSelectedContact(null);

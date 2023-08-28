@@ -11,11 +11,6 @@ const ContactsListDesktop = (props) => {
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // const handleSetIsFavorite = async (contact) => {
-    //     contact.favorite = !contact.favorite;
-    //     const response = await UpdateContact(token, contact.id, contact);
-    //     setShowSnackbar(contact.favorite);
-    // }
     const [snackbarInfo, setSnackbarInfo] = useState({ contactId: null, action: null });
 
     const handleSetIsFavorite = async (contact) => {
@@ -24,14 +19,11 @@ const ContactsListDesktop = (props) => {
         setSnackbarInfo({ contactId: contact.id, action: contact.favorite ? 'added' : 'removed' });
         setShowSnackbar(true);
 
-        // Set a timeout to hide the Snackbar after 1500 milliseconds (1.5 seconds)
         setTimeout(() => {
             setShowSnackbar(false);
         }, 1500);
     }
 
-
-    
     useEffect(() => {
         const fetchContacts = async () => {
             try {
@@ -44,15 +36,8 @@ const ContactsListDesktop = (props) => {
                 console.error("Error fetching contact details: ", error);
             }
         }
-
-        const snackbarInterval = setTimeout(() => {
-            setShowSnackbar(false);
-        }, 1500);
-
-
         fetchContacts();
-        return () => clearInterval(snackbarInterval);
-    }, [contacts, showSnackbar]);
+    }, [contacts]);
 
     const query = props.searchQuery ? props.searchQuery.toLowerCase() : "";
     const filteredContacts = contacts.filter((contact) => {

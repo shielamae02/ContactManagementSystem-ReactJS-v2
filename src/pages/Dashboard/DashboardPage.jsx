@@ -115,6 +115,7 @@ const DashboardPage = () => {
                     <div className="hidden xl:block w-[32rem]">
                         <RightSidebarPreview
                             selectedContact={selectedContact}
+                            setSelectedContact={setSelectedContact}
                             onEditClick={() => setActiveItemIndex(5)}
                             userData={userData}
                             handleEditContactClick={() => setActiveItemIndex(4)}
