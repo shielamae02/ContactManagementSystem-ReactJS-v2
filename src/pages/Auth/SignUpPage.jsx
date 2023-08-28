@@ -164,8 +164,8 @@ const SignupPage = () => {
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-gray-200">
-      <div className="w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl p-4">
-        <div className="flex flex-col justify-center h-full w-full rounded-tr-xl rounded-br-xl bg-white px-10 xl:px-18">
+      <div className="w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl rounded-tl-xl rounded-bl-xl">
+        <div className="flex flex-col justify-center h-full w-full rounded-tl-3xl rounded-bl-3xl bg-white p-24 xl:px-18">
           <h1 className="text-4xl text-center text-dustyBlack font-bold">
             Create Account
             <span className="text-mistyBlue">.</span>
@@ -248,7 +248,7 @@ const SignupPage = () => {
             </span>
           </h3>
         </div>
-        <div className="hidden 2xl:block bg-oceanBlue h-full w-3/5 rounded-tr-3xl rounded-br-3xl"></div>
+        <div className="hidden 2xl:block bg-oceanBlue h-full w-2/5 rounded-tr-3xl rounded-br-3xl"></div>
       </div>
     </div>
   );

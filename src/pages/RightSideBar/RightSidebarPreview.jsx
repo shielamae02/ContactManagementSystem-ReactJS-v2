@@ -1,6 +1,5 @@
 import ContactDataView from "./ContactDataView";
 import UserDataView from "./UserDataView";
-import ContactDataViewCard from "./ContactDataViewCard";
 
 const RightSidebarPreview = (props) => {
 

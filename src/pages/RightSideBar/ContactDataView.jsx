@@ -81,18 +81,23 @@ const ContactDataView = ({ selectedContact, handleEditContactClick, handleCloseC
                 </div>
             </div>
 
-            <div className='flex items-center w-full p-4 rounded-2xl bg-paleBlue border border-iceBlue'>
-                <div className="h-20 w-20 bg-beige rounded-full mr-6 flex items-center justify-center text-3xl font-bold text-brown">{selectedContact.firstName[0]}{selectedContact.lastName[0]}</div>
-                <div flex flex-col>
-                    <h1 className="font-semibold text-xl 2xl:text-2xl flex truncate overflow-hidden">
+            <div className="flex items-center w-full p-4 rounded-2xl bg-paleBlue border border-iceBlue">
+                <div className="h-20 w-20 bg-beige rounded-full mr-6 flex items-center justify-center text-3xl font-bold text-brown flex-shrink-0">
+                    {selectedContact.firstName[0]}{selectedContact.lastName[0]}
+                </div>
+                <div className="flex flex-col">
+                    <h1 className="font-semibold text-xl 2xl:text-2xl flex whitespace-normal truncate overflow-hidden">
                         {selectedContact.firstName} {selectedContact.lastName}
                     </h1>
-                    <div className='flex items-center'>
-                        <MdEmail size={22} className='text-blue mr-1.5' />
-                        <p className='text-gray-600 italic text-base break-normal'>{selectedContact.emailAddress} </p>
+                    <div className="flex items-center">
+                        <MdEmail size={22} className="text-blue mr-1.5" />
+                        <p className="text-gray-600 italic text-base break-normal">
+                            {selectedContact.emailAddress}
+                        </p>
                     </div>
                 </div>
             </div>
+
 
             <div className="border-b my-6 border-gray-300 w-full" />
             <div className='flex flex-col w-full flex-grow h-[500px] overflow-y-auto'>

@@ -69,13 +69,14 @@ const AddNewContactView = () => {
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
+          console.log(formDataWithNull);
           const response = await AddContact(token, formDataWithNull);
           setFormData(response);
           setShowPrompt(true);
           console.log(response);
         }
       } catch (error) {
-        console.error("Error adding a new contact: ", error);
+        console.error("Error updating contact: ", error);
       }
     }
 
@@ -83,12 +84,10 @@ const AddNewContactView = () => {
     setErrors(newErrors);
   };
 
-
   const validateField = (field, value) => {
     const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
-    const numberPattern = /^[0-9]+$/; 
-
+    const numberPattern = /^[0-9]+$/;
 
     if (value == null) {
       return ""; // No need to validate, return an empty string
@@ -170,7 +169,7 @@ const AddNewContactView = () => {
     }
 
     if (field === "emailAddress" && !emailAddressPattern.test(value)) {
-      return `Invalid ${field} format`;
+      return `Invalid email address format`;
     }
 
     return "";
@@ -216,7 +215,7 @@ const AddNewContactView = () => {
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
       <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
-        <form className="flex-grow flex flex-col">
+        <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col md:flex-row w-full gap-3">
               <InputField
@@ -303,9 +302,9 @@ const AddNewContactView = () => {
                 <InputField
                   label="Label"
                   id="numberLabel3"
-                  name="numberLabel13"
+                  name="numberLabel3"
                   value={formData.numberLabel3}
-                  onChange={(e) => handleInputChange(e, "numberLabel3")}
+                  onChange={(e) => handleInputChange(e, "numberLabe3")}
                   error={errors.numberLabel3}
                   type="text"
                 />
@@ -366,7 +365,7 @@ const AddNewContactView = () => {
 
           </div>
           <div className="pt-6  flex justify-end">
-            <button onClick={handleFormSubmit}
+            <button 
               type="submit"
               className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
               <FaCheck className="" />

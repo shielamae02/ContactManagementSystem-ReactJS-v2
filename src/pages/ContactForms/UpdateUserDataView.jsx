@@ -168,6 +168,17 @@ const UpdateUserDataView = ({ userData }) => {
           </form>
         </div>
       </div>  
+      {showPrompt && (
+        <PromptComponent
+          promptTitle="Success!!"
+          promptMessage="Successfully updated user profile!"
+          actionItem=""
+          closePrompt={() => {
+            setShowPrompt(false);
+            //window.location.reload();
+          }}
+        />
+      )}
       <DeleteAccount userData={userData}/>
     </div>
   )

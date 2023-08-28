@@ -22,7 +22,7 @@ const UserProfileView = ({ userData, onEditClick }) => {
 
 
                <div className='flex flex-col items-center xl:gap-6'>
-                    <h1 className='text-3xl xl:text-[45px] leading-0 font-semibold'>
+                    <h1 className='text-2xl xl:text-[45px] leading-0 font-semibold'>
                         {userData.firstName} {userData.lastName}
                     </h1>
                     <div className='flex flex-col gap-2 mt-4 xl:mt-0 xl:ml-8'>

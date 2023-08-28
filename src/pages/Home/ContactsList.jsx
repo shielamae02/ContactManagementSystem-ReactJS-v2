@@ -9,21 +9,29 @@ const ContactsListDesktop = (props) => {
     const token = sessionStorage.getItem("token");
     const [contacts, setContacts] = useState([]);
     const [showSnackbar, setShowSnackbar] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+
+    // const handleSetIsFavorite = async (contact) => {
+    //     contact.favorite = !contact.favorite;
+    //     const response = await UpdateContact(token, contact.id, contact);
+    //     setShowSnackbar(contact.favorite);
+    // }
+    const [snackbarInfo, setSnackbarInfo] = useState({ contactId: null, action: null });
 
     const handleSetIsFavorite = async (contact) => {
         contact.favorite = !contact.favorite;
         const response = await UpdateContact(token, contact.id, contact);
-        setShowSnackbar(contact.id);
-        setIsFavorite(!isFavorite);
+        setSnackbarInfo({ contactId: contact.id, action: contact.favorite ? 'added' : 'removed' });
+        setShowSnackbar(true);
 
+        // Set a timeout to hide the Snackbar after 1500 milliseconds (1.5 seconds)
         setTimeout(() => {
             setShowSnackbar(false);
         }, 1500);
-
     }
 
+
+    
     useEffect(() => {
         const fetchContacts = async () => {
             try {
@@ -36,8 +44,15 @@ const ContactsListDesktop = (props) => {
                 console.error("Error fetching contact details: ", error);
             }
         }
+
+        const snackbarInterval = setTimeout(() => {
+            setShowSnackbar(false);
+        }, 1500);
+
+
         fetchContacts();
-    }, [contacts]);
+        return () => clearInterval(snackbarInterval);
+    }, [contacts, showSnackbar]);
 
     const query = props.searchQuery ? props.searchQuery.toLowerCase() : "";
     const filteredContacts = contacts.filter((contact) => {
@@ -74,19 +89,19 @@ const ContactsListDesktop = (props) => {
             </div>
 
             <div className="flex-grow h-full bg-white shadow-lg rounded-2xl px-4 pt-4">
-                <div className="relative overflow-y-hidden flex">
-                    <div className="h-[625px] overflow-y-auto w-full max-h-[625px]">
+                <div className="relative overflow-y-hidden flex h-full">
+                    <div className=" overflow-y-auto w-full h-[770px] xl:h-[625px] xl:max-h-[625px]">
                         {
                             isLoaded && contacts.length === 0
-                                ? 
+                                ?
                                 <>
                                     <div className="flex flex-col justify-center items-center h-full p-12">
-                                        <img src={EmptyContacts} alt="No Contacts" className='h-64'/>
+                                        <img src={EmptyContacts} alt="No Contacts" className='h-64' />
                                         <p className='font-medium text-center'>No contacts found. Add one to get started!</p>
                                     </div>
                                 </>
-                                
-                                : <table className="w-full text-lg text-left text-gray-700 dark:text-gray-400 relative">
+
+                                : <table className="w-full h-full text-lg text-left text-gray-700 dark:text-gray-400 relative">
                                     <thead className="text-xs text-gray-900 uppercase dark:text-gray-500 self-center sticky top-0 w-full bg-white ">
                                         <tr className="text-sm text-mistyBlue">
                                             <th scope="col" className="px-6 py-3 w-2/5  hidden md:table-cell">
@@ -100,7 +115,7 @@ const ContactsListDesktop = (props) => {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="text-gray-500">
+                                    <tbody className="text-gray-500 h-full">
                                         {Object.keys(groupedContacts).map((groupLetter) => (
                                             <React.Fragment key={groupLetter}>
                                                 <tr className="bg-gray-100 border-none">
@@ -116,7 +131,7 @@ const ContactsListDesktop = (props) => {
                                                             : ''}`}
                                                         onClick={() => props.onContactClick(contact)}
                                                     >
-                                                        <td className="px-6 py-2 h-full  flex items-center">
+                                                        <td className="px-6 py-2 h-full  flex items-center text-ellipsis">
                                                             <div className="flex items-center justify-center text font-medium h-12 w-12 bg-beige text-brown mr-8 2xl:mr-6 rounded-xl">
                                                                 <div className="h-full w-full flex items-center justify-center">
                                                                     {contact.firstName[0]}{contact.lastName[0]}
@@ -137,10 +152,14 @@ const ContactsListDesktop = (props) => {
                                                                         contact.favorite ? <FaHeart size={24} className='text-red-400' /> : <FaRegHeart size={24} />
                                                                     }
                                                                 </button>
-                                                                {showSnackbar && (
-                                                                    <SnackBarComponent favorite={contact.favorite} />
-                                                                )}
                                                             </div>
+                                                            {showSnackbar && (
+                                                                <SnackBarComponent
+                                                                    favorite={snackbarInfo.action === 'added'}
+                                                                    contactId={snackbarInfo.contactId}
+                                                                    onClose={() => setShowSnackbar(false)}
+                                                                />
+                                                            )}
 
                                                         </td>
                                                     </tr>

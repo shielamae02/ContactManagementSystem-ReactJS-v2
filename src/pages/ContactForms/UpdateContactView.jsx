@@ -165,11 +165,11 @@ const UpdateContactView = ({ selectedContact }) => {
     }
   
     if (value.length > 11) {
-      if (field === "contactNumber1") return "Contact number must not exceed 11 digits";
+      if (field === "contactNumber1" ) return "Contact number must not exceed 11 digits";
     }
   
     if (field === "emailAddress" && !emailAddressPattern.test(value)) {
-      return `Invalid ${field} format`;
+      return `Invalid email address format`;
     }
   
     return "";
@@ -210,14 +210,14 @@ const UpdateContactView = ({ selectedContact }) => {
 
 
   return (
-    <div className="flex flex-col w-full h-full p-6">
-      <div>
-        <h1 className="text-[27px] font-semibold pb-4">Update Contact</h1>
+    <div className="flex flex-col w-full h-full px-1 2xl:p-6">
+      <div className="justify-between flex items-center">
+        <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-10 py-6 bg-white h-[730px] max-h-[730px] overflow-y-auto rounded-2xl relative">
-        <form className="flex-grow flex flex-col">
+      <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
+        <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>
           <div className="flex flex-col gap-3">
-            <div className="flex w-full gap-3">
+            <div className="flex flex-col md:flex-row w-full gap-3">
               <InputField
                 label="First Name"
                 id="firstName"
@@ -249,127 +249,139 @@ const UpdateContactView = ({ selectedContact }) => {
           </div>
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Contact Numbers</div>
-            <div className="flex w-full gap-3">
-              <InputField
-                label="Contact Number"
-                id="contactNumber1"
-                name="contactNumber1"
-                value={formData.contactNumber1}
-                onChange={(e) => handleInputChange(e, "contactNumber1")}
-                error={errors.contactNumber1}
-                type="text"
-              />
-              <InputField
-                label="Label"
-                id="numberLabel1"
-                name="numberLabel1"
-                value={formData.numberLabel1}
-                onChange={(e) => handleInputChange(e, "numberlabel1")}
-                error={errors.numberLabel1}
-                type="text"
-              />
+            <div className="flex gap-2 flex-col md:flex-row">
+              <div className="w-full md:w-1/3 mb-3 md:mb-0">
+                <InputField
+                  label="Label"
+                  id="numberLabel1"
+                  name="numberLabel1"
+                  value={formData.numberLabel1}
+                  onChange={(e) => handleInputChange(e, "numberlabel1")}
+                  error={errors.numberLabel1}
+                  type="text"
+                />
+              </div>
+              <div className="w-full md:w-2/3">
+                <InputField
+                  label="Contact Number"
+                  id="contactNumber1"
+                  name="contactNumber1"
+                  value={formData.contactNumber1}
+                  onChange={(e) => handleInputChange(e, "contactNumber1")}
+                  error={errors.contactNumber1}
+                  type="text"
+                />
+              </div>
             </div>
-          <div className="flex w-full gap-3">
-              <InputField
-                label="Contact Number"
-                id="contactNumber2"
-                name="contactNumber2"
-                value={formData.contactNumber2}
-               onChange={(e) => handleInputChange(e, "contactNumber2")}
-                error={errors.contactNumber2}
-                type="text"
-              />
-              <InputField
-                label="Label"
-                id="numberLabel2"
-                name="numberLabel2"
-                value={formData.numberLabel2}
-                onChange={(e) => handleInputChange(e, "numberLabel2")}
-                error={errors.numberLabel2}
-                type="text"
-              />
+            <div className="flex gap-2 flex-col md:flex-row">
+              <div className="w-full md:w-1/3 mb-3 md:mb-0">
+                <InputField
+                  label="Label"
+                  id="numberLabel2"
+                  name="numberLabel2"
+                  value={formData.numberLabel2}
+                  onChange={(e) => handleInputChange(e, "numberLabel2")}
+                  error={errors.numberLabel2}
+                  type="text"
+                />
+              </div>
+              <div className="w-full md:w-2/3">
+                <InputField
+                  label="Contact Number"
+                  id="contactNumber2"
+                  name="contactNumber2"
+                  value={formData.contactNumber2}
+                  onChange={(e) => handleInputChange(e, "contactNumber2")}
+                  error={errors.contactNumber2}
+                  type="text"
+                />
+              </div>
             </div>
-          <div className="flex w-full gap-3">
-              <InputField
-                label="Contact Number"
-                id="contactNumber3"
-                name="contactNumber3"
-                value={formData.contactNumber3}
-               onChange={(e) => handleInputChange(e, "contactNumber3")}
-                error={errors.contactNumber3}
-                type="text"
-              />
-              <InputField
-                label="Label"
-                id="numberLabel3"
-                name="numberLabel13"
-                value={formData.numberLabel3}
-                onChange={(e) => handleInputChange(e, "numberLabel3")}
-                error={errors.numberLabel3}
-                type="text"
-              />
+            <div className="flex gap-2 flex-col md:flex-row">
+              <div className="w-full md:w-1/3 mb-3 md:mb-0">
+                <InputField
+                  label="Label"
+                  id="numberLabel3"
+                  name="numberLabel3"
+                  value={formData.numberLabel3}
+                  onChange={(e) => handleInputChange(e, "numberLabe3")}
+                  error={errors.numberLabel3}
+                  type="text"
+                />
+              </div>
+              <div className="w-full md:w-2/3">
+                <InputField
+                  label="Contact Number"
+                  id="contactNumber3"
+                  name="contactNumber3"
+                  value={formData.contactNumber3}
+                  onChange={(e) => handleInputChange(e, "contactNumber3")}
+                  error={errors.contactNumber3}
+                  type="text"
+                />
+              </div>
             </div>
-            
+
           </div>
-          
+
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Addresses</div>
-            <div className="flex gap-4">
-              <div className="flex flex-col w-full gap-3">
+            <div className="flex gap-4 flex-col md:flex-row">
+              <div className="flex flex-col w-full md:flex-1 gap-3">
                 <InputDropdown
                   formData={formData.addressLabel1}
                   setFormData={setFormData}
                   name="addressLabel1"
-                  initialValue={selectedContact.addressLabel1}
+                  initialValue="Home"
                 />
                 <TextAreaInputField
                   label="Address"
                   id="addressDetails1"
                   name="addressDetails1"
                   value={formData.addressDetails1}
-                onChange={(e) => handleInputChange(e, "addressDetails1")}
+                  onChange={(e) => handleInputChange(e, "addressDetails1")}
                   error={errors.addressDetails1}
                   type="text"
                 />
               </div>
-              <div className="flex flex-col w-full gap-3">
+              <div className="flex flex-col w-full md:flex-1 gap-3 md:mt-0">
                 <InputDropdown
-                  formData={formData.addressLabel1}
+                  formData={formData.addressLabel2}
                   setFormData={setFormData}
                   name="addressLabel2"
-                  initialValue={selectedContact.addressLabel2}
+                  initialValue="Home"
                 />
-                  <TextAreaInputField
-                    label="Address"
-                    id="addressDetails2"
-                    name="addressDetails2"
-                    value={formData.addressDetails2}
-                    onChange={(e) => handleInputChange(e, "addressDetails2")}
-                    error={errors.addressDetails2}
-                    type="text"
-                  />
-                </div>
+                <TextAreaInputField
+                  label="Address"
+                  id="addressDetails2"
+                  name="addressDetails2"
+                  value={formData.addressDetails2}
+                  onChange={(e) => handleInputChange(e, "addressDetails2")}
+                  error={errors.addressDetails2}
+                  type="text"
+                />
+              </div>
             </div>
-            
+
           </div>
           <div className="pt-6  flex justify-end">
-                <button onClick={handleFormSubmit}
-                type="submit"
-                  className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
-                    <FaCheck className=""/>
-                    Submit
-                </button>                    
-            </div>  
+            <button
+              type="submit"
+              className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
+              <FaCheck className="" />
+              Submit
+            </button>
+          </div>
         </form>
         {showPrompt && (
           <PromptComponent
             promptTitle="Success!!"
-            promptMessage="Successfully updated contact!"
+            promptMessage="Successfully created contact!"
             actionItem=""
             closePrompt={() => {
               setShowPrompt(false);
               window.location.reload();
-            }}  
+            }}
           />
         )}
       </div>

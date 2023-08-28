@@ -36,7 +36,7 @@ const LoginPage = () => {
           console.log(response);
           if(response.status === 200){
             sessionStorage.setItem("token", response.data.token);
-            navigate("/", {replace: true});
+            navigate("/dashboard", {replace: true});
           } else if (response.status === 401) {
             newErrors.password = "Wrong password.";
           } else if (response.status === 404) {
@@ -114,13 +114,13 @@ const LoginPage = () => {
     
     return (
         <div className="flex justify-center items-center w-screen h-screen bg-gray-200">
-            <div className='w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl p-4'>
+            <div className='w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl'>
                 <div className="hidden xl:block bg-oceanBlue h-full w-3/5 rounded-tl-3xl rounded-bl-3xl">
                 </div>
 
-                <div className="flex flex-col justify-center h-full w-full rounded-tr-xl rounded-br-xl bg-white px-10 xl:px-18">
+                <div className="flex flex-col justify-center h-full w-full rounded-tr-3xl rounded-br-3xl bg-white px-10 xl:px-18">
                     <h1 className="text-4xl text-center text-dustyBlack font-bold">
-                        Hello again
+                        Welcome back
                         <span className="text-mistyBlue">!</span>
                     </h1>
                     <form className="flex flex-col mt-10 mb-3 gap-2">

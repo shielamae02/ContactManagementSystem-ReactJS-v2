@@ -25,7 +25,6 @@ const DeleteAccount = ({ userData }) => {
         e.preventDefault();
         try{
             if (dbUserDetails === confirmationData){
-                console.log("Same!");
                 if (token) {
                     sessionStorage.removeItem("token");
                      window.location.reload();
@@ -50,7 +49,7 @@ const DeleteAccount = ({ userData }) => {
                 </h1>
                 <div
                     onClick={() => setShowModal(true)}
-                    className="flex gap-3 font-medium items-center self-end px-7 py-3 rounded-lg text-white bg-red-400 cursor-pointer shadow-xl">
+                    className="flex gap-3 font-medium items-center self-end px-2 xl:px-7 py-3 rounded-lg text-white text-sm xl:text-base bg-red-400 cursor-pointer shadow-xl">
                     <RiDeleteBin5Fill size={26} />
                     Delete account
                 </div>
