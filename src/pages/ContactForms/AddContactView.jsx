@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { IoClose } from "react-icons/io5";
-import { FaPlus, FaCheck, FaHeart } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { InputField } from "../../components/InputField";
 import { AddContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
@@ -24,7 +23,7 @@ const AddNewContactView = () => {
     contactNumber3: "",
     numberLabel3: "",
     addressDetails1: "",
-    addressLabel1: "",
+    addressLabel1: "Home",
     addressDetails2: "",
     addressLabel2: ""
   });
@@ -45,25 +44,52 @@ const AddNewContactView = () => {
     adderssLabel2: ""
   });
 
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Replace empty string values with null in the formData object
+    const requiredFields = ['firstName', 'lastName', 'emailAddress', 'contactNumber1', 'numberLabel1', 'addressDetails1'];
+    const newErrors = {};
+
+    requiredFields.forEach((field) => {
+      if (formData[field].trim() === '') {
+        newErrors[field] = `${field.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required`;
+      } else {
+        newErrors[field] = '';
+      }
+    });
+
+    // Update optional fields to null if they are empty
     const formDataWithNull = Object.entries(formData).reduce((acc, [key, value]) => {
-      // Check if value is a string before calling trim
-      acc[key] = typeof value === "string" ? (value.trim() === "" ? null : value) : value;
+      if (!requiredFields.includes(key) && value.trim() === '') {
+        acc[key] = null;
+      } else {
+        // Check if value is a string before calling trim
+        acc[key] = typeof value === "string" ? (value.trim() === "" ? null : value) : value;
+      }
       return acc;
     }, {});
 
-    const newErrors = {};
-
     // Validate all fields and update errors
     for (const field in formDataWithNull) {
-      const errorMessage = validateField(field, formDataWithNull[field]);
-      newErrors[field] = errorMessage;
+      if (!requiredFields.includes(field)) {
+        const errorMessage = validateField(field, formDataWithNull[field]);
+        newErrors[field] = errorMessage;
+      }
     }
 
-    // Check if there are any errors
+    // Sets default values to labels if their corresponding fields have values
+    if (formDataWithNull.contactNumber2 !== null && formDataWithNull.numberLabel2 === null) {
+      formDataWithNull.numberLabel2 = "Phone"
+    }
+    if (formDataWithNull.contactNumber3 !== null && formDataWithNull.numberLabel3 === null) {
+      formDataWithNull.numberLabel3 = "Phone"
+    }
+    if (formDataWithNull.addressDetails2 !== null && formDataWithNull.addressLabel2 === null) {
+      formDataWithNull.addressLabel2 = "Home"
+    }
+    console.log(formDataWithNull);
+
     const hasErrors = Object.values(newErrors).some((error) => error);
 
     if (!hasErrors) {
@@ -84,19 +110,19 @@ const AddNewContactView = () => {
     setErrors(newErrors);
   };
 
+
   const validateField = (field, value) => {
     const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
     const numberPattern = /^[0-9]+$/;
 
     if (value == null) {
-      return ""; // No need to validate, return an empty string
+      return ""; 
     }
 
 
     if (typeof value === 'string' && !value.trim()) {
       let fieldName = "";
-      // Determine the field name for a more descriptive error message
       switch (field) {
         case "firstName":
           fieldName = "First name";
@@ -111,16 +137,15 @@ const AddNewContactView = () => {
         case "numberLabel1":
         case "contactNumber1":
         case "addressLabel1":
-          fieldName = "Required field"; // Use a generic message for optional fields
+          fieldName = "Required field"; 
           break;
         default:
-          break;
+          return "";
       }
 
-      // Check if the field is one of the required fields
       if (field === "firstName" || field === "lastName" || field === "emailAddress" || field === "addressDetails1" ||
         field === "numberLabel1" || field === "contactNumber1" || field === "addressLabel1") {
-        return `${fieldName} is required`;
+        return `Field is required`;
       }
 
       return ""; // Optional fields won't trigger an error for empty values
@@ -132,16 +157,16 @@ const AddNewContactView = () => {
     if (field === "lastName" && !namePattern.test(value)) {
       return `Last name should not contain special characters or numbers`;
     }
-    if (field === "contactNumber1" && !numberPattern.test(value)) {
+    if ((field === "contactNumber1" || field === "contactNumber2" || field === "contactNumber3") && !numberPattern.test(value)) {
       return `Contact number should not contain special characters or letters`;
     }
     if (value.length < 3) {
-      if (field === "contactNumber1") return "Contact number must be at least 3 digits long";
+      if (field === "contactNumber1" || field === "contactNumber2" || field === "contactNumber3")
+        return "Contact number must be at least 3 digits long";
     }
 
-    if (value.length < 2) {
+    if (value.length < 2 && field !== "emailAddress") {
       let fieldName = "";
-      // Determine the field name for a more descriptive error message
       switch (field) {
         case "firstName":
           fieldName = "First name";
@@ -207,14 +232,12 @@ const AddNewContactView = () => {
   };
 
 
-
-
   return (
     <div className="flex flex-col w-full h-full px-1 2xl:p-6">
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
+      <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] shadow-md overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col md:flex-row w-full gap-3">
@@ -256,7 +279,7 @@ const AddNewContactView = () => {
                   id="numberLabel1"
                   name="numberLabel1"
                   value={formData.numberLabel1}
-                  onChange={(e) => handleInputChange(e, "numberlabel1")}
+                  onChange={(e) => handleInputChange(e, "numberLabel1")}
                   error={errors.numberLabel1}
                   type="text"
                 />
@@ -304,7 +327,7 @@ const AddNewContactView = () => {
                   id="numberLabel3"
                   name="numberLabel3"
                   value={formData.numberLabel3}
-                  onChange={(e) => handleInputChange(e, "numberLabe3")}
+                  onChange={(e) => handleInputChange(e, "numberLabel3")}
                   error={errors.numberLabel3}
                   type="text"
                 />
@@ -365,7 +388,7 @@ const AddNewContactView = () => {
 
           </div>
           <div className="pt-6  flex justify-end">
-            <button 
+            <button
               type="submit"
               className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
               <FaCheck className="" />
