@@ -11,7 +11,7 @@ import { GrClose } from 'react-icons/gr';
 
 
 
-const ContactDataView = ({ selectedContact, handleEditContactClick, handleCloseContactView }) => {
+const ContactDataView = ({ selectedContact, setSelectedContact, handleEditContactClick, handleCloseContactView }) => {
     const token = sessionStorage.getItem("token");
     const [showModal, setShowModal] = useState(false);
     const [showPrompt, setShowPrompt] = useState(false);
@@ -20,7 +20,7 @@ const ContactDataView = ({ selectedContact, handleEditContactClick, handleCloseC
 
     useEffect(() => {
 
-    }, [showPrompt, selectedContact]);
+    }, [selectedContact]);
 
 
 
@@ -156,9 +156,9 @@ const ContactDataView = ({ selectedContact, handleEditContactClick, handleCloseC
                     promptMessage="You have successfully deleted "
                     actionItem={`${contactToDelete.firstName} ${contactToDelete.lastName}`}
                     closePrompt={() => {
+                        setSelectedContact(null);
                         setShowPrompt(false);
                         setContactToDelete(null);
-                        window.location.reload();
                     }}
                 />
             )}
