@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { TiWarning } from "react-icons/ti";
 
 export const ModalComponent= ({  modalTitle,
@@ -14,7 +14,7 @@ export const ModalComponent= ({  modalTitle,
         <div
           className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         >
-          <div className={`relative xl:w-[calc(25%)] my-6 mx-auto`}>
+          <div className={`relative xl:w-[calc(30%)] my-6 mx-auto`}>
             {/*content*/}
             <div className="border-0 rounded-xl shadow-lg relative flex flex-col w-full bg-white p-2 outline-none focus:outline-none">
               {/*header*/}
@@ -34,11 +34,11 @@ export const ModalComponent= ({  modalTitle,
                   </p>
               </div>
               {/*footer*/}
-              <div className="flex items-center justify-end p-4 w-full gap-2">
-                  <button className="w-full bg-gray-100 shadow-md px-5 py-2 rounded-full font-medium" onClick={closeModal}>
+              <div className="flex items-center justify-end p-4 w-full gap-3">
+                  <button className="w-full bg-gray-100 shadow-md px-5 py-2.5 rounded-xl font-medium" onClick={closeModal}>
                       {modalNoMessage}
                   </button>
-                  <button className="w-full bg-red-400 shadow-md rounded-full px-5 py-2 font-medium text-white" onClick={handleModalClick}>
+                  <button className="w-full bg-red-400 shadow-md rounded-xl px-5 py-2.5 font-medium text-white" onClick={handleModalClick}>
                       {modalYesMessage}
                   </button>
               </div>
