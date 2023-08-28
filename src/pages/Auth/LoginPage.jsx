@@ -6,6 +6,10 @@ import { LoginService } from '../../api/authService';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const [hasErrors, setHasErrors] = useState(false);
+    console.log(hasErrors);
+
+
     const [formData, setFormData] = useState({
         emailAddress: "",
         password: "",
@@ -32,16 +36,21 @@ const LoginPage = () => {
       const hasErrors = Object.values(newErrors).some((error) => error);
   
       if (!hasErrors) {
+          setHasErrors(false);
+
           const response = await LoginService(formData);
           console.log(response);
           if(response.status === 200){
             sessionStorage.setItem("token", response.data.token);
             navigate("/dashboard", {replace: true});
           } else if (response.status === 401) {
-            newErrors.password = "Wrong password.";
+            setHasErrors(true);
+            newErrors.emailAddress = " ";
+            newErrors.password = " ";
           } else if (response.status === 404) {
-            newErrors.emailAddress = "User does not exist.";
-            newErrors.password = "";
+            setHasErrors(true);
+            newErrors.emailAddress = " ";
+            newErrors.password = " ";
           } 
           else {
             console.log("Internal server error.");
@@ -78,6 +87,10 @@ const LoginPage = () => {
               fieldName = "Password";
             return  `${fieldName} is required`;
         }
+
+      if (field === "emailAddress" && !emailAddressPattern.test(value)) {
+        return `Invalid email address format`;
+      }
         return "";
     };
 
@@ -155,6 +168,9 @@ const LoginPage = () => {
                                 </button>
                             </div>
                         </div>
+              {hasErrors ? (
+                <p className="text-red-500 text-[16px] italic text-end font-medium">Invalid user credentials</p>
+              ) : null}
 
                         <button onClick={handleFormSubmit} type='submit' className='bg-oceanBlue text-white font-semibold py-5 rounded-lg mt-6'> Login </button>
                     </form>
