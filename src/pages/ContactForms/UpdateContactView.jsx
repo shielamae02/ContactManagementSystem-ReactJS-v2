@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { IoClose } from "react-icons/io5";
-import { FaPlus, FaCheck } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { InputField } from "../../components/InputField"; 
 import { UpdateContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
@@ -44,12 +43,10 @@ const UpdateContactView = ({ selectedContact }) => {
     adderssLabel2: ""
   });
 
-  const handleFormSubmit = async (e) => {
+   const handleFormSubmit = async (e) => {
     e.preventDefault();
   
-    // Replace empty string values with null in the formData object
     const formDataWithNull = Object.entries(formData).reduce((acc, [key, value]) => {
-      // Check if value is a string before calling trim
       acc[key] = typeof value === "string" ? (value.trim() === "" ? null : value) : value;
       return acc;
     }, {});
@@ -61,9 +58,25 @@ const UpdateContactView = ({ selectedContact }) => {
       const errorMessage = validateField(field, formDataWithNull[field]);
       newErrors[field] = errorMessage;
     }
-  
-    // Check if there are any errors
+
+
+     // Sets default values for labels if their corresponding fields have values
+     if (formDataWithNull.contactNumber2 !== null && formDataWithNull.numberLabel2 === null) {
+       formDataWithNull.numberLabel2 = "Phone"
+     }
+     if (formDataWithNull.contactNumber3 !== null && formDataWithNull.numberLabel3 === null) {
+       formDataWithNull.numberLabel3 = "Phone"
+     }
+     if (formDataWithNull.addressDetails2 === null && formDataWithNull.addressLabel2 !== null) {
+       formDataWithNull.addressLabel2 = null;
+     }
+     if (formDataWithNull.addressDetails2 !== null && formDataWithNull.addressLabel2 === null) {
+       formDataWithNull.addressLabel2 = "Home";
+     }
+
     const hasErrors = Object.values(newErrors).some((error) => error);
+
+    console.log(formDataWithNull);
   
     if (!hasErrors) {
       try {
@@ -83,20 +96,19 @@ const UpdateContactView = ({ selectedContact }) => {
     setErrors(newErrors);
   };
   
-  
+
   const validateField = (field, value) => {
     const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
     const numberPattern = /^[0-9]+$/;
 
     if (value == null) {
-      return ""; // No need to validate, return an empty string
+      return "";
     }
   
   
     if (typeof value === 'string' && !value.trim()) {
       let fieldName = "";
-      // Determine the field name for a more descriptive error message
       switch (field) {
         case "firstName":
           fieldName = "First name";
@@ -111,13 +123,12 @@ const UpdateContactView = ({ selectedContact }) => {
         case "numberLabel1":
         case "contactNumber1":
         case "addressLabel1":
-          fieldName = "Required field"; // Use a generic message for optional fields
+          fieldName = "Required field"; 
           break;
         default:
           break;
       }
   
-      // Check if the field is one of the required fields
       if (field === "firstName" || field === "lastName" || field === "emailAddress" || field === "addressDetails1" ||
           field === "numberLabel1" || field === "contactNumber1" || field === "addressLabel1") {
         return `${fieldName} is required`;
@@ -132,16 +143,15 @@ const UpdateContactView = ({ selectedContact }) => {
     if (field === "lastName" && !namePattern.test(value)) {
       return `Last name should not contain special characters or numbers`;
     }
-    if (field === "contactNumber1" && !numberPattern.test(value)) {
+    if ((field === "contactNumber1" || field === "contactNumber2" || field === "contactNumber3") && !numberPattern.test(value)) {
       return `Contact number should not contain special characters or letters`;
     }
     if (value.length < 3) {
-      if (field === "contactNumber1") return "Contact number must be at least 3 digits long";
+      if (field === "contactNumber1" || field === "contactNumber2" || field === "contactNumber3") return "Contact number must be at least 3 digits long";
     }
   
     if (value.length < 2) {
       let fieldName = "";
-      // Determine the field name for a more descriptive error message
       switch (field) {
         case "firstName":
           fieldName = "First name";
@@ -176,7 +186,6 @@ const UpdateContactView = ({ selectedContact }) => {
   };
   
   
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -256,7 +265,7 @@ const UpdateContactView = ({ selectedContact }) => {
                   id="numberLabel1"
                   name="numberLabel1"
                   value={formData.numberLabel1}
-                  onChange={(e) => handleInputChange(e, "numberlabel1")}
+                  onChange={(e) => handleInputChange(e, "numberLabel1")}
                   error={errors.numberLabel1}
                   type="text"
                 />
@@ -304,7 +313,7 @@ const UpdateContactView = ({ selectedContact }) => {
                   id="numberLabel3"
                   name="numberLabel3"
                   value={formData.numberLabel3}
-                  onChange={(e) => handleInputChange(e, "numberLabe3")}
+                  onChange={(e) => handleInputChange(e, "numberLabel3")}
                   error={errors.numberLabel3}
                   type="text"
                 />
@@ -376,7 +385,7 @@ const UpdateContactView = ({ selectedContact }) => {
         {showPrompt && (
           <PromptComponent
             promptTitle="Success!!"
-            promptMessage="Successfully created contact!"
+            promptMessage="Successfully updated contact!"
             actionItem=""
             closePrompt={() => {
               setShowPrompt(false);
