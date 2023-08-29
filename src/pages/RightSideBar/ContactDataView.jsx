@@ -18,12 +18,6 @@ const ContactDataView = ({ selectedContact, setSelectedContact, handleEditContac
     const [contactToDelete, setContactToDelete] = useState(null);
 
 
-    useEffect(() => {
-
-    }, [selectedContact]);
-
-
-
     const handleDeleteClick = async (e) => {
         e.preventDefault();
         try {

@@ -86,7 +86,7 @@ const ContactsListDesktop = (props) => {
                                     </div>
                                 </>
 
-                                : <table className="w-full h-full text-lg text-left text-gray-700 dark:text-gray-400 relative">
+                                : <table className="w-full text-lg text-left text-gray-700 dark:text-gray-400 relative">
                                     <thead className="text-xs text-gray-900 uppercase dark:text-gray-500 self-center sticky top-0 w-full bg-white ">
                                         <tr className="text-sm text-mistyBlue">
                                             <th scope="col" className="px-6 py-3 w-2/5  hidden md:table-cell">

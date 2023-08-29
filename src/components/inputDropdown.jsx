@@ -101,11 +101,11 @@ export const CustomModal = ({ handleModalClick, inputValue, setInputValue }) => 
         handleModalClick(inputValue);
     }
     return (
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focu5s:outline-none">
-            <div className=' bg-gray-900 p-4 rounded-md w-[calc(60%)] 2xl:w-[calc(20%)]'>
-                <h1 className='text-xl text-white font-semibold'>Custom label name</h1>
+        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-stone-800 bg-opacity-20">
+            <div className=' bg-white p-4 rounded-md w-[calc(60%)] 2xl:w-[calc(20%)]'>
+                <h1 className='text-xl text-black font-semibold'>Custom label name</h1>
                 <input
-                    className=' text-white w-full outline-none bg-transparent border-b-2 py-4'
+                    className=' text-black w-full outline-none bg-transparent border-b-2 py-4'
                     placeholder='Label name'
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -113,10 +113,10 @@ export const CustomModal = ({ handleModalClick, inputValue, setInputValue }) => 
                 <div className='flex items-center justify-end gap-3 mt-6'>
                     <p
                         onClick={() => handleModalClick("Home")}
-                        className='text-gray-400'>
+                        className='text-gray-700'>
                         Cancel
                     </p>
-                    <p className='text-green-300 font-medium' onClick={handleSubmit}>
+                    <p className='text-green-400 font-medium' onClick={handleSubmit}>
                         Submit
                     </p>
                 </div>

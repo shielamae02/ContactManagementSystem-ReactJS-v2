@@ -26,7 +26,6 @@ const DashboardPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedContact, setSelectedContact] = useState(null);
     const [userData, setUserData] = useState({});
-    const [showRightSidebar, setShowRightSidebar] = useState(false);
 
 
 
@@ -69,10 +68,10 @@ const DashboardPage = () => {
 
     useEffect(() => {
         if (token === null) {
-            navigate("/login");
+            navigate("/");
         }
         fetchUserData();
-    }, [token, selectedContact, userData]);
+    }, [selectedContact]);
 
 
     return (

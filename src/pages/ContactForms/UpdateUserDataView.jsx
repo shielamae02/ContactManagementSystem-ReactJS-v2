@@ -175,7 +175,7 @@ const UpdateUserDataView = ({ userData }) => {
           actionItem=""
           closePrompt={() => {
             setShowPrompt(false);
-            //window.location.reload();
+            window.location.reload();
           }}
         />
       )}

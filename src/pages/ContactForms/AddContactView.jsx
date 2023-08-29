@@ -88,7 +88,7 @@ const AddNewContactView = () => {
     if (formDataWithNull.addressDetails2 !== null && formDataWithNull.addressLabel2 === null) {
       formDataWithNull.addressLabel2 = "Home"
     }
-    console.log(formDataWithNull);
+    
 
     const hasErrors = Object.values(newErrors).some((error) => error);
 
@@ -272,7 +272,7 @@ const AddNewContactView = () => {
           </div>
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Contact Numbers</div>
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row">
               <div className="w-full md:w-1/3 mb-3 md:mb-0">
                 <InputField
                   label="Label"
@@ -296,7 +296,7 @@ const AddNewContactView = () => {
                 />
               </div>
             </div>
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row">
               <div className="w-full md:w-1/3 mb-3 md:mb-0">
                 <InputField
                   label="Label"
@@ -320,7 +320,7 @@ const AddNewContactView = () => {
                 />
               </div>
             </div>
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row">
               <div className="w-full md:w-1/3 mb-3 md:mb-0">
                 <InputField
                   label="Label"

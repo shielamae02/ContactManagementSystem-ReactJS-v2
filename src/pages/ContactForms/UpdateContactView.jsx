@@ -217,7 +217,6 @@ const UpdateContactView = ({ selectedContact }) => {
 
 
 
-
   return (
     <div className="flex flex-col w-full h-full px-1 2xl:p-6">
       <div className="justify-between flex items-center">
@@ -258,7 +257,7 @@ const UpdateContactView = ({ selectedContact }) => {
           </div>
           <div className="flex flex-col gap-3">
             <div className="text-xl font-semibold pt-8 pb-2">Contact Numbers</div>
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row">
               <div className="w-full md:w-1/3 mb-3 md:mb-0">
                 <InputField
                   label="Label"
@@ -282,7 +281,7 @@ const UpdateContactView = ({ selectedContact }) => {
                 />
               </div>
             </div>
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row">
               <div className="w-full md:w-1/3 mb-3 md:mb-0">
                 <InputField
                   label="Label"
@@ -306,7 +305,7 @@ const UpdateContactView = ({ selectedContact }) => {
                 />
               </div>
             </div>
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row">
               <div className="w-full md:w-1/3 mb-3 md:mb-0">
                 <InputField
                   label="Label"

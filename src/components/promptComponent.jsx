@@ -9,7 +9,7 @@ export const  PromptComponent = ({ promptTitle,
   return (
     <>
         <div
-        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" 
+              className="justify-center items-center bg-stone-800 bg-opacity-20 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" 
         >
         <div className={`relative xl:w-[calc(23%)] my-6 mx-auto`}>
             {/*content*/}

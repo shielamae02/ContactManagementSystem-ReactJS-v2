@@ -7,7 +7,6 @@ import { LoginService } from '../../api/authService';
 const LoginPage = () => {
     const navigate = useNavigate();
     const [hasErrors, setHasErrors] = useState(false);
-    console.log(hasErrors);
 
 
     const [formData, setFormData] = useState({
@@ -73,7 +72,7 @@ const LoginPage = () => {
         if (token !== null) {
             navigate("/", { replace: true });
         }
-    }, [navigate]);
+    }, []);
 
     
     const validateField = (field, value) => {
@@ -131,7 +130,7 @@ const LoginPage = () => {
                 <div className="hidden xl:block bg-oceanBlue h-full w-3/5 rounded-tl-3xl rounded-bl-3xl">
                 </div>
 
-                <div className="flex flex-col justify-center h-full w-full rounded-tr-3xl rounded-br-3xl bg-white px-10 xl:px-18">
+                <div className="flex flex-col justify-center h-full w-full rounded-tr-3xl rounded-br-3xl bg-white p-24 xl:px-18">
                     <h1 className="text-4xl text-center text-dustyBlack font-bold">
                         Welcome back
                         <span className="text-mistyBlue">!</span>

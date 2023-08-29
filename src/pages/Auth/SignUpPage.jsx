@@ -57,7 +57,7 @@ const SignupPage = () => {
       console.log(response);
       if (response.status === 201) {
         sessionStorage.setItem("token", response.data.token);
-        navigate("/", { replace: true });
+        navigate("/dashboard", { replace: true });
       } else if (response.status === 401) {
         newErrors.password = "Wrong password.";
       } else if (response.status === 409) {
@@ -80,7 +80,7 @@ const SignupPage = () => {
     if (token !== null) {
       navigate('/', { replace: true });
     }
-  }, [navigate]);
+  }, []);
 
   const validateField = (field, value) => {
     
@@ -101,7 +101,7 @@ const SignupPage = () => {
       
         return  `${fieldName} is required`;
       }
-    if (value.length < 2) {
+    if (value.length < 2 && field !== "emailAddress" && field !=="password" && field !== "confirmPassword") {
       let fieldName = "";
         if (field === "firstName")
           fieldName = "First name";
@@ -120,7 +120,7 @@ const SignupPage = () => {
     }
 
     if (field === 'emailAddress' && !emailAddressPattern.test(value)) {
-      return `Invalid ${field} format`;
+      return `Invalid email address format`;
     }
     if (field === 'password' && value.length < 6) {
       return `Password must be at least 6 characters long`;
@@ -164,8 +164,8 @@ const SignupPage = () => {
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-gray-200">
-      <div className="w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl rounded-tl-xl rounded-bl-xl">
-        <div className="flex flex-col justify-center h-full w-full rounded-tl-3xl rounded-bl-3xl bg-white p-24 xl:px-18">
+      <div className="w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl rounded-tl-3xl rounded-bl-3xl">
+        <div className="flex flex-col justify-center h-full w-full rounded-tl-3xl rounded-bl-3xl bg-white p-28 xl:px-18">
           <h1 className="text-4xl text-center text-dustyBlack font-bold">
             Create Account
             <span className="text-mistyBlue">.</span>
@@ -177,6 +177,7 @@ const SignupPage = () => {
                 name="firstName"
                 label="First Name"
                 type="text"
+                className="text-sm"
                 value={formData.firstName}
                 error={errors.firstName}
                 onChange={handleInputChange}
@@ -219,7 +220,7 @@ const SignupPage = () => {
                 error={errors.password}
                 onChange={handleInputChange}
                 />
-                <button onClick={togglePasswordVisibility} className="absolute top-[58%] right-4 -translate-y-1/2 cursor-pointer ">
+                <button onClick={togglePasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
                     {showPassword ? <FiEyeOff size={22} /> : <FiEye size={22}/>}
                 </button>
             </div>
@@ -232,12 +233,12 @@ const SignupPage = () => {
                 value={formData.confirmPassword}
                 error={errors.confirmPassword}
                 onChange={handleInputChange}
-                />
+              />
                 <button onClick={toggleConfirmPasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
                     {showConfirmPassword ? <FiEyeOff size={22} /> : <FiEye size={22}/>}
                 </button>
             </div>
-            <button onClick={handleFormSubmit} type="submit" className="bg-oceanBlue text-white font-semibold py-5 rounded-lg mt-6">
+            <button  type="submit" className="bg-oceanBlue text-white font-semibold py-5 rounded-lg mt-6">
               Sign Up
             </button>
           </form>
