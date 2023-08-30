@@ -19,7 +19,7 @@ const Header = ({searchQuery, setSearchQuery, userData}) => {
         window.location.reload();
     }
     return (
-        <header className= "py-4 w-full flex items-center justify-end gap-4">
+        <header className= "py-4 w-full flex items-center justify-between gap-4">
             <div className="w-full md:w-1/2 lg:w-1/3 flex">
                 <div className="items-center relative w-full">
                     <span className="absolute pl-3 inset-y-0 flex items-center">

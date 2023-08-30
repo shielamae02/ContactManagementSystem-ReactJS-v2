@@ -220,9 +220,9 @@ const UpdateContactView = ({ selectedContact }) => {
   return (
     <div className="flex flex-col w-full h-full px-1 2xl:p-6">
       <div className="justify-between flex items-center">
-        <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
+        <h1 className="text-[27px] font-semibold p-4">Update Contact</h1>
       </div>
-      <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
+      <div className="px-4 2xl:px-20 py-16 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col md:flex-row w-full gap-3">
@@ -377,7 +377,7 @@ const UpdateContactView = ({ selectedContact }) => {
               type="submit"
               className="flex gap-3 font-medium items-center self-end px-8 py-3 rounded-lg text-white bg-green-400 cursor-pointer shadow-xl">
               <FaCheck className="" />
-              Submit
+              Save Changes
             </button>
           </div>
         </form>

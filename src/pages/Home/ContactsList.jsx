@@ -37,7 +37,7 @@ const ContactsListDesktop = (props) => {
             }
         }
         fetchContacts();
-    }, [contacts]);
+    }, []);
 
     const query = props.searchQuery ? props.searchQuery.toLowerCase() : "";
     const filteredContacts = contacts.filter((contact) => {

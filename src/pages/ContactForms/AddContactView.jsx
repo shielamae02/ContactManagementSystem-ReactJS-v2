@@ -53,7 +53,8 @@ const AddNewContactView = () => {
 
     requiredFields.forEach((field) => {
       if (formData[field].trim() === '') {
-        newErrors[field] = `${field.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required`;
+        newErrors[field] = `Field is required`;
+       // newErrors[field] = `${field.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required`;
       } else {
         newErrors[field] = '';
       }
@@ -97,9 +98,11 @@ const AddNewContactView = () => {
         if (validateForm() && token) {
           console.log(formDataWithNull);
           const response = await AddContact(token, formDataWithNull);
-          setFormData(response);
-          setShowPrompt(true);
-          console.log(response);
+          if(response.status === 201){
+              setFormData(response);
+              setShowPrompt(true);
+              console.log(response);
+          }
         }
       } catch (error) {
         console.error("Error updating contact: ", error);
@@ -237,7 +240,7 @@ const AddNewContactView = () => {
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
       </div>
-      <div className="px-4 2xl:px-10 py-6 bg-white  max-h-[825px] shadow-md overflow-y-auto rounded-2xl relative">
+      <div className="px-4 2xl:px-20 py-16 bg-white  max-h-[825px] shadow-md overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col md:flex-row w-full gap-3">

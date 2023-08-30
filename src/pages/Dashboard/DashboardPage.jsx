@@ -13,8 +13,6 @@ import AddNewContactView from "../ContactForms/AddContactView";
 import { FaUser } from "react-icons/fa";
 import UserProfileView from "../Home/UserProfileView";
 import UpdateContactView from "../ContactForms/UpdateContactView";
-import { GetContacts } from "../../api/contactService";
-import ContactDataView from "../RightSideBar/ContactDataView";
 
 
 const DashboardPage = () => {
@@ -111,15 +109,19 @@ const DashboardPage = () => {
                         {activeItemIndex !== null && componentMapping[activeItemIndex]}
                     </div>
                     
-                    <div className="hidden xl:block w-[32rem]">
-                        <RightSidebarPreview
-                            selectedContact={selectedContact}
-                            setSelectedContact={setSelectedContact}
-                            onEditClick={() => setActiveItemIndex(5)}
-                            userData={userData}
-                            handleEditContactClick={() => setActiveItemIndex(4)}
-                        />
-                    </div>
+                    {
+                        (activeItemIndex === 0 || activeItemIndex === 1 )&& (
+                            <div className="hidden xl:block w-[32rem]">
+                                <RightSidebarPreview
+                                    selectedContact={selectedContact}
+                                    setSelectedContact={setSelectedContact}
+                                    onEditClick={() => setActiveItemIndex(5)}
+                                    userData={userData}
+                                    handleEditContactClick={() => setActiveItemIndex(4)}
+                                />
+                            </div>
+                        )
+                    }
                 </div>
             </main>
         </div>

@@ -14,7 +14,7 @@ const authInstance = (token) => {
 export const GetContacts = async (token) => {
     const instance = authInstance(token);
     try{
-        const response = await instance.get("");    
+        const response = await instance.get();    
         return response.data;
     }
     catch(error){
@@ -40,7 +40,7 @@ export const AddContact = async (token, contactData) => {
     const instance = authInstance(token);
     try {
         const response = await instance.post("", contactData);
-        return response.data;
+        return response;
     } catch(error){
         console.log(error);
         return error.response;

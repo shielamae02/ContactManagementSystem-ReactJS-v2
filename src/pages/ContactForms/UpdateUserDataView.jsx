@@ -126,7 +126,7 @@ const UpdateUserDataView = ({ userData }) => {
     <div className="flex flex-col w-full h-full p-3 xl:px-6 pt-6 gap-10">
       <div>
         <h1 className="text-[27px] font-semibold pb-4">Update User Profile</h1>
-        <div className="px-4 xl:px-10 py-6 bg-white shadow-lg rounded-2xl relative">
+        <div className="px-4 2xl:px-20 py-8 bg-white shadow-lg rounded-2xl relative">
           <form className=" flex-grow flex flex-col pt-8">
             <div className="flex flex-col gap-6">
               <div className="flex w-full gap-3">
