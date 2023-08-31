@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
-import { InputField } from '../../components/InputField';
+import { InputField } from '../../components/inputField';
 import { LoginService } from '../../api/authService';
 
 const LoginPage = () => {
@@ -38,7 +38,6 @@ const LoginPage = () => {
           setHasErrors(false);
 
           const response = await LoginService(formData);
-          console.log(response);
           if(response.status === 200){
             sessionStorage.setItem("token", response.data.token);
             navigate("/dashboard", {replace: true});
@@ -55,8 +54,6 @@ const LoginPage = () => {
             console.log("Internal server error.");
           }
       }
-  
-      // Set the new errors
       setErrors(newErrors);
   };
   

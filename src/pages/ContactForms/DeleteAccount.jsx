@@ -1,5 +1,5 @@
 import { UpdateUserDetails } from "../../api/userService";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/inputField";
 import { PromptComponent } from "../../components/promptComponent";
 import { useState } from 'react';
 import { FaCheck } from "react-icons/fa";
@@ -29,7 +29,6 @@ const DeleteAccount = ({ userData }) => {
                     sessionStorage.removeItem("token");
                      window.location.reload();
                     const response = await DeleteUserAccount(token);
-                    console.log("Successfully deleted account: ", response);
                 }
             }
         } catch(error){

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import { InputField } from "../../components/InputField"; 
+import { InputField } from "../../components/inputField";
 import { UpdateContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
@@ -74,18 +74,13 @@ const UpdateContactView = ({ selectedContact }) => {
        formDataWithNull.addressLabel2 = "Home";
      }
 
-    const hasErrors = Object.values(newErrors).some((error) => error);
-
-    console.log(formDataWithNull);
-  
+    const hasErrors = Object.values(newErrors).some((error) => error);  
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
-          console.log(formDataWithNull);
           const response = await UpdateContact(token, selectedContact.id, formDataWithNull);
           setFormData(response);
           setShowPrompt(true);
-          console.log(response);
         }
       } catch (error) {
         console.error("Error updating contact: ", error);

@@ -10,7 +10,6 @@ const FavoritesPage = ( props ) => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        console.log("Favorites page is fetching!");
         const fetchContacts = async () => {
             try {
                 if (token) {

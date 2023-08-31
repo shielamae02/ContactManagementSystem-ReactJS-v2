@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/inputField";
 import { AddContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
@@ -95,13 +95,11 @@ const AddNewContactView = ({ onAddContact }) => {
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
-          console.log(formDataWithNull);
           const response = await AddContact(token, formDataWithNull);
           if(response.status === 201){
               setFormData(response);
               onAddContact();
               setShowPrompt(true);
-              console.log(response);
           }
         }
       } catch (error) {
@@ -109,7 +107,6 @@ const AddNewContactView = ({ onAddContact }) => {
       }
     }
 
-    // Set the new errors
     setErrors(newErrors);
   };
 

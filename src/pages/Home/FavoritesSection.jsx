@@ -9,7 +9,6 @@ const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick, updateContact })
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    console.log("Favorites section is fetching!");
     const fetchContacts = async () => {
       try {
         if (token) {

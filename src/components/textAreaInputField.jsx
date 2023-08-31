@@ -6,7 +6,7 @@ export const TextAreaInputField = ({ id, name, label, type, value, error, onChan
     <textarea
       className={`
                 text-xl resize-none rounded-md p-4 bg-gray-100 w-full h-52 focus:border focus:border-mistyBlue focus:outline-none font-normal
-                ${error ? 'border border-red-700' : ''}`} // Apply red border if there's an error
+                ${error ? 'border border-red-700' : ''}`} 
       id={id}
       name={name}
       value={value}

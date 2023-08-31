@@ -34,10 +34,6 @@ const DashboardPage = () => {
     const onUpdateContact = () => setUpdateContact(!updateContact);
     const onUpdateProfile = () => setUpdateProfile(!updateProfile);
 
-    console.log("contact added state :", addContact);
-    console.log("contact updated state :", updateContact);
-    console.log("update user profile state: ", updateProfile);
-
     const componentMapping = {
         0: <HomeView
             searchQuery={searchQuery}
@@ -92,7 +88,6 @@ const DashboardPage = () => {
     }, [selectedContact, navigate]);
 
     useEffect(() => {
-        console.log("User data is fetching!");
         fetchUserData();
     }, [updateProfile]);
 

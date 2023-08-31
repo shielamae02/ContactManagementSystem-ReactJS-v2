@@ -1,5 +1,5 @@
 import { UpdateUserDetails } from "../../api/userService";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/inputField";
 import { PromptComponent } from "../../components/promptComponent";
 import { useState, useEffect } from 'react';
 import { FaCheck } from "react-icons/fa";
@@ -47,20 +47,17 @@ const UpdateUserDataView = ({ userData, updateProfile, onUpdateProfile}) => {
     const hasErrors = Object.values(newErrors).some((error) => error);
 
     if (!hasErrors) {
-      console.log(formData);
       try {
         if (token) {
           const response = await UpdateUserDetails(token, formData);
           setShowPrompt(true);
           onUpdateProfile();
-          console.log(response);
         }
       } catch (error) {
         console.error("Error updating user details: ", error);
       }
     }
 
-    // Set the new errors
     setErrors(newErrors);
   };
   

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { MdEmail } from 'react-icons/md';

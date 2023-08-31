@@ -26,7 +26,6 @@ const ContactsListDesktop = (props) => {
     }
 
     useEffect(() => {
-        console.log("Contacts table is fetching!");
         const fetchContacts = async () => {
             try {
                 if (token) {
