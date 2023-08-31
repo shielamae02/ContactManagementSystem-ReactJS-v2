@@ -4,25 +4,24 @@ import { GetUserDetails } from '../api/userService';
 
 const SidebarContext = createContext()
 
-export default function Sidebar({ children, item, setItemIndex}) {
+export default function Sidebar({ children, item, setItemIndex, userData}) {
   const token = sessionStorage.getItem("token");
-  const [userData, setUserData] = useState({});
   const [expanded, setExpanded] = useState(false);
 
 
-    useEffect(() => {
-      const fetchUserData = async () => {
-          try {
-              if (token) {
-                  const response = await GetUserDetails(token);
-                  setUserData(response);
-              }
-          } catch (error) {
-              console.error("Error fetching contact details: ", error);
-          }
-      }
-      fetchUserData();
-  }, [token, userData]);
+  //   useEffect(() => {
+  //     const fetchUserData = async () => {
+  //         try {
+  //             if (token) {
+  //                 const response = await GetUserDetails(token);
+  //                 setUserData(response);
+  //             }
+  //         } catch (error) {
+  //             console.error("Error fetching contact details: ", error);
+  //         }
+  //     }
+  //     fetchUserData();
+  // }, [token, userData]);
    
   
   return (

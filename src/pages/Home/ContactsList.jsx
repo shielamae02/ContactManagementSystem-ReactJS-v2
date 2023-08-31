@@ -15,6 +15,7 @@ const ContactsListDesktop = (props) => {
 
     const handleSetIsFavorite = async (contact) => {
         contact.favorite = !contact.favorite;
+        props.onUpdateContact();
         const response = await UpdateContact(token, contact.id, contact);
         setSnackbarInfo({ contactId: contact.id, action: contact.favorite ? 'added' : 'removed' });
         setShowSnackbar(true);
@@ -25,6 +26,7 @@ const ContactsListDesktop = (props) => {
     }
 
     useEffect(() => {
+        console.log("Contacts table is fetching!");
         const fetchContacts = async () => {
             try {
                 if (token) {
@@ -37,7 +39,7 @@ const ContactsListDesktop = (props) => {
             }
         }
         fetchContacts();
-    }, []);
+    }, [props.updateContact]);
 
     const query = props.searchQuery ? props.searchQuery.toLowerCase() : "";
     const filteredContacts = contacts.filter((contact) => {

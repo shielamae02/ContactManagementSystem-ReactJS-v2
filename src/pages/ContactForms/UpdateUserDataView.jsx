@@ -1,14 +1,18 @@
 import { UpdateUserDetails } from "../../api/userService";
 import { InputField } from "../../components/InputField";
 import { PromptComponent } from "../../components/promptComponent";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaCheck } from "react-icons/fa";
 import DeleteAccount from "./DeleteAccount";
 
-const UpdateUserDataView = ({ userData }) => {
+const UpdateUserDataView = ({ userData, updateProfile, onUpdateProfile}) => {
   const token = sessionStorage.getItem("token");
   const [showPrompt, setShowPrompt] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+
+  }, [updateProfile])
 
   const [formData, setFormData] = useState({
     firstName: userData.firstName,
@@ -48,6 +52,7 @@ const UpdateUserDataView = ({ userData }) => {
         if (token) {
           const response = await UpdateUserDetails(token, formData);
           setShowPrompt(true);
+          onUpdateProfile();
           console.log(response);
         }
       } catch (error) {

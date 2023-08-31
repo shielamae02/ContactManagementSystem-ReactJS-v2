@@ -12,19 +12,19 @@ const UserDataView = ( props ) => {
     const token = sessionStorage.getItem("token");
     const [userData, setUserData] = useState({});  
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                if (token) {
-                    const response = await GetUserDetails(token);
-                    setUserData(response);
-                }
-            } catch (error) {
-                console.error("Error fetching contact details: ", error);
-            }
-        }
-        fetchUserData();
-    }, [userData]);
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         try {
+    //             if (token) {
+    //                 const response = await GetUserDetails(token);
+    //                 setUserData(response);
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching contact details: ", error);
+    //         }
+    //     }
+    //     fetchUserData();
+    // }, [userData]);
 
     return (
         <div className="h-full w-full flex flex-col items-center px-12 pt-12 pb-7 ">

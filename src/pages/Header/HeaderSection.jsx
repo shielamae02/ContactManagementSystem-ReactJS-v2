@@ -16,6 +16,7 @@ const Header = ({searchQuery, setSearchQuery, userData}) => {
     const handleLogOutClick = (e) => {
         e.preventDefault();
         sessionStorage.removeItem("token");
+        //sessionStorage.clear();
         window.location.reload();
     }
     return (

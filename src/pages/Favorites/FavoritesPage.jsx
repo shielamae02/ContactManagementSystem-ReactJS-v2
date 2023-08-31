@@ -10,6 +10,7 @@ const FavoritesPage = ( props ) => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
+        console.log("Favorites page is fetching!");
         const fetchContacts = async () => {
             try {
                 if (token) {
@@ -22,7 +23,7 @@ const FavoritesPage = ( props ) => {
             }
         }
         fetchContacts();
-    }, [contacts]);
+    }, [props.updateContact]);
 
     const query =  props.searchQuery ? props.searchQuery.toLowerCase() : "";  
     const filteredContacts = contacts.filter((contact) => {

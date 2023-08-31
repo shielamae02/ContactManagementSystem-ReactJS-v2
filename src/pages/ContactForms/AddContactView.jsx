@@ -6,7 +6,7 @@ import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
 import { InputDropdown } from "../../components/inputDropdown";
 
-const AddNewContactView = () => {
+const AddNewContactView = ({ onAddContact }) => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
@@ -54,7 +54,6 @@ const AddNewContactView = () => {
     requiredFields.forEach((field) => {
       if (formData[field].trim() === '') {
         newErrors[field] = `Field is required`;
-       // newErrors[field] = `${field.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required`;
       } else {
         newErrors[field] = '';
       }
@@ -100,12 +99,13 @@ const AddNewContactView = () => {
           const response = await AddContact(token, formDataWithNull);
           if(response.status === 201){
               setFormData(response);
+              onAddContact();
               setShowPrompt(true);
               console.log(response);
           }
         }
       } catch (error) {
-        console.error("Error updating contact: ", error);
+        console.error("Error adding contact: ", error);
       }
     }
 

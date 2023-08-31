@@ -22,10 +22,21 @@ const DashboardPage = () => {
 
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedContact, setSelectedContact] = useState(null);
     const [userData, setUserData] = useState({});
 
+    const [selectedContact, setSelectedContact] = useState(null);
 
+    const [addContact, setAddContact] = useState(false);
+    const [updateContact, setUpdateContact] = useState(false);
+    const [updateProfile, setUpdateProfile] = useState(false);
+
+    const onAddContact = () => setAddContact(!addContact);
+    const onUpdateContact = () => setUpdateContact(!updateContact);
+    const onUpdateProfile = () => setUpdateProfile(!updateProfile);
+
+    console.log("contact added state :", addContact);
+    console.log("contact updated state :", updateContact);
+    console.log("update user profile state: ", updateProfile);
 
     const componentMapping = {
         0: <HomeView
@@ -37,14 +48,23 @@ const DashboardPage = () => {
             onAddContactClick={() => setActiveItemIndex(3)}
             onSeeAllClick={() => setActiveItemIndex(1)}
             onFavoriteCardClick={(contact) => setSelectedContact(contact)}
+            addContact={addContact}
+            updateContact={updateContact}
+            onUpdateContact={onUpdateContact}
         />,
         1: <FavoritesPage
-            searchQuery={searchQuery}
-            onFavoriteCardClick={(contact) => setSelectedContact(contact)} />,
+                searchQuery={searchQuery}
+                onFavoriteCardClick={(contact) => setSelectedContact(contact)} 
+                updateContact={updateContact}
+            />,
         2: <UserProfileView userData={userData} onEditClick={() => setActiveItemIndex(5)} />,
-        3: <AddNewContactView />,
+        3: <AddNewContactView onAddContact={onAddContact}/>,
         4: <UpdateContactView selectedContact={selectedContact} />,
-        5: <UpdateUserDataView userData={userData} />
+        5: <UpdateUserDataView 
+                userData={userData} 
+                updateProfile={updateProfile}
+                onUpdateProfile={onUpdateProfile}
+        />
     }
 
     const fetchUserData = async () => {
@@ -66,10 +86,15 @@ const DashboardPage = () => {
 
     useEffect(() => {
         if (token === null) {
-            navigate("/");
+            navigate("/", { replace: true});
         }
+        //fetchUserData();
+    }, [selectedContact, navigate]);
+
+    useEffect(() => {
+        console.log("User data is fetching!");
         fetchUserData();
-    }, [selectedContact]);
+    }, [updateProfile]);
 
 
     return (
@@ -77,6 +102,7 @@ const DashboardPage = () => {
             <Sidebar
                 item={activeItemIndex}
                 setItemIndex={setActiveItemIndex}
+                userData={userData  }
             >
                 <SidebarItem icon={<BiSolidDashboard size={22} />} title="Dashboard" />
                 <SidebarItem icon={<FaHeart size={22} />} title="Favorites" />
@@ -108,9 +134,9 @@ const DashboardPage = () => {
                         )}
                         {activeItemIndex !== null && componentMapping[activeItemIndex]}
                     </div>
-                    
+
                     {
-                        (activeItemIndex === 0 || activeItemIndex === 1 )&& (
+                        (activeItemIndex === 0 || activeItemIndex === 1) && (
                             <div className="hidden xl:block w-[32rem]">
                                 <RightSidebarPreview
                                     selectedContact={selectedContact}
@@ -118,6 +144,7 @@ const DashboardPage = () => {
                                     onEditClick={() => setActiveItemIndex(5)}
                                     userData={userData}
                                     handleEditContactClick={() => setActiveItemIndex(4)}
+                                    onUpdateContact={onUpdateContact}
                                 />
                             </div>
                         )
