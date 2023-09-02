@@ -1,6 +1,5 @@
 import { LuSearch } from 'react-icons/lu';
-import DuckProfile from "../../assets/images/DuckProfile.png"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ModalComponent } from '../../components/modalComponent';
 
 
@@ -15,7 +14,7 @@ const Header = ({searchQuery, setSearchQuery, userData}) => {
 
     const handleLogOutClick = (e) => {
         e.preventDefault();
-        sessionStorage.removeItem("token");
+        sessionStorage.clear();
         window.location.reload();
     }
     return (

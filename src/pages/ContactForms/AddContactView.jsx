@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/inputField";
 import { AddContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
 import { InputDropdown } from "../../components/inputDropdown";
+import { IoChevronBackSharp } from 'react-icons/io5';
 
-const AddNewContactView = () => {
+const AddNewContactView = ({ onAddContact, handleBackToHomeClick }) => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
@@ -54,7 +55,6 @@ const AddNewContactView = () => {
     requiredFields.forEach((field) => {
       if (formData[field].trim() === '') {
         newErrors[field] = `Field is required`;
-       // newErrors[field] = `${field.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required`;
       } else {
         newErrors[field] = '';
       }
@@ -96,20 +96,18 @@ const AddNewContactView = () => {
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
-          console.log(formDataWithNull);
           const response = await AddContact(token, formDataWithNull);
           if(response.status === 201){
               setFormData(response);
+              onAddContact();
               setShowPrompt(true);
-              console.log(response);
           }
         }
       } catch (error) {
-        console.error("Error updating contact: ", error);
+        console.error("Error adding contact: ", error);
       }
     }
 
-    // Set the new errors
     setErrors(newErrors);
   };
 
@@ -239,6 +237,10 @@ const AddNewContactView = () => {
     <div className="flex flex-col w-full h-full px-1 2xl:p-6">
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">New Contact</h1>
+        <div className="flex gap-1 items-center" onClick={handleBackToHomeClick}>
+          <IoChevronBackSharp />
+          <h1 className="text-sm hover:underline">Back to dashboard</h1>
+        </div>
       </div>
       <div className="px-4 2xl:px-20 py-16 bg-white  max-h-[825px] shadow-md overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>

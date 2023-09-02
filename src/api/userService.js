@@ -21,6 +21,7 @@ export const GetUserDetails = async (token) => {
     }
     catch (error) {
         console.log(error);
+        return error.response;
     }
 }
 
@@ -29,10 +30,11 @@ export const UpdateUserDetails = async (token, updatedUserData ) =>{
     const instance = authInstance(token);
     try{
         const response = await instance.put("", updatedUserData);
-        console.log(response.data);
         return response.data;
     } catch(error) {
         console.error(error);
+        return error.response;
+
     }
 }
 
@@ -44,5 +46,6 @@ export const DeleteUserAccount = async (token) =>{
         return response.data;
     } catch(error) {
         console.error(error);
+        return error.response;
     }
 }

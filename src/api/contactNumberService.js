@@ -29,7 +29,7 @@ export const GetContactNumberById = async(token, contactId, contactNumberId) => 
         return response.data;
     } catch (error) {
         console.log(error);
-        return respnnse.error;
+        return error.response;
     }
 }
 
@@ -40,7 +40,7 @@ export const DeleteContactNumberById = async(token, contactId, contactNumberId) 
         return response.data;
     } catch (error) {
         console.log(error);
-        return respnnse.error;
+        return error.response;
     }
 }
 
@@ -51,7 +51,7 @@ export const UpdateContactNumberById = async(token, contactId, contactNumberId, 
         return response.data;
     } catch (error) {
         console.log(error);
-        return respnnse.error;
+        return error.response;
     }
 }
 

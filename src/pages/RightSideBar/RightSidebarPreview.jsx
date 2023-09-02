@@ -11,12 +11,13 @@ const RightSidebarPreview = (props) => {
                     setSelectedContact={props.setSelectedContact}
                     handleEditContactClick={props.handleEditContactClick}
                     handleCloseContactView={props.handleCloseContactView}
+                    onUpdateContact={props.onUpdateContact}
                 />
             ) : (
                 <UserDataView 
                     onEditClick={props.onEditClick}
                     userData={props.userData}
-                        handleCloseContactView={props.handleCloseContactView}
+                    handleCloseContactView={props.handleCloseContactView}
                 />
             )}
         </div>

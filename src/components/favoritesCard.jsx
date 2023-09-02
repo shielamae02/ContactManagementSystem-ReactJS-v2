@@ -1,4 +1,4 @@
-import { FaPhone, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 
 export const FavoritesCard = ({ firstName, lastName, emailAddress, onFavoriteCardClick }) => {
     return (

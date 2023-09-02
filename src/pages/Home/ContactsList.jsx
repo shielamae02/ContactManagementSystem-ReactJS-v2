@@ -5,7 +5,7 @@ import SnackBarComponent from '../../components/snackbarComponent';
 import EmptyContacts from '../../assets/svg/EmptyContacts.svg';
 
 
-const ContactsListDesktop = (props) => {
+const ContactsListDesktop = ( props ) => {
     const token = sessionStorage.getItem("token");
     const [contacts, setContacts] = useState([]);
     const [showSnackbar, setShowSnackbar] = useState(false);
@@ -14,16 +14,29 @@ const ContactsListDesktop = (props) => {
     const [snackbarInfo, setSnackbarInfo] = useState({ contactId: null, action: null });
 
     const handleSetIsFavorite = async (contact) => {
-        contact.favorite = !contact.favorite;
-        const response = await UpdateContact(token, contact.id, contact);
-        setSnackbarInfo({ contactId: contact.id, action: contact.favorite ? 'added' : 'removed' });
-        setShowSnackbar(true);
+        const updatedContact = { ...contact, favorite: !contact.favorite };
+        const updatedContacts = contacts.map((c) => (c.id === contact.id ? updatedContact : c));
+
+        setContacts(updatedContacts);
+
+        try {
+            const response = await UpdateContact(token, contact.id, updatedContact);
+            props.onUpdateContact();
+
+            if (response.error) {
+                setContacts(contacts.map((c) => (c.id === contact.id ? contact : c)));
+            } else {
+                setSnackbarInfo({ contactId: contact.id, action: updatedContact.favorite ? 'added' : 'removed' });
+                setShowSnackbar(true);
+            }
+        } catch (error) {
+            console.error("Error updating contact: ", error);
+        }
 
         setTimeout(() => {
             setShowSnackbar(false);
         }, 1500);
     }
-
     useEffect(() => {
         const fetchContacts = async () => {
             try {
@@ -37,7 +50,7 @@ const ContactsListDesktop = (props) => {
             }
         }
         fetchContacts();
-    }, []);
+    }, [props.updateContact]);
 
     const query = props.searchQuery ? props.searchQuery.toLowerCase() : "";
     const filteredContacts = contacts.filter((contact) => {

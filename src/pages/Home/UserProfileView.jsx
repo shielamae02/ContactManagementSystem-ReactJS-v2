@@ -1,4 +1,3 @@
-import DuckProfile from '../../assets/images/DuckProfile.png';
 import { FaUser } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { FiEdit } from 'react-icons/fi';

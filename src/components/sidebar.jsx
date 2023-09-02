@@ -1,29 +1,10 @@
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
-import React, { useContext, createContext, useState, useEffect } from "react"
-import { GetUserDetails } from '../api/userService';
+import React, { useContext, createContext, useState } from "react"
 
 const SidebarContext = createContext()
 
-export default function Sidebar({ children, item, setItemIndex}) {
-  const token = sessionStorage.getItem("token");
-  const [userData, setUserData] = useState({});
+export default function Sidebar({ children, item, setItemIndex, userData}) {
   const [expanded, setExpanded] = useState(false);
-
-
-    useEffect(() => {
-      const fetchUserData = async () => {
-          try {
-              if (token) {
-                  const response = await GetUserDetails(token);
-                  setUserData(response);
-              }
-          } catch (error) {
-              console.error("Error fetching contact details: ", error);
-          }
-      }
-      fetchUserData();
-  }, [token, userData]);
-   
   
   return (
     <div className={`h-screen 2xl:w-1/28 sticky top-0 z-50`}>

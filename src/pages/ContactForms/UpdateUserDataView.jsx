@@ -1,14 +1,18 @@
 import { UpdateUserDetails } from "../../api/userService";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/inputField";
 import { PromptComponent } from "../../components/promptComponent";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaCheck } from "react-icons/fa";
 import DeleteAccount from "./DeleteAccount";
 
-const UpdateUserDataView = ({ userData }) => {
+const UpdateUserDataView = ({ userData, updateProfile, onUpdateProfile}) => {
   const token = sessionStorage.getItem("token");
   const [showPrompt, setShowPrompt] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+
+  }, [updateProfile])
 
   const [formData, setFormData] = useState({
     firstName: userData.firstName,
@@ -43,19 +47,17 @@ const UpdateUserDataView = ({ userData }) => {
     const hasErrors = Object.values(newErrors).some((error) => error);
 
     if (!hasErrors) {
-      console.log(formData);
       try {
         if (token) {
           const response = await UpdateUserDetails(token, formData);
           setShowPrompt(true);
-          console.log(response);
+          onUpdateProfile();
         }
       } catch (error) {
         console.error("Error updating user details: ", error);
       }
     }
 
-    // Set the new errors
     setErrors(newErrors);
   };
   

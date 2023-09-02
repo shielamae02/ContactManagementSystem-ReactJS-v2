@@ -22,7 +22,7 @@ const FavoritesPage = ( props ) => {
             }
         }
         fetchContacts();
-    }, [contacts]);
+    }, [props.updateContact]);
 
     const query =  props.searchQuery ? props.searchQuery.toLowerCase() : "";  
     const filteredContacts = contacts.filter((contact) => {

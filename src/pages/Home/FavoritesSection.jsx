@@ -3,7 +3,7 @@ import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
 import Heart from '../../assets/images/Heart.png';
 
-const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
+const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick, updateContact }) => {
   const token = sessionStorage.getItem("token");
   const [contacts, setContacts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -21,7 +21,7 @@ const FavoritesSection = ({ onSeeAllClick, onFavoriteCardClick }) => {
       }
     }
     fetchContacts();
-  }, [contacts]);
+  }, [updateContact]);
 
 
   return (

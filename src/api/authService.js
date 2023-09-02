@@ -12,7 +12,6 @@ const authInstance = axios.create({
 export const SignUpService = async ( userData ) => {
     try {
         const response = await authInstance.post(AUTH_URL + 'register', userData);
-        console.log(response);
         return response;
     }
     catch (error){
@@ -23,7 +22,6 @@ export const SignUpService = async ( userData ) => {
 export const LoginService = async ( userData ) => {
     try {
         const response = await authInstance.post(AUTH_URL + 'login', userData);
-        console.log(response);
         return response;
     }
     catch (error){
