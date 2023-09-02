@@ -54,8 +54,8 @@ const DashboardPage = () => {
                 updateContact={updateContact}
             />,
         2: <UserProfileView userData={userData} onEditClick={() => setActiveItemIndex(5)} />,
-        3: <AddNewContactView onAddContact={onAddContact}/>,
-        4: <UpdateContactView selectedContact={selectedContact} />,
+        3: <AddNewContactView onAddContact={onAddContact} handleBackToHomeClick={() => setActiveItemIndex(0)}/>,
+        4: <UpdateContactView selectedContact={selectedContact} handleBackToHomeClick={() => setActiveItemIndex(0)} />,
         5: <UpdateUserDataView 
                 userData={userData} 
                 updateProfile={updateProfile}

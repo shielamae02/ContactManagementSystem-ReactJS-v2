@@ -5,8 +5,9 @@ import { UpdateContact } from "../../api/contactService";
 import { PromptComponent } from "../../components/promptComponent";
 import { TextAreaInputField } from "../../components/textAreaInputField";
 import { InputDropdown } from "../../components/inputDropdown";
+import { IoChevronBackSharp } from "react-icons/io5";
 
-const UpdateContactView = ({ selectedContact }) => {
+const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
@@ -216,6 +217,10 @@ const UpdateContactView = ({ selectedContact }) => {
     <div className="flex flex-col w-full h-full px-1 2xl:p-6">
       <div className="justify-between flex items-center">
         <h1 className="text-[27px] font-semibold p-4">Update Contact</h1>
+        <div className="flex gap-1 items-center" onClick={handleBackToHomeClick}>
+          <IoChevronBackSharp />
+          <h1 className="text-sm hover:underline">Back to dashboard</h1>
+        </div>
       </div>
       <div className="px-4 2xl:px-20 py-16 bg-white  max-h-[825px] overflow-y-auto rounded-2xl relative">
         <form className="flex-grow flex flex-col" onSubmit={handleFormSubmit}>

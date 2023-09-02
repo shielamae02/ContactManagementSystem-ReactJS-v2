@@ -24,7 +24,7 @@ const SignupPage = () => {
     password: "",
     confirmPassword: "",
   });
-  
+
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = (e) => {
@@ -37,21 +37,21 @@ const SignupPage = () => {
     e.preventDefault();
     setShowConfirmPassword(!showConfirmPassword);
   }
-  
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     const newErrors = {};
-  
+
     // Validate all fields and update errors
     for (const field in formData) {
       const errorMessage = validateField(field, formData[field]);
       newErrors[field] = errorMessage;
     }
-  
+
     // Check if there are any errors
     const hasErrors = Object.values(newErrors).some((error) => error);
-  
+
     if (!hasErrors) {
       const response = await SignUpService(formData);
       if (response.status === 201) {
@@ -65,12 +65,12 @@ const SignupPage = () => {
         console.log("Internal server error.");
       }
     }
-  
+
     // Set the new errors
     setErrors(newErrors);
   };
-  
-  
+
+
   const emailAddressPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const namePattern = /^[a-zA-Z'-]+(?:\s[a-zA-Z'-]+)*$/;
 
@@ -82,32 +82,32 @@ const SignupPage = () => {
   }, []);
 
   const validateField = (field, value) => {
-    
+
     if (!value.trim()) {
-        let fieldName = "";
-        if (field === "firstName")
-          fieldName = "First name";
-        else if (field === "lastName")
-          fieldName = "Last name";
-        else if (field === "userName")
-          fieldName = "Username";
-        else if (field === "emailAddress")
-          fieldName = "Email Address";
-        else if (field === "password")
-          fieldName = "Password";
-        else if (field === "confirmPassword")
-          fieldName = "Confirm Password";
-      
-        return  `${fieldName} is required`;
-      }
-    if (value.length < 2 && field !== "emailAddress" && field !=="password" && field !== "confirmPassword") {
       let fieldName = "";
-        if (field === "firstName")
-          fieldName = "First name";
-        else if (field === "lastName")
-          fieldName = "Last name";
-        else if (field === "userName")
-          fieldName = "Username";
+      if (field === "firstName")
+        fieldName = "First name";
+      else if (field === "lastName")
+        fieldName = "Last name";
+      else if (field === "userName")
+        fieldName = "Username";
+      else if (field === "emailAddress")
+        fieldName = "Email Address";
+      else if (field === "password")
+        fieldName = "Password";
+      else if (field === "confirmPassword")
+        fieldName = "Confirm Password";
+
+      return `${fieldName} is required`;
+    }
+    if (value.length < 2 && field !== "emailAddress" && field !== "password" && field !== "confirmPassword") {
+      let fieldName = "";
+      if (field === "firstName")
+        fieldName = "First name";
+      else if (field === "lastName")
+        fieldName = "Last name";
+      else if (field === "userName")
+        fieldName = "Username";
       return `${fieldName} must be at least 2 characters long`;
     }
 
@@ -130,7 +130,7 @@ const SignupPage = () => {
     return "";
   };
 
- 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -142,7 +142,7 @@ const SignupPage = () => {
       ...errors,
       [name]: errorMessage,
     });
-  }; 
+  };
 
   const validateForm = () => {
     let hasErrors = false;
@@ -210,7 +210,7 @@ const SignupPage = () => {
               onChange={handleInputChange}
             />
             <div className='relative'>
-                <InputField
+              <InputField
                 id="password"
                 name="password"
                 label="Password"
@@ -218,13 +218,13 @@ const SignupPage = () => {
                 value={formData.password}
                 error={errors.password}
                 onChange={handleInputChange}
-                />
-                <button onClick={togglePasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
-                    {showPassword ? <FiEyeOff size={22} /> : <FiEye size={22}/>}
-                </button>
+              />
+              <button onClick={togglePasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
+                {showPassword ? <FiEyeOff size={22} /> : <FiEye size={22} />}
+              </button>
             </div>
             <div className='relative'>
-            <InputField
+              <InputField
                 id="confirmPassword"
                 name="confirmPassword"
                 label="Confirm Password"
@@ -233,11 +233,11 @@ const SignupPage = () => {
                 error={errors.confirmPassword}
                 onChange={handleInputChange}
               />
-                <button onClick={toggleConfirmPasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
-                    {showConfirmPassword ? <FiEyeOff size={22} /> : <FiEye size={22}/>}
-                </button>
+              <button onClick={toggleConfirmPasswordVisibility} className="absolute top-[65%] right-4 -translate-y-1/2 cursor-pointer ">
+                {showConfirmPassword ? <FiEyeOff size={22} /> : <FiEye size={22} />}
+              </button>
             </div>
-            <button  type="submit" className="bg-oceanBlue text-white font-semibold py-5 rounded-lg mt-6">
+            <button type="submit" className="bg-oceanBlue text-white font-semibold py-5 rounded-lg mt-6">
               Sign Up
             </button>
           </form>

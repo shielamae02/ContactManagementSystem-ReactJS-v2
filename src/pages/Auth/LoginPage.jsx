@@ -34,7 +34,7 @@ const LoginPage = () => {
       // Check if there are any errors
       const hasErrors = Object.values(newErrors).some((error) => error);
   
-      if (!hasErrors) {
+      if (!hasErrors && validateForm()) {
           setHasErrors(false);
 
           const response = await LoginService(formData);
