@@ -8,7 +8,7 @@ export const InputField = ({ id, name, label, type, value, error, onChange }) =>
         }`}
       id={id}
       name={name}
-      value={value}
+      value={value || ''}
       onChange={onChange}
       type={type}
       placeholder={label}

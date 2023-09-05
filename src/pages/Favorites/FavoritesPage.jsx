@@ -2,7 +2,6 @@ import { GetContacts } from "../../api/contactService";
 import { useState, useEffect } from 'react';
 import  Favorites from "../../assets/svg/Favorites.svg";
 import {FavoritesPageCard} from "../../components/favoritesPageCard";
-import ContactDataView from "../RightSideBar/ContactDataView";
 
 const FavoritesPage = ( props ) => {
     const token = sessionStorage.getItem("token");
@@ -54,18 +53,17 @@ const FavoritesPage = ( props ) => {
             }
             <div className="grid grid-cols-2 2xl:grid-cols-3 gap-2 xl:gap-4">
                 {filteredContacts.map((contact) => (
-                    <>
-                        { contact.favorite && (
-                            <FavoritesPageCard 
-                                key={contact.id}
-                                firstName={contact.firstName} 
-                                lastName={contact.lastName} 
-                                emailAddress={contact.emailAddress}
-                                onFavoriteCardClick={() => props.onFavoriteCardClick(contact)} 
-                            />
-                        )}
-                    </>
+                    contact.favorite && (
+                        <FavoritesPageCard
+                            key={contact.id} // Add a unique key prop here
+                            firstName={contact.firstName}
+                            lastName={contact.lastName}
+                            emailAddress={contact.emailAddress}
+                            onFavoriteCardClick={() => props.onFavoriteCardClick(contact)}
+                        />
+                    )
                 ))}
+
             </div>
         </div>
     )

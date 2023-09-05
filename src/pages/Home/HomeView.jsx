@@ -1,7 +1,6 @@
 import ContactsListDesktop from "./ContactsList";
 import FavoritesSection from "./FavoritesSection";
 
-
 const HomeView = (props) => {
     return (
         <div className="flex-grow h-full flex flex-col mt-2">
@@ -21,6 +20,7 @@ const HomeView = (props) => {
                     addContact={props.addContact}
                     updateContact={props.updateContact}
                     onUpdateContact={props.onUpdateContact}
+                    updateSelectedContact={props.updateSelectedContact}
                 />
             </div>
         </div>

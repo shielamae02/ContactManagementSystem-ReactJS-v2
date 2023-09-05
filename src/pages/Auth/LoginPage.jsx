@@ -15,8 +15,8 @@ const LoginPage = () => {
       });
 
     const [errors, setErrors] = useState({
-    emailAddress: "",
-    password: "",
+      emailAddress: "",
+      password: "",
     });
 
 
@@ -25,13 +25,11 @@ const LoginPage = () => {
   
       const newErrors = {};
       
-      // Validate all fields and update errors
       for (const field in formData) {
         const errorMessage = validateField(field, formData[field]);
         newErrors[field] = errorMessage;
       }
   
-      // Check if there are any errors
       const hasErrors = Object.values(newErrors).some((error) => error);
   
       if (!hasErrors && validateForm()) {
@@ -124,6 +122,7 @@ const LoginPage = () => {
     return (
         <div className="flex justify-center items-center w-screen h-screen bg-gray-200">
             <div className='w-3/5 h-[90%] rounded-3xl bg-white border-gray-300 flex shadow-xl'>
+         
                 <div className="hidden xl:block bg-oceanBlue h-full w-3/5 rounded-tl-3xl rounded-bl-3xl">
                 </div>
 

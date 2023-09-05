@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
 import { InputField } from "../../components/inputField";
 import { UpdateContact } from "../../api/contactService";
@@ -7,7 +7,7 @@ import { TextAreaInputField } from "../../components/textAreaInputField";
 import { InputDropdown } from "../../components/inputDropdown";
 import { IoChevronBackSharp } from "react-icons/io5";
 
-const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
+const UpdateContactView = ({ selectedContact, handleBackToHomeClick, updateContact }) => {
   const token = sessionStorage.getItem("token");
 
   const [showPrompt, setShowPrompt] = useState(false);
@@ -15,6 +15,7 @@ const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
     firstName: selectedContact.firstName,
     lastName: selectedContact.lastName,
     emailAddress: selectedContact.emailAddress,
+    favorite: selectedContact.favorite,
     contactNumber1: selectedContact.contactNumber1,
     contactNumber2: selectedContact.contactNumber2,
     contactNumber3: selectedContact.contactNumber3,
@@ -25,7 +26,6 @@ const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
     addressDetails2: selectedContact.addressDetails2,
     addressLabel1: selectedContact.addressLabel1,
     addressLabel2: selectedContact.addressLabel2
-
   });
 
   const [errors, setErrors] = useState({
@@ -46,7 +46,7 @@ const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
 
    const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+    
     const formDataWithNull = Object.entries(formData).reduce((acc, [key, value]) => {
       acc[key] = typeof value === "string" ? (value.trim() === "" ? null : value) : value;
       return acc;
@@ -60,8 +60,7 @@ const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
       newErrors[field] = errorMessage;
     }
 
-
-     // Sets default values for labels if their corresponding fields have values
+     formDataWithNull.favorite = formDataWithNull.favorite;
      if (formDataWithNull.contactNumber2 !== null && formDataWithNull.numberLabel2 === null) {
        formDataWithNull.numberLabel2 = "Phone"
      }
@@ -79,9 +78,15 @@ const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
     if (!hasErrors) {
       try {
         if (validateForm() && token) {
+        
           const response = await UpdateContact(token, selectedContact.id, formDataWithNull);
-          setFormData(response);
-          setShowPrompt(true);
+
+          if (!response.error) {
+            selectedContact.favorite = formDataWithNull.favorite;
+
+            setShowPrompt(true);
+          }
+
         }
       } catch (error) {
         console.error("Error updating contact: ", error);
@@ -91,6 +96,13 @@ const UpdateContactView = ({ selectedContact, handleBackToHomeClick }) => {
     // Set the new errors
     setErrors(newErrors);
   };
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      favorite: selectedContact.favorite,
+    }));
+  }, [selectedContact, updateContact]);
   
 
   const validateField = (field, value) => {

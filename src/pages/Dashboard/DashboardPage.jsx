@@ -34,6 +34,10 @@ const DashboardPage = () => {
     const onUpdateContact = () => setUpdateContact(!updateContact);
     const onUpdateProfile = () => setUpdateProfile(!updateProfile);
 
+    const updateSelectedContact = (updatedContact) => {
+        setSelectedContact(updatedContact);
+    };
+
     const componentMapping = {
         0: <HomeView
             searchQuery={searchQuery}
@@ -47,6 +51,7 @@ const DashboardPage = () => {
             addContact={addContact}
             updateContact={updateContact}
             onUpdateContact={onUpdateContact}
+            updateSelectedContact={updateSelectedContact}
         />,
         1: <FavoritesPage
                 searchQuery={searchQuery}
@@ -55,11 +60,15 @@ const DashboardPage = () => {
             />,
         2: <UserProfileView userData={userData} onEditClick={() => setActiveItemIndex(5)} />,
         3: <AddNewContactView onAddContact={onAddContact} handleBackToHomeClick={() => setActiveItemIndex(0)}/>,
-        4: <UpdateContactView selectedContact={selectedContact} handleBackToHomeClick={() => setActiveItemIndex(0)} />,
+        4: <UpdateContactView 
+            selectedContact={selectedContact} 
+            handleBackToHomeClick={() => setActiveItemIndex(0)} 
+            updateContact={updateContact}
+        />,
         5: <UpdateUserDataView 
                 userData={userData} 
                 updateProfile={updateProfile}
-                onUpdateProfile={onUpdateProfile}
+                onUpdateProfile={updateSelectedContact}
         />
     }
 

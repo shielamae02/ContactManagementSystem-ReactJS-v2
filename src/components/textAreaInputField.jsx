@@ -9,7 +9,7 @@ export const TextAreaInputField = ({ id, name, label, type, value, error, onChan
                 ${error ? 'border border-red-700' : ''}`} 
       id={id}
       name={name}
-      value={value}
+      value={value || ''}
       onChange={onChange}
       type={type}
       placeholder={label}

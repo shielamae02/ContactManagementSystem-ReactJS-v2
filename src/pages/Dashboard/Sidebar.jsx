@@ -1,5 +1,7 @@
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
-import React, { useContext, createContext, useState } from "react"
+import React, { useContext, createContext, useState } from "react";
+
+
 const SidebarContext = createContext()
 
 export default function Sidebar({ children, item, setItemIndex, userData}) {

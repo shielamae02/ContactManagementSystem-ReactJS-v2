@@ -1,8 +1,4 @@
-import { UpdateUserDetails } from "../../api/userService";
-import { InputField } from "../../components/inputField";
-import { PromptComponent } from "../../components/promptComponent";
 import { useState } from 'react';
-import { FaCheck } from "react-icons/fa";
 import { TiWarning } from "react-icons/ti";
 import { DeleteUserAccount } from "../../api/userService";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
@@ -13,14 +9,16 @@ const DeleteAccount = ({ userData }) => {
     const [showModal, setShowModal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [confirmationData, setConfirmationData] = useState("");
+    const [confirmationError, setConfirmationError] = useState("");
+
 
     const handleDeleteAction = async (e) => {
         setShowModal(false);
         setShowPasswordModal(true);
     }
-
-    const dbUserDetails = userData.emailAddress + '/' + userData.userName;
     
+    const dbUserDetails = userData.emailAddress + '/' + userData.userName;
+
     const handleConfirmDeleteAccount = async (e) => {
         e.preventDefault();
         try{
@@ -30,11 +28,14 @@ const DeleteAccount = ({ userData }) => {
                      window.location.reload();
                     const response = await DeleteUserAccount(token);
                 }
+            } else {
+                setConfirmationError("Invalid user data."); 
             }
         } catch(error){
             console.error(error);
         }
     }
+
 
     return (
         <div>
@@ -66,6 +67,7 @@ const DeleteAccount = ({ userData }) => {
                     setConfirmationData={setConfirmationData}
                     handleConfirmDeleteAccount={handleConfirmDeleteAccount}
                     setShowPasswordModal={setShowPasswordModal}
+                    confirmationError={confirmationError}
                 />
             )}
         </div>
@@ -75,7 +77,7 @@ const DeleteAccount = ({ userData }) => {
 
 export default DeleteAccount;
 
-export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData, handleConfirmDeleteAccount, setShowPasswordModal }) => {
+export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData, handleConfirmDeleteAccount, setShowPasswordModal, confirmationError }) => {
     return (
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" >
             <div className={`relative xl:w-[calc(30%)] my-6 mx-auto`}>
@@ -86,7 +88,7 @@ export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData
                             Confirm Deletion
                         </h1>
                     </div>
-                    <div className="relative px-4 py-3 flex-auto">
+                    <div className="relative px-4 py-3 flex-auto w-full">
                         <p className="text-center mb-1">
                             To confirm, please enter email and username. 
                         </p>
@@ -98,15 +100,18 @@ export const ConfirmWithPasswordModal = ({ confirmationData, setConfirmationData
                             value={confirmationData}
                             onChange={(e) => setConfirmationData(e.target.value)}
                             type="text"
-                            placeholder="Password"
+                            placeholder="email@example.com/username"
                             className="text-base rounded-lg p-4 m-2 bg-red-100 w-full focus:outline-none focus:border-red-300 border-2 border-red-200"
                         />
+                        {confirmationError && (
+                            <p className="text-red-500 text-[13px] text-end">{confirmationError}</p> 
+                        )}
                     </div>
                     <div className="flex items-center justify-end p-4 w-full gap-2">
                         <button className="w-full bg-gray-100 shadow-md px-5 py-3 rounded-full font-medium" onClick={() => setShowPasswordModal(false)}>
                             Cancel
                         </button>
-                        <button className="w-full bg-red-500 shadow-md rounded-full px-5 py-3 font-medium text-white" onClick={handleConfirmDeleteAccount}>
+                        <button className="w-full bg-red-500 shadow-md rounded-full px-5 py-3 font-medium text-white" onClick={handleConfirmDeleteAccount} type="submit">
                             Continue
                         </button>
                     </div>

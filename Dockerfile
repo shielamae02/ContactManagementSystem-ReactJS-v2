@@ -2,11 +2,11 @@ FROM node:18
 
 WORKDIR /app
 
-COPY ContactManagementSystem-ReactJS-v2/package*.json ./
+COPY package*.json ./
 
 RUN npm install 
 
-COPY ./ContactManagementSystem-ReactJS-v2 .
+COPY . .
 
 RUN npm run build
 
